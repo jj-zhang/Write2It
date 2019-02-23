@@ -39,7 +39,6 @@ a {
 }
 
 
-
 .story .sentences .sentence {
 	display: flex;
 	margin-bottom: 10px;
@@ -69,4 +68,15 @@ a {
 
 .story .sentences .sentence .content .date {
 	color: grey;
+}
+
+
+.profile .ongoingStories .story {
+	cursor: pointer;
+
+}
+
+.profile .profileInfo {
+	margin-bottom: 20px;
+
 }
