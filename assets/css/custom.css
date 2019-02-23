@@ -1,0 +1,61 @@
+body {
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+@font-face {
+    font-family: lovelo;
+    src: url('Lovelo Black.otf');
+}
+
+/*overriding external css*/
+i.icon {
+	margin: 0px;
+	height: auto;
+}
+
+
+
+
+.navbar-brand {
+	font-family: lovelo;
+}
+
+.page {
+	margin-top: 100px;
+}
+
+
+.story .title {
+	margin-bottom: 20px;
+}
+
+.story .sentences {
+
+}
+
+.story .sentence {
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.story .sentences .sentence .upvotes {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
+	margin-right: 10px;
+}
+
+.story .sentences .sentence .upvotes .value {
+	color: grey;
+}
+
+.story .sentences .sentence .content .author {
+	cursor: pointer;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.story .sentences .sentence .content .date {
+	color: grey;
+}
