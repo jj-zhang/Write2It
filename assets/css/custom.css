@@ -38,17 +38,15 @@ a {
 	margin-bottom: 40px;
 }
 
-.story .title {
-	margin-bottom: 20px;
-}
 
-.story .sentences {
 
-}
-
-.story .sentence {
+.story .sentences .sentence {
 	display: flex;
 	margin-bottom: 10px;
+}
+
+.story .sentences .openingSentence {
+	margin-bottom: 20px;
 }
 
 .story .sentences .sentence .upvotes {
