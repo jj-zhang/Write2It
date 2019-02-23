@@ -84,3 +84,17 @@ a {
 .teal {
 	color: teal;
 }
+
+.red {
+	color: red;
+}
+
+.adminDashboard .list {
+	max-height: 500px;
+	overflow-y: scroll;
+}
+
+.userReports .header span {
+	font-weight: normal;
+	color: grey;
+}
