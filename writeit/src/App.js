@@ -1,56 +1,71 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Switch, Route, Link } from 'react-router-dom';
 
-class App extends Component {
-  render() {
+
+// navbar
+class Header extends React.Component {
+    render () {
+        return (
+            <header>
+                <div className="container">
+                    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                        <a className="navbar-brand" href="#">WriteIt</a>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav">
+                                <li className="nav-item">
+                                    <Link to='/Login'>Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to='/Signup'>Signup</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+        );
+    }
+}
+
+
+// routes
+function Main() {
     return (
-      <div className="App">
-        {/*<header className="App-header">*/}
-            {/*<img src={logo} className="App-logo" alt="logo" />*/}
-            {/*<p>*/}
-            {/*Edit <code>src/App.js</code> and save to reload.*/}
-            {/*</p>*/}
-            {/*<a*/}
-            {/*className="App-link"*/}
-            {/*href="https://reactjs.org"*/}
-            {/*target="_blank"*/}
-            {/*rel="noopener noreferrer"*/}
-            {/*>*/}
-            {/*Learn React*/}
-            {/*</a>*/}
-            {/*</header>*/}
-
-
-
-        <div class="container">
-          <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">WriteIt</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Signup</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-      </div>
-
-
-
-      </div>
-
-
-
+        <main>
+            <Switch>
+                <Route exact path='/' component={Home}/>
+                <Route path='/roster' component={Home}/>
+                <Route path='/schedule' component={Home}/>
+            </Switch>
+        </main>
     );
-  }
+}
+
+// tester
+function Home() {
+    return (
+        <div>
+            <h1>Welcome to the Tornadoes Website!</h1>
+        </div>
+    );
+}
+
+
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header />
+                <Main />
+            </div>
+        );
+    }
 }
 
 export default App;
