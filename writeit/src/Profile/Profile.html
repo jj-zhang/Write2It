@@ -6,15 +6,15 @@
 
     <title>WriteIt</title>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/tachyons.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/tachyons.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/semantic.min.css">
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/custom.css">
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -51,34 +51,57 @@
     </nav>
 </div>
 
-<div class="page login">
+<div class="page profile">
 
+
+    <!--Editing user profile view is located in admindashboard, just remove the suspend and delete account buttons-->
 
     <div class="container col-lg-6 col-xs-12">
+        <div class="row">
 
-        <form class="ui form">
-            <div class="field">
-                <h2><strong>Title</strong></h2>
-                <div class="ui input">
-                    <input type="text" name="first-name" placeholder="Title">
+            <div class="profileInfo col-lg-6 col-xs-12">
+                <div class="ui card">
+                    <div class="image">
+                        <img src="../../../assets/images/kristy.png">
+                    </div>
+                    <div class="content">
+                        <a class="header">Kristy</a>
+                        <div class="meta">
+                            <span class="date">Joined in 2013</span>
+                        </div>
+                        <div class="description">
+                            Kristy is an art director living in New York.
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="field">
-                <h2><strong>Opening Sentence</strong></h2>
-                <h4>Your sentence must include the word <strong class="teal">Frog</strong>.</h4>
 
-                <textarea placeholder="Write something..." required></textarea>
+            <div class="ongoingStories col-lg-6 col-xs-12">
+                    <h1>Ongoing Stories</h1>
+                    <div class="stories ui segments">
+                        <div class="story ui segment">
+                            <a hre="">I like to eat cake</a>
+                        </div>
+                        <div class="story ui segment">
+                            <a hre="">I like to eat cake</a>
+                        </div>
+                        <div class="story ui segment">
+                            <a hre="">I like to eat cake</a>
+                        </div>
+                    </div>
             </div>
 
 
-            <button class="ui teal button" type="submit">Create Story</button>
-
-        </form>
+        </div>
 
 
 
-    </div>
+
+
+
+
+
 
 
 </div>
