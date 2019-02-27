@@ -44,7 +44,7 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/roster' component={Home}/>
+                <Route path='/Login' component={Landing}/>
                 <Route path='/schedule' component={Home}/>
             </Switch>
         </main>
