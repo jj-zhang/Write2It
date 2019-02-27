@@ -4,6 +4,10 @@ import './App.css';
 import { Switch, Route, Link } from 'react-router-dom';
 
 
+import Landing from './Landing/Landing';
+
+
+
 // navbar
 class Header extends React.Component {
     render () {
@@ -39,7 +43,7 @@ function Main() {
     return (
         <main>
             <Switch>
-                <Route exact path='/' component={Home}/>
+                <Route exact path='/' component={Landing}/>
                 <Route path='/roster' component={Home}/>
                 <Route path='/schedule' component={Home}/>
             </Switch>
