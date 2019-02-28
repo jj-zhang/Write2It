@@ -5,6 +5,8 @@ import { Switch, Route, Link } from 'react-router-dom';
 
 
 import Landing from './Landing/Landing';
+import createStory from './CreateStory/CreateStory';
+import { create } from 'domain';
 
 
 
@@ -28,6 +30,9 @@ class Header extends React.Component {
                                 <li className="nav-item">
                                     <Link to='/Signup'>Signup</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link to='/create'>c</Link>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -46,6 +51,7 @@ function Main() {
                 <Route exact path='/' component={Landing}/>
                 <Route path='/Login' component={Landing}/>
                 <Route path='/schedule' component={Home}/>
+                <Route path='/create' component={createStory}/>
             </Switch>
         </main>
     );
