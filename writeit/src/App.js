@@ -4,19 +4,21 @@ import { Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 
 
-import LandingPage from './Landing/Landing';
-
-
+import Landing from './Landing/Landing';
+import createStory from './CreateStory/CreateStory';
 
 
 
 // routes
 function Main() {
     return (
-        <main>
+        <main style={{paddingTop:"50px"}}>
             <Switch>
-                <Route exact path='/' component={LandingPage}/>
-                <Route path='/placeholder' component={placeholder}/>
+                <Route exact path='/' component={Landing}/>
+                <Route path='/signup' component={Landing}/>
+                <Route path='/adminDashboard' component={Landing}/>
+                <Route path='/userProfile' component={Landing}/>
+                <Route path='/createstory' component={createStory}/>
             </Switch>
         </main>
     );
@@ -38,6 +40,11 @@ class App extends React.Component {
             <div>
                 <Header />
                 <Main />
+
+                {/*<footer class="footer">*/}
+                    {/*WriteIt*/}
+                {/*</footer>*/}
+
             </div>
         );
     }

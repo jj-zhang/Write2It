@@ -8,9 +8,10 @@ class Header extends React.Component {
         super(props);
 
         this.state = {
-            // usertype should be player/admin/guest
+            // usertype should be undefined/admin/user stored in localhost and status would be guest admin user
+            // for safety a hash string is also stored in localstorage
             // this can be either stored in to a redux store or passed in as props, even can be stored into localstorage
-            usertype:"guest",
+            usertype:"user",
             displayLoginBox: false,
         };
 
@@ -43,7 +44,7 @@ class Header extends React.Component {
             <header>
                 <div className="container">
                     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                        <Link to='/' className="navbar-brand" >WriteIt</Link>
+                        <a className="navbar-brand" href="/landing">WriteIt</a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -74,6 +75,13 @@ class Header extends React.Component {
                                 {
                                     this.state.usertype!=="guest" ?
                                     <li className="nav-item">
+                                        <Link className="nav-link" to='/createstory'>Create Story</Link>
+                                    </li>:
+                                    null
+                                }
+                                {
+                                    this.state.usertype!=="guest" ?
+                                    <li className="nav-item">
                                         <a className="nav-link" href="" onClick={this.logout}>Logout</a>
                                     </li>:
                                     null
@@ -85,7 +93,6 @@ class Header extends React.Component {
                                     </li>:
                                     null
                                 }
-                                
                             </ul>
                         </div>
                     </nav>

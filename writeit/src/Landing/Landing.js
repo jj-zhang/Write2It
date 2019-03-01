@@ -1,6 +1,8 @@
 import React from 'react';
 import './Landing.css';
-// import { Switch, Route, Link } from 'react-router-dom';
+import stories from '../db/stories';
+
+import { isAfter, formatDistance, subDays } from 'date-fns';
 
 
 
@@ -13,66 +15,40 @@ class Story extends React.Component {
     render() {
         const story = this.props.story;
 
+
+
+
         return (
-            <li>
-                <h1>{story.title}</h1>
-                <p>Created by {story.author} on {story.date.toString()}</p>
+            <div>
+                <h3>{story.title}</h3>
+                <p>Created by {story.author} {formatDistance(subDays(story.dateCreated, 3), new Date())} ago</p>
                 <p>{story.upvotes}</p>
-            </li>
+
+                {/*{appState.userType == 'a' &&*/}
+                {/*<h2>*/}
+                    {/*Delete*/}
+                {/*</h2>*/}
+                {/*}*/}
+
+            </div>
         );
     }
 }
 
-
 class Stories extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            stories:
-                [
-                    {
-                        id: 0,
-                        title: 'blah',
-                        author: 'blah,',
-                        date: new Date(),
-                        upvotes: 1
-                    },
-                    {
-                        id: 1,
-                        title: 'blah',
-                        author: 'blah,',
-                        date: new Date(),
-                        upvotes: 1
-                    },
-                    {
-                        id: 2,
-                        title: 'blah',
-                        author: 'blah,',
-                        date: new Date(),
-                        upvotes: 1
-                    },
-                    {
-                        id: 3,
-                        title: 'blah',
-                        author: 'blah,',
-                        date: new Date(),
-                        upvotes: 1
-                    },
-                    {
-                        id: 4,
-                        title: 'blah',
-                        author: 'blah,',
-                        date: new Date(),
-                        upvotes: 1
-                    }
-            ]
-        }
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    //     this.state = {stories: stories}
+    // }
 
     render() {
-        const stories = this.state.stories;
+        // sort stories based on recency and upvotes
+        // const stories = this.props.stories;
+
+        const stories = this.props.stories.sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.7 + (a.upvotes >= b.upvotes) ? 1 : 0 * 0.3);
+
+        // const stories = Object.keys(this.props.stories).sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.5 + (a.upvotes - b.upvotes) / (a.upvotes + b.upvotes) * 0.5);
 
         const items =  stories.map((story) =>
             <Story key={story.id.toString()} story={story} />
@@ -80,7 +56,7 @@ class Stories extends React.Component {
 
 
         return (
-            <ul>{items}</ul>
+            <div>{items}</div>
         );
     }
 }
@@ -88,18 +64,51 @@ class Stories extends React.Component {
 class Landing extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {placeholder:"placeholder"};
+
+        this.state = {stories: stories};
     }
+
+    // createStory() {
+    //     stories.push(
+    //         {
+    //             id: 0,
+    //             title: 'blah',
+    //             author: 'blah,',
+    //             date: new Date(),
+    //             upvotes: 1
+    //         }
+    //     );
+    //
+    //     console.log(stories.length);
+    //
+    //     this.setState({stories: stories});
+    // }
+
 
     render() {
         return (
-            <div>
-                <h1>Top Stories</h1>
-                <Stories />
+            <div className="landing page">
+
+                <div className="pageTitle">
+                    <h1>Top Stories</h1>
+                </div>
+
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-9 col-xs-12">
+                            {/*<button className="ui massive teal button" onClick={this.createStory.bind(this)}>Create Story</button>*/}
+
+                            {/*<button className="ui massive teal button"><Link to='/createstory'>Create Story</Link>*/}
+                            {/*</button>*/}
+
+
+                            <Stories stories={this.state.stories}/>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
-
 }
 
 export default Landing;

@@ -23,6 +23,7 @@
   color: #61dafb;
 }
 
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -33,9 +34,15 @@
 }
 
 
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
-}
+/*html {*/
+  /*height: 100%;*/
+/*}*/
+
+/*body {*/
+  /*font-family: verdana, arial, helvetica, sans-serif;*/
+  /*height: 100%;*/
+
+/*}*/
 
 /*@font-face {*/
   /*font-family: lovelo;*/
@@ -62,18 +69,38 @@ a {
   margin-right: 10px;
 }
 
+/*main {*/
+  /*position: absolute;*/
+  /*top: 100px;*/
+  /*!*left: 100px;*!*/
+/*}*/
+
 
 .navbar-brand {
   font-family: lovelo;
 }
 
+
 .page {
-  margin-top: 100px;
+  padding-top: 0px;
 }
 
-.container {
-  margin-bottom: 40px;
+.page .pageTitle {
+  background-color: #47deff;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
 }
+
+.page .pageTitle h1 {
+  font-weight: bold;
+}
+
+
+/*.container {*/
+  /*margin-bottom: 40px;*/
+
+/*}*/
 
 
 .story .sentences .sentence {

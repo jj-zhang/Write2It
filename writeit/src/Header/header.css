@@ -1,14 +1,18 @@
 #loginbox-container{
     width: 100vw;
     height:100vh;
-    z-index: 1;
-    background-color: rgba(237, 236, 243, 0.5)
+    min-height: 768px;
+    z-index: 1040;
+    background-color: rgba(237, 236, 243, 0.5);
+    position:fixed;
 
 }
 
 
 #loginbox{
-    position: fixed;
+    width: 60%;
+    min-width: 420px;
+    position: relative;
     left:50vw;
     top:50vh;
     border: 1px solid blueviolet;
