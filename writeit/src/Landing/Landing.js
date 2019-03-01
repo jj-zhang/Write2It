@@ -44,7 +44,10 @@ class Stories extends React.Component {
 
     render() {
         // sort stories based on recency and upvotes
-        const stories = this.props.stories;
+        // const stories = this.props.stories;
+
+        const stories = this.props.stories.sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.7 + (a.upvotes >= b.upvotes) ? 1 : 0 * 0.3);
+
         // const stories = Object.keys(this.props.stories).sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.5 + (a.upvotes - b.upvotes) / (a.upvotes + b.upvotes) * 0.5);
 
         const items =  stories.map((story) =>
