@@ -11,8 +11,7 @@ class Story extends React.Component {
 
         return (
             <div>
-            Created by{story.author}
-            <h1>{story.title}</h1>
+            Added by<b>{story.author}</b>
             <p>111</p>
             </div>
         );
@@ -43,6 +42,7 @@ class Story_c extends React.Component {
     render(){
         return (
             <div>
+            <h3 className="zz-title">Name of the Story</h3>
             <Stories stories={this.state.stories}/>
             <div class="container col-lg-6 col-xs-12">
                 <form class="ui reply form">
@@ -50,7 +50,7 @@ class Story_c extends React.Component {
                     <textarea></textarea>
                 </div>
                 <div class="ui teal labeled submit icon button">
-                <i class="icon edit"></i> Add Sentence
+                <i class="icon edit"></i> Add Comment
                 </div>
                 </form>
             </div>
