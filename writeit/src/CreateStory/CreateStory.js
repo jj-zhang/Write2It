@@ -1,31 +1,25 @@
-import React, { Component } from 'react';
-import { create } from 'domain';
+import React from 'react';
 
 class createStory extends React.Component {
+    /*submit(){
+
+    }*/
     render(){
         return (
-            <div class="createstory page">
-                <div class="container">
-                    <div class="row">
-                        <div class=" col-lg-6 col-xs-12">
-                            <form class="ui form">
-                                <div class="field">
-                                    <h2><strong>Title</strong></h2>
-                                    <div class="ui input">
-                                        <input type="text" name="first-name" placeholder="Title"/>
-                                    </div>
-                                </div>
-
-                                <div class="field">
-                                    <h2><strong>What is this story about?</strong></h2>
-                                    <textarea placeholder="Write something..." required></textarea>
-                                </div>
-
-                                <button class="ui teal button" type="submit">Create Story</button>
-                            </form>
-                        </div>
+            <div className="createStory">
+                <form className="storyForm">
+                    <div className="title">
+                        <h2><strong>Title</strong></h2>
+                        <input type="text" name="first-name" placeholder="Title"/>
                     </div>
-                </div>
+
+                    <div className="context">
+                        <h2><strong>What is this story about?</strong></h2>
+                        <textarea placeholder="Write something..." required></textarea>
+                    </div>
+
+                    <button id="newStory" /*onClick={submit}*/>Create Story</button>
+                </form>
             </div>
 
 
