@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Landing.css';
 // import { Switch, Route, Link } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import './Landing.css';
 class Story extends React.Component {
     constructor(props) {
         super(props);
+        this.props = {placeholder:"placeholder"};
     }
 
     render() {
@@ -87,6 +88,7 @@ class Stories extends React.Component {
 class Landing extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {placeholder:"placeholder"};
     }
 
     render() {
