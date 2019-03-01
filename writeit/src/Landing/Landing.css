@@ -1,0 +1,8 @@
+.landing a {
+    font-weight: normal;
+}
+
+.landing a:hover {
+    color: black;
+}
+

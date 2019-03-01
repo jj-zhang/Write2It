@@ -17,9 +17,7 @@ class createStory extends React.Component {
                                 </div>
 
                                 <div class="field">
-                                    <h2><strong>Opening Sentence</strong></h2>
-                                    <h4>Your sentence must include the word <strong class="teal">Frog</strong>.</h4>
-
+                                    <h2><strong>What is this story about?</strong></h2>
                                     <textarea placeholder="Write something..." required></textarea>
                                 </div>
 

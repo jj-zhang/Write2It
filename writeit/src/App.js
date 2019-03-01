@@ -31,7 +31,7 @@ class Header extends React.Component {
                                     <Link to='/Signup'>Signup</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to='/create'>c</Link>
+                                    <Link to='/createstory'>c</Link>
                                 </li>
                             </ul>
                         </div>
@@ -49,9 +49,10 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/Login' component={Landing}/>
+                <Route path='/login' component={Landing}/>
                 <Route path='/schedule' component={Home}/>
-                <Route path='/create' component={createStory}/>
+                {/*I changed the route name to create story because it's more specific*/}
+                <Route path='/createstory' component={createStory}/>
             </Switch>
         </main>
     );
@@ -73,6 +74,11 @@ class App extends React.Component {
             <div>
                 <Header />
                 <Main />
+
+                {/*<footer class="footer">*/}
+                    {/*WriteIt*/}
+                {/*</footer>*/}
+
             </div>
         );
     }
