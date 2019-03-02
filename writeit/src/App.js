@@ -18,7 +18,7 @@ function Main() {
                 <Route path='/signup' component={Landing}/>
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
-                <Route path='/createstory' component={createStory}/>
+                <Route path='/createStory' component={createStory}/>
             </Switch>
         </main>
     );

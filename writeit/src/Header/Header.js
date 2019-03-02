@@ -11,34 +11,35 @@ class Header extends React.Component {
             // usertype should be undefined/admin/user stored in localhost and status would be guest admin user
             // for safety a hash string is also stored in localstorage
             // this can be either stored in to a redux store or passed in as props, even can be stored into localstorage
-            usertype:"user",
+            usertype: "user",
             displayLoginBox: false,
         };
 
-        this.logout = e =>{
-            e.preventDefault();
-            console.log("LOGOUT");
-            // should store login status info in localstorage
-            localStorage.removeItem("loginstatus");
-            this.setState(
-                {usertype:"guest"}
-            )
-        }
-
-        this.displayloginbox = e =>{
-            e.preventDefault();
-            this.setState(
-                {displayLoginBox:true}
-            )
-
-        }
-
-        this.closeloginbox = () =>{
-            this.setState(
-                {displayLoginBox:false}
-            );
-        }
     }
+
+    logout(e) {
+        e.preventDefault();
+        console.log("LOGOUT");
+        // should store login status info in localstorage
+        localStorage.removeItem("loginstatus");
+        this.setState(
+            {userType: "guest"}
+        );
+    }
+
+    displayLoginBox(e) {
+        e.preventDefault();
+        this.setState(
+            {displayLoginBox:true}
+        );
+    }
+
+    closeLoginBox() {
+        this.setState(
+            {displayLoginBox:false}
+        );
+    }
+
     render () {
         return (
             <header>
@@ -52,44 +53,44 @@ class Header extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
                                 {
-                                    this.state.usertype==="guest" ?
+                                    this.state.userType==="guest" ?
                                     <li className="nav-item">
                                         <Link className="nav-link" to='/signup'>Signup</Link>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype==="guest" ?
+                                    this.state.userType==="guest" ?
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={this.displayloginbox}>Login</a>
+                                        <a className="nav-link" href="" onClick={this.displayLoginBox.bind(this)}>Login</a>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
+                                    this.state.userType!=="guest" ?
                                     <li className="nav-item">
                                         <Link className="nav-link" to='/userProfile'>Profile</Link>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
+                                    this.state.userType!=="guest" ?
                                     <li className="nav-item">
-                                        <Link className="nav-link" to='/createstory'>Create Story</Link>
+                                        <Link className="nav-link" to='/createStory'>Create Story</Link>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
+                                    this.state.userType!=="guest" ?
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={this.logout}>Logout</a>
+                                        <a className="nav-link" href="" onClick={this.logout.bind(this)}>Logout</a>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype==="admin" ?
+                                    this.state.userType==="admin" ?
                                     <li className="nav-item">
-                                        <Link className="nav-link" to='/adminDashboard'>Admin Panel</Link>
+                                        <Link className="nav-link" to='/adminDashboard'>Admin Dashboard</Link>
                                     </li>:
                                     null
                                 }
@@ -97,7 +98,7 @@ class Header extends React.Component {
                         </div>
                     </nav>
                 </div>
-                <LoginBox show={this.state.displayLoginBox} hide={this.closeloginbox}/>
+                <LoginBox show={this.state.displayLoginBox} hide={this.closeLoginBox}/>
             </header>
         );
     }
