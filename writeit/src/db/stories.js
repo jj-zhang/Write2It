@@ -1,6 +1,7 @@
 // hardcoded
 // a list of all current stories as well as fake API calls to retrieve/update the
 // the stories
+// for all api calls, 0 is return is not successful. Either the data required, or 1 is returned to indicate success
 
 // source: https://swoonreads.com/read/
 
@@ -206,6 +207,12 @@ function getPage(pageNum) {
 }
 
 function updateStory(story) {
+    const user = localStorage.getItem('username');
+
+    if (!user) {
+        return 0;
+    }
+
     for (let i = 0; i < stories.length; i ++) {
         const _story = stories[i];
 
@@ -215,4 +222,29 @@ function updateStory(story) {
     }
 }
 
-export {getPage, updateStory};
+function createStory(story) {
+    const user = localStorage.getItem('username');
+
+    if (!user) {
+        return 0;
+    }
+
+    const _story =  {
+            id: stories.length,
+            title: story.title,
+            author: user,
+            dateCreated: new Date(),
+            upvotes: 0,
+            status: 'IPR',
+            description: story.description,
+            upvotedBy: [],
+            downvotedBy: []
+    };
+
+    stories.push(_story);
+
+    return 1;
+
+}
+
+export {createStory, getPage, updateStory};

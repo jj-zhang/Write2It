@@ -54,6 +54,7 @@ main {
   /*src: url('Lovelo Black.otf');*/
 /*}*/
 
+
 body {
   background-color: #deeeef;
 }
@@ -64,19 +65,9 @@ body {
 
 /*overriding external css*/
 i.icon {
-  margin: 0px;
+  margin: 0;
   height: auto;
 }
-
-
-
-
-/*main {*/
-  /*position: absolute;*/
-  /*top: 100px;*/
-  /*!*left: 100px;*!*/
-/*}*/
-
 
 .navbar-brand {
   font-family: lovelo;
@@ -93,13 +84,6 @@ i.icon {
 .pageTitle h1 {
   font-weight: bold;
 }
-
-
-/*.container {*/
-  /*margin-bottom: 40px;*/
-
-/*}*/
-
 
 .story .sentences .sentence {
   display: flex;
