@@ -1,1 +1,17 @@
-/*add your css here*/
+#auth {
+    width: 100vw;
+    height: 100vh;
+    min-height: 768px;
+    z-index: 1040;
+    background-color: rgba(237, 236, 243, 0.5);
+    position:fixed;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auth form {
+    background-color: white;
+    padding: 20px;
+}
