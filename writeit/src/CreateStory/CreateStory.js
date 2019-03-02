@@ -1,6 +1,6 @@
 import React from 'react';
 
-class createStory extends React.Component {
+class CreateStory extends React.Component {
     /*submit(){
 
     }*/
@@ -27,4 +27,4 @@ class createStory extends React.Component {
     }
 }
 
-export default createStory;
+export default CreateStory;

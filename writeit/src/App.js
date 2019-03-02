@@ -5,20 +5,20 @@ import Header from './Header/Header';
 
 
 import Landing from './Landing/Landing';
-import createStory from './CreateStory/CreateStory';
+import CreateStory from './CreateStory/CreateStory';
 
 
 
 // routes
 function Main() {
     return (
-        <main style={{paddingTop:"50px"}}>
+        <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
                 <Route path='/signup' component={Landing}/>
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
-                <Route path='/createstory' component={createStory}/>
+                <Route path='/createStory' component={CreateStory}/>
             </Switch>
         </main>
     );
@@ -27,13 +27,13 @@ function Main() {
 
 
 // tester
-function placeholder() {
-    return (
-        <div>
-            <h1>holds place for some path</h1>
-        </div>
-    );
-}
+// function placeholder() {
+//     return (
+//         <div>
+//             <h1>holds place for some path</h1>
+//         </div>
+//     );
+// }
 
 
 class App extends React.Component {

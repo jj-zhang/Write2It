@@ -33,6 +33,11 @@
   }
 }
 
+main {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
 
 /*html {*/
   /*height: 100%;*/
@@ -49,9 +54,12 @@
   /*src: url('Lovelo Black.otf');*/
 /*}*/
 
+body {
+  background-color: #deeeef;
+}
 
 .lovelo {
-  /*font-family: lovelo;*/
+  font-family: lovelo;
 }
 
 /*overriding external css*/
@@ -61,13 +69,7 @@ i.icon {
 }
 
 
-a {
-  text-decoration: none !important;
-  /*font-weight: bold;*/
-  cursor: pointer;
-  color: black;
-  margin-right: 10px;
-}
+
 
 /*main {*/
   /*position: absolute;*/
@@ -81,18 +83,14 @@ a {
 }
 
 
-.page {
-  padding-top: 0px;
-}
-
-.page .pageTitle {
-  background-color: #47deff;
+.pageTitle {
+  background-color: #86d9de;
   padding: 20px;
   color: white;
   margin-bottom: 20px;
 }
 
-.page .pageTitle h1 {
+.pageTitle h1 {
   font-weight: bold;
 }
 

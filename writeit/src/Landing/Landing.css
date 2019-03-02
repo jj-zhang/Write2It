@@ -1,8 +1,79 @@
-.landing a {
+#landing a {
     font-weight: normal;
 }
 
-.landing a:hover {
+#landing a:hover {
     color: black;
 }
 
+#landing Link {
+    text-decoration: none;
+}
+
+#landing .story {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+#landing .story:hover {
+    border-color: #b3b2b2;
+}
+
+#landing .story {
+    display: flex;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#landing .story .content  {
+    padding: 10px 0px 10px 0px;
+}
+
+
+#landing .story .content .storyTitle {
+    font-weight: bold;
+}
+
+#landing .story .upvotes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    margin-right: 10px;
+    padding: 10px 0px 10px 0px;
+    width: 50px;
+    border-radius: 5px 0px 0px 5px;
+    background-color: #f5f5f5;
+    font-weight: bold;
+    justify-content: center;
+}
+
+#landing .story .upvotes .upvoteButton {
+    color: #7e7b7b;
+    border:none;
+    background: none;
+}
+
+#landing .story .upvotes .up:hover {
+    color: #7bd4ad;
+}
+
+#landing .story .upvotes .down:hover {
+    color: #ff9393;
+}
+
+
+#landing .story .content .metadata {
+    color: grey;
+    font-size: 0.8rem;
+}
+
+#landing .story .content .author {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+
+}

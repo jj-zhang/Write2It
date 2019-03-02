@@ -1,50 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './header.css';
-import LoginBox from './loginbox';
+import './Header.css';
+import LoginBox from '../Auth/Auth';
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
-
+        // on rendered get loginStatus from localstorage, if not stored then it must be a 
+        // guest
+        let user = localStorage.getItem("loginStatus");
+        if (user === null){
+            user = "guest";
+        }
         this.state = {
-            // usertype should be undefined/admin/user stored in localhost and status would be guest admin user
-            // for safety a hash string is also stored in localstorage
-            // this can be either stored in to a redux store or passed in as props, even can be stored into localstorage
-            usertype:"user",
+            usertype:user,
             displayLoginBox: false,
         };
-
-        this.logout = e =>{
-            e.preventDefault();
-            console.log("LOGOUT");
-            // should store login status info in localstorage
-            localStorage.removeItem("loginstatus");
-            this.setState(
-                {usertype:"guest"}
-            )
-        }
-
-        this.displayloginbox = e =>{
-            e.preventDefault();
-            this.setState(
-                {displayLoginBox:true}
-            )
-
-        }
-
-        this.closeloginbox = () =>{
-            this.setState(
-                {displayLoginBox:false}
-            );
-        }
     }
+
+    logout = e =>{
+        e.preventDefault();
+        if (localStorage.getItem('loginStatus')!==null){
+            // if the current login state is login
+            // CODE FOR SEND LOGOUT REQUEST TO SERVER
+            localStorage.removeItem("loginStatus");
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            // refresh the page
+            window.location.reload();
+        }
+        
+    }
+
+    displayloginbox = e =>{
+        e.preventDefault();
+        this.setState(
+            {displayLoginBox:true}
+        )
+
+    }
+
+    closeloginbox = () =>{
+        this.setState(
+            {displayLoginBox:false}
+        );
+    }
+
+
+
+
     render () {
         return (
             <header>
                 <div className="container">
                     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                        <a className="navbar-brand" href="/landing">WriteIt</a>
+                        <Link className="navbar-brand" to="/">WriteIt</Link>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -61,7 +71,7 @@ class Header extends React.Component {
                                 {
                                     this.state.usertype==="guest" ?
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={this.displayloginbox}>Login</a>
+                                        <div className="nav-link act-as-a" onClick={this.displayloginbox}>Login</div>
                                     </li>:
                                     null
                                 }
@@ -80,16 +90,16 @@ class Header extends React.Component {
                                     null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
+                                    this.state.usertype==="admin" ?
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={this.logout}>Logout</a>
+                                        <Link className="nav-link" to='/adminDashboard'>Admin Panel</Link>
                                     </li>:
                                     null
                                 }
                                 {
-                                    this.state.usertype==="admin" ?
+                                    this.state.usertype!=="guest" ?
                                     <li className="nav-item">
-                                        <Link className="nav-link" to='/adminDashboard'>Admin Panel</Link>
+                                        <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
                                     </li>:
                                     null
                                 }
@@ -97,7 +107,8 @@ class Header extends React.Component {
                         </div>
                     </nav>
                 </div>
-                <LoginBox show={this.state.displayLoginBox} hide={this.closeloginbox}/>
+                {this.state.displayLoginBox?
+                <LoginBox hide={this.closeloginbox.bind(this)}/>:null}
             </header>
         );
     }
