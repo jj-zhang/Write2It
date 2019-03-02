@@ -3,8 +3,6 @@ import './Landing.css';
 import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
 
 class Story extends React.Component {
     constructor(props) {
@@ -19,12 +17,29 @@ class Story extends React.Component {
 
     upvote(val) {
         const story = this.state.story;
+        const user = localStorage.getItem('username');
+
+        if (val === 1 && story.upvotedBy.includes(user)) {
+            val = -1;
+            story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
+        } else if (val === -1 && story.downvotedBy.includes(user)) {
+           val = 1;
+            story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
+        } else if (val === 1) {
+            story.upvotedBy.push(user);
+        } else {
+            story.downvotedBy.push(user);
+        }
+
+
         story.upvotes += val;
+
 
         this.setState({story: story});
 
         // update the database with new story upvote count (this is a fake API call)
         updateStory({story: story});
+
     }
 
     render() {
@@ -33,7 +48,7 @@ class Story extends React.Component {
         return this.state.goToStoryViewClicked ? <Redirect to="/CreateStory"/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
-                    <button className="upvoteButton" onClick={
+                    <button className={'upvoteButton up' + (story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')} onClick={
                         (e) => {
                             e.stopPropagation();
                             this.upvote.bind(this)(1);
@@ -41,7 +56,7 @@ class Story extends React.Component {
                         <i className="arrow up icon"></i>
                     </button>
                     <div className="value center">{story.upvotes}</div>
-                    <button className="upvoteButton" onClick={
+                    <button className={'upvoteButton down' + (story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')} onClick={
                         (e) => {
                             e.stopPropagation();
                             this.upvote.bind(this)(-1);
@@ -55,7 +70,15 @@ class Story extends React.Component {
                     <div className="metadata">
                         Created by <a className="author">{story.author}</a> <span
                         className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())} ago</span>
-                    </div>
+
+
+                        {story.status === 'IPR' ?
+                            <span className="status inprogress"> (in progress)</span>
+                            :
+                            <span className="status"> (completed)</span>
+                        }
+
+                        </div>
 
                     <h3 className="storyTitle">{story.title}</h3>
                     <p className="text">{story.description}</p>
@@ -96,7 +119,7 @@ class Stories extends React.Component {
                         // sort stories based on recency and upvotes
                         <Story key={story.id.toString()} story={story}/>)
                     : null}
-                {this.state.hasMore ?  <button className="ui teal button loadMoreButto " onClick={this.loadMore.bind(this)}>Load more</button>
+                {this.state.hasMore ?  <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load more</button>
                     : <h3>No more stories to load.</h3> }
             </div>
 

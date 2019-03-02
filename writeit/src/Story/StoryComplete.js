@@ -15,6 +15,7 @@ class StoryComplete extends React.Component {
         this.change = this.change.bind(this);
         this.submit = this.submit.bind(this);
     }
+
     change(e){
         e.persist();
 

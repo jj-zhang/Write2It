@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import { Switch, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 
 
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
+import StoryIPR from './Story/StoryIPR';
 
 
 
@@ -19,6 +20,8 @@ function Main() {
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
                 <Route path='/createStory' component={CreateStory}/>
+                {/*<Route path='/story' component={Story}/>*/}
+
             </Switch>
         </main>
     );
