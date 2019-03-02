@@ -36,12 +36,12 @@ class LoginBox extends React.Component {
 
                                     <button className="ui teal button" type="submit">Login</button>
 
-                                    <p>New to <span class="lovelo">WriteIt</span>? <a href="">Sign up!</a></p>
+                                    <p>New to <span className="lovelo">WriteIt</span>? <a href="">Sign up!</a></p>
 
                                     {/*<button type="submit">Login</button>*/}
 
-                                    <div class="ui negative message">
-                                        <div class="header">
+                                    <div className="ui negative message">
+                                        <div className="header">
                                             Incorrect username or password.
                                         </div>
                                         <p>Please try again.</p>
