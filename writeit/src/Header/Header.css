@@ -1,3 +1,11 @@
+header a {
+    text-decoration: none;
+    /*font-weight: bold;*/
+    cursor: pointer;
+    color: black;
+    margin-right: 10px;
+}
+
 /*#loginbox{*/
     /*width: 100vw;*/
     /*height: 100vh;*/

@@ -55,7 +55,7 @@ main {
 
 
 .lovelo {
-  /*font-family: lovelo;*/
+  font-family: lovelo;
 }
 
 /*overriding external css*/
@@ -65,13 +65,7 @@ i.icon {
 }
 
 
-a {
-  text-decoration: none !important;
-  /*font-weight: bold;*/
-  cursor: pointer;
-  color: black;
-  margin-right: 10px;
-}
+
 
 /*main {*/
   /*position: absolute;*/

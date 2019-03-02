@@ -1,7 +1,6 @@
 import React from 'react';
 import './Auth.css';
 
-
 class LoginBox extends React.Component {
 
     render() {
@@ -37,8 +36,20 @@ class LoginBox extends React.Component {
 
                                     <button className="ui teal button" type="submit">Login</button>
 
+                                    <p>New to <span class="lovelo">WriteIt</span>? <a href="">Sign up!</a></p>
+
                                     {/*<button type="submit">Login</button>*/}
+
+                                    <div class="ui negative message">
+                                        <div class="header">
+                                            Incorrect username or password.
+                                        </div>
+                                        <p>Please try again.</p>
+                                    </div>
+
                                 </form>
+
+
                             </div>
                         </div>
                     </div>
