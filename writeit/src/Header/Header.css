@@ -1,9 +1,10 @@
-header a {
+header a,.act-as-a {
     text-decoration: none;
     /*font-weight: bold;*/
     cursor: pointer;
     color: black;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 /*#loginbox{*/
