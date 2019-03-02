@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './header.css';
-import LoginBox from './loginbox';
+import './Header.css';
+import LoginBox from './LoginBox';
 
 class Header extends React.Component {
     constructor(props) {
