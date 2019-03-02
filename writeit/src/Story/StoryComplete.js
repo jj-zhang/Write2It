@@ -57,7 +57,7 @@ class StoryComplete extends React.Component {
             <div className="container col-lg-6 col-xs-12">
                 <form className="ui reply form" onSubmit={this.submit}>
                     <div className="field">
-                        <textarea value={this.state.value} onChange={this.change}>
+                        <textarea value={this.state.value} onChange={this.change} required>
                         </textarea>
                     </div>
                     <button className="ui teal submit icon button" type="submit">Add comment</button>
