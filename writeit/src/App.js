@@ -12,7 +12,7 @@ import createStory from './CreateStory/CreateStory';
 // routes
 function Main() {
     return (
-        <main style={{paddingTop:"50px"}}>
+        <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
                 <Route path='/signup' component={Landing}/>
