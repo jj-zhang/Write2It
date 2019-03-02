@@ -7,16 +7,8 @@ import { isAfter, formatDistance, subDays } from 'date-fns';
 
 
 class Story extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props = {placeholder:"placeholder"};
-    }
-
     render() {
         const story = this.props.story;
-
-
-
 
         return (
             <div>

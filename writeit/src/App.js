@@ -25,13 +25,13 @@ function Main() {
 }
 
 // tester
-function placeholder() {
-    return (
-        <div>
-            <h1>holds place for some path</h1>
-        </div>
-    );
-}
+// function placeholder() {
+//     return (
+//         <div>
+//             <h1>holds place for some path</h1>
+//         </div>
+//     );
+// }
 
 
 class App extends React.Component {
