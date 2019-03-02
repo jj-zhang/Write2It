@@ -5,7 +5,7 @@ import Header from './Header/Header';
 
 
 import Landing from './Landing/Landing';
-import createStory from './CreateStory/CreateStory';
+import CreateStory from './CreateStory/CreateStory';
 
 
 
@@ -18,7 +18,7 @@ function Main() {
                 <Route path='/signup' component={Landing}/>
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
-                <Route path='/createStory' component={createStory}/>
+                <Route path='/createStory' component={CreateStory}/>
             </Switch>
         </main>
     );

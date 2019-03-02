@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import LoginBox from '../Auth/Auth';
+import Auth from '../Auth/Auth';
 
 class Header extends React.Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class Header extends React.Component {
             // for safety a hash string is also stored in localstorage
             // this can be either stored in to a redux store or passed in as props, even can be stored into localstorage
             usertype: "user",
-            displayLoginBox: false,
+            displayAuth: false,
         };
 
     }
@@ -27,16 +27,16 @@ class Header extends React.Component {
         );
     }
 
-    displayLoginBox(e) {
+    displayAuth(e) {
         e.preventDefault();
         this.setState(
-            {displayLoginBox:true}
+            {displayAuth:true}
         );
     }
 
-    closeLoginBox() {
+    closeAuth() {
         this.setState(
-            {displayLoginBox:false}
+            {displayAuth:false}
         );
     }
 
@@ -45,7 +45,7 @@ class Header extends React.Component {
             <header>
                 <div className="container">
                     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                        <a className="navbar-brand" href="/landing">WriteIt</a>
+                        <a className="navbar-brand" href="/">WriteIt</a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -62,7 +62,7 @@ class Header extends React.Component {
                                 {
                                     this.state.userType==="guest" ?
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={this.displayLoginBox.bind(this)}>Login</a>
+                                        <a className="nav-link" href="" onClick={this.displayAuth.bind(this)}>Login</a>
                                     </li>:
                                     null
                                 }
@@ -98,7 +98,7 @@ class Header extends React.Component {
                         </div>
                     </nav>
                 </div>
-                <LoginBox show={this.state.displayLoginBox} hide={this.closeLoginBox}/>
+                <Auth show={this.state.displayAuth} hide={this.closeAuth}/>
             </header>
         );
     }

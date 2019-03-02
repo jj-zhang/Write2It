@@ -1,7 +1,7 @@
 import React from 'react';
 import './Auth.css';
 
-class LoginBox extends React.Component {
+class Auth extends React.Component {
 
     render() {
         return (
@@ -62,4 +62,4 @@ class LoginBox extends React.Component {
 }
 
 
-export default LoginBox;
+export default Auth;
