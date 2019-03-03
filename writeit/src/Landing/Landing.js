@@ -48,10 +48,10 @@ class Story extends React.Component {
         story.upvotes += val;
 
         // update the database with new story upvote count (this is a fake API call)
-        const _story = updateStory(story);
+        const response = updateStory(story);
 
-        if (_story) {
-            this.setState({story: _story});
+        if (response) {
+            this.setState({story: response});
         }
 
     }
@@ -146,7 +146,7 @@ class Stories extends React.Component {
 class Landing extends React.Component {
     render() {
         return (
-            <div id="landing">
+            <div id="landing" className="page">
 
                 <div className="pageTitle">
                     <h1>Top Stories</h1>

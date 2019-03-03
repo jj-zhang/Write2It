@@ -7,14 +7,12 @@ import {logout} from '../db/users';
 class Header extends React.Component {
     constructor(props) {
         super(props);
+
         // on rendered get loginStatus from localstorage, if not stored then it must be a 
         // guest
-        let user = localStorage.getItem("loginStatus");
-        if (user === null){
-            user = "guest";
-        }
         this.state = {
-            usertype:user,
+            userType: localStorage.getItem('loginStatus') || 'guest',
+            username: localStorage.getItem('username'),
             displayLoginBox: false,
         };
     }
@@ -29,24 +27,22 @@ class Header extends React.Component {
         }
     }
 
-    displayloginbox = e =>{
+    displayloginbox = e => {
         e.preventDefault();
         this.setState(
-            {displayLoginBox:true}
+            {displayLoginBox: true}
         )
 
     }
 
-    closeloginbox = () =>{
+    closeloginbox = () => {
         this.setState(
-            {displayLoginBox:false}
+            {displayLoginBox: false}
         );
     }
 
 
-
-
-    render () {
+    render() {
         return (
             <header>
                 <div className="container">
@@ -57,55 +53,68 @@ class Header extends React.Component {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav">
+                            <ul className="navbar-nav  mr-auto">
                                 {
-                                    this.state.usertype==="guest" ?
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to='/signup'>Signup</Link>
-                                    </li>:
-                                    null
+                                    this.state.userType === "guest" ?
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to='/signup'>Signup</Link>
+                                        </li> :
+                                        null
                                 }
                                 {
-                                    this.state.usertype==="guest" ?
-                                    <li className="nav-item">
-                                        <div className="nav-link act-as-a" onClick={this.displayloginbox}>Login</div>
-                                    </li>:
-                                    null
+                                    this.state.userType === "guest" ?
+                                        <li className="nav-item">
+                                            <div className="nav-link act-as-a" onClick={this.displayloginbox}>Login
+                                            </div>
+                                        </li> :
+                                        null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to='/userProfile'>Profile</Link>
-                                    </li>:
-                                    null
+                                    this.state.userType !== "guest" ?
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to='/userProfile'>Profile</Link>
+                                        </li> :
+                                        null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to='/createstory'>Create Story</Link>
-                                    </li>:
-                                    null
+                                    this.state.userType !== "guest" ?
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to='/createStory'>Create Story</Link>
+                                        </li> :
+                                        null
                                 }
                                 {
-                                    this.state.usertype==="admin" ?
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to='/adminDashboard'>Admin Panel</Link>
-                                    </li>:
-                                    null
+                                    this.state.userType === "admin" ?
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to='/adminDashboard'>Admin Panel</Link>
+                                        </li> :
+                                        null
                                 }
                                 {
-                                    this.state.usertype!=="guest" ?
-                                    <li className="nav-item">
-                                        <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
-                                    </li>:
-                                    null
+                                    this.state.userType !== "guest" ?
+                                        <li className="nav-item">
+                                            <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
+                                        </li> :
+                                        null
                                 }
+
+
                             </ul>
+
+                            {
+                                this.state.userType !== "guest" ?
+                                    <span className="user navbar-text">
+                                        Logged in as: <strong>{this.state.username}</strong>
+                                    </span> :
+                                    null
+                            }
+
                         </div>
+
                     </nav>
                 </div>
-                {this.state.displayLoginBox?
-                <Auth hide={this.closeloginbox.bind(this)}/>:null}
+                {this.state.displayLoginBox ?
+                    <Auth hide={this.closeloginbox.bind(this)}/> : null}
             </header>
         );
     }

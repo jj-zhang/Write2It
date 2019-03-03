@@ -29,7 +29,7 @@ class CreateStory extends React.Component {
 
     render() {
         return this.state.storyCreated ? <Redirect to="/"/> :
-            (<div id="createStory">
+            (<div id="createStory" className="page">
                     <div className="pageTitle">
                         <h1>Create Your Own Story</h1>
                     </div>

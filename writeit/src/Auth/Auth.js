@@ -28,17 +28,17 @@ class Auth extends React.Component {
 
 
         // API CALL, Sending the password and user name to server 
-        const loginSuccess = authenticate({username: username, password: password});
+        const response = authenticate({username: username, password: password});
 
-        if (loginSuccess) {
+        if (response) {
             // reply should contains the following:
             // the hash should be generated on the serverside contains the login time& userid
             // when sending request to server for other actions the hash should be contained 
             // in the header part for server to verify if the login is still valid, if the user 
             // has the permission to access his private info .. etc.
             const reply_hash = "oqidhaoihfb13131341234";
-            const reply_usertype = username;
-            const reply_username = username;
+            const reply_usertype = response.userType;
+            const reply_username = response.username;
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);

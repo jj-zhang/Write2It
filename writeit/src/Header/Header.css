@@ -7,6 +7,11 @@ header a,.act-as-a {
     cursor: pointer;
 }
 
+
+header .user {
+    color: black !important;
+}
+
 /*#loginbox{*/
     /*width: 100vw;*/
     /*height: 100vh;*/
