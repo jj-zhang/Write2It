@@ -6,7 +6,7 @@ import Header from './Header/Header';
 
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
-
+import SignUp from './SignUp/Signup';
 
 
 // routes
@@ -15,7 +15,7 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/signup' component={Landing}/>
+                <Route path='/signup' component={SignUp}/>
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
                 <Route path='/createStory' component={CreateStory}/>
