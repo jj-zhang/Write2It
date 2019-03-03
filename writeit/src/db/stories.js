@@ -7,7 +7,7 @@
 import {isAfter} from 'date-fns';
 
 
-const stories = [
+let stories = [
     {
         id: 0,
         title: 'Alice Lost Her Socks',
@@ -254,7 +254,7 @@ function createStory(story) {
     const user = localStorage.getItem('username');
 
     const _story =  {
-            id: stories.length,
+            id: stories[stories.length].id + 1,
             title: story.title,
             author: user,
             dateCreated: new Date(),
@@ -267,8 +267,25 @@ function createStory(story) {
 
     stories.push(_story);
 
+
     return _story;
 
 }
 
-export {getStory, createStory, getPage, updateStory};
+// delete a story given an id
+// return 1 if successful and 0 if not
+function deleteStory(story) {
+    const userType = localStorage.getItem('loginStatus');
+
+    if (!userType || userType != 'admin') {
+        return 0;
+    }
+
+    stories =
+        stories.filter((_story) => _story.id !== story.id);
+
+    return 1;
+}
+
+
+export {deleteStory, getStory, createStory, getPage, updateStory};

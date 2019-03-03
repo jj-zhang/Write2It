@@ -13,7 +13,8 @@ class Story extends React.Component {
     }
 
     // view a story
-    goToStoryView() {
+    goToStoryView(e) {
+        e.preventDefault();
 
         // window.location.href = `../story/${this.state.story.id}`;
         //
@@ -169,7 +170,6 @@ class Landing extends React.Component {
     }
 
     displayLoginBox() {
-
         this.setState(
             {displayLoginBox: true}
         );

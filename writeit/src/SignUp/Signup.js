@@ -101,14 +101,13 @@ class SignUp extends React.Component {
                             </div>
                         </div>
                         <button className="ui teal button" type="submit">Sign Up</button>
-                        {   this.state.error ?
+                        {   this.state.error &&
                             <div className="ui negative message">
                                 <div className="header">
                                     {this.state.errormessage}
                                 </div>
                                 <p>Please try again.</p>
                             </div>
-                            : null
                         }
                     </div>
                 </form>

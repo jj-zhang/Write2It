@@ -1,9 +1,10 @@
 import React from 'react';
 import {th} from 'date-fns/esm/locale';
-import {getStory, updateStory} from '../db/stories';
+import {deleteStory, getStory, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import Auth from '../Auth/Auth';
 import './Story.css';
+import {Redirect} from 'react-router';
 
 
 class Sentence extends React.Component {
@@ -121,7 +122,15 @@ class StoryIPR extends React.Component {
         const keyword = 'frog';
 
         if (response) {
-            this.state = {error: false, displayLoginBox: false, story: response, keyword: keyword};
+            this.state = {
+                error: false,
+                displayEditBox: false,
+                goToLanding: false,
+                displaySavingChanges: false,
+                displayLoginBox: false,
+                story: response,
+                keyword: keyword
+            };
         }
 
     }
@@ -149,23 +158,76 @@ class StoryIPR extends React.Component {
         const story = this.state.story;
 
         story.sentences.push({
-            id: story.sentences.length,
+            id: story.sentences[story.sentences.length].id + 1,
             author: user,
             dateCreated: new Date(),
             upvotes: 0,
             text: text,
             upvotedBy: [],
             downvotedBy: [],
+            keyword: this.state.keyword
         });
 
         // fake API call to update a story
         const response = updateStory(story);
         if (response) {
             this.setState({story: story, error: false});
-
-
         }
 
+    }
+
+    // toggle the edit box to edit stories
+    toggleEditBox(e) {
+        e.preventDefault();
+
+        this.setState({displayEditBox: !this.state.displayEditBox});
+    }
+
+    // listen to changes to state variables in the edit box form
+    change(e) {
+        e.preventDefault();
+
+        const story = this.state.story;
+
+        story[e.target.name] = e.target.value;
+
+        this.setState({story: story});
+    }
+
+    // edit a story
+    saveEdit(e) {
+        e.preventDefault();
+
+        const story = this.state.story;
+        //
+        // story.title = e.target.title.value;
+        // story.description = e.target.description.value;
+
+        // update the database with new story upvote count (this is a fake API call)
+        // fake API call to update a story
+        const response = updateStory(story);
+        if (!response) {
+            return;
+        }
+
+        this.setState({displaySavingChanges: true});
+        const _self = this;
+        setTimeout(() => _self.setState({displaySavingChanges: false, story: response, displayEditBox: false}), 1000);
+    }
+
+    // delete a story
+    deleteStory(e) {
+        e.preventDefault();
+
+        // fake API call to delete a story
+        const response = deleteStory({id: this.state.story.id});
+        if (!response) {
+            return;
+        }
+
+        this.setState({displayEditBox: false, displaySavingChanges: true});
+        const _self = this;
+        setTimeout(() => _self.setState({goToLanding: true}), 1000);
     }
 
 
@@ -233,6 +295,7 @@ class StoryIPR extends React.Component {
         }
     }
 
+    // display the login box
     displayLoginBox() {
 
         this.setState(
@@ -240,6 +303,7 @@ class StoryIPR extends React.Component {
         );
     }
 
+    // close the loginbox
     closeLoginBox() {
         this.setState(
             {displayLoginBox: false}
@@ -250,8 +314,13 @@ class StoryIPR extends React.Component {
     render() {
 
         const story = this.state.story;
+        const user = localStorage.getItem('username');
+        const userType = localStorage.getItem('loginStatus');
 
-        return (
+        const canEdit = this.state.story.author === user || userType === 'admin';
+        const canDelete = userType === 'admin';
+
+        return this.state.goToLanding ?  <Redirect to="/"/> : (
             <div id="story" className="page">
                 <div className="container-fluid">
                     <div className="row">
@@ -273,57 +342,102 @@ class StoryIPR extends React.Component {
 
                                 </div>
 
-                                <div className="content">
-                                    <div className="metadata">
-                                        Created by <a className="author">{story.author}</a> <span
-                                        className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
-                                        ago</span>
-                                        {story.status === 'IPR' ?
-                                            <span className="status inprogress"> (in progress)</span>
-                                            :
-                                            <span className="status"> (completed)</span>
-                                        }
+
+                                { this.state.displayEditBox ?
+                                    <div className="col-12">
+                                        <div className="editBox">
+
+                                            <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
+
+                                                <div className="field">
+                                                    <label>Title</label>
+                                                    <input type="text" name="title" value={this.state.story.title}
+                                                           onChange={this.change.bind(this)} required>
+                                                    </input>
+                                                </div>
+
+                                                <div className="field">
+                                                    <label>What is your story about?</label>
+                                                    <textarea name="description"
+                                                              value={this.state.story.description}
+                                                              onChange={this.change.bind(this)} required>
+                                                    </textarea>
+                                                </div>
+
+                                                <button className="ui red icon button"
+                                                        onClick={this.deleteStory.bind(this)}>Delete
+                                                </button>
+                                                <button className="ui teal submit icon button" type="submit">Save
+                                                </button>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                    :
+
+                                    <div className="content">
+                                        <div className="metadata">
+                                            Created by <a className="author">{story.author}</a> <span
+                                            className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
+                                            ago</span>
+                                            {story.status === 'IPR' ?
+                                                <span className="status inprogress"> (in progress)</span>
+                                                :
+                                                <span className="status"> (completed)</span>
+                                            }
+
+                                            {canEdit &&
+                                            <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
+                                                <i className="edit icon"></i>
+                                                Edit
+                                            </button>
+                                            }
+
+                                        </div>
+
+
+                                        <h1 className="storyTitle">{story.title}</h1>
+                                        <p className="text">{story.description}</p>
                                     </div>
 
-                                    <h1 className="storyTitle">{story.title}</h1>
-                                    <p className="text">{story.description}</p>
-                                </div>
+                                }
+
+
                             </div>
 
 
                             <Sentences sentences={this.state.story.sentences}
                                        updateSentence={this.updateSentence.bind(this)}
                                        displayLoginBox={this.displayLoginBox.bind(this)}/>
-                            {story.status === 'IPR' ?
-                                <div className="row textBox">
-                                    <div className="col-12">
-                                        <h2>Contribute to this story!</h2>
+                            {story.status === 'IPR' &&
+                            <div className="row textBox">
+                                <div className="col-12">
+                                    <h2>Contribute to this story!</h2>
 
-                                        <form className="ui form" onSubmit={this.submit.bind(this)}>
-                                            <div className="field">
-                                                <label>Your sentence must include the word <strong
-                                                    className="highlight">{this.state.keyword}</strong>.</label>
-                                                <textarea name="text" value={this.state.value}
-                                                          onChange={this.change} required>
-                                            </textarea>
+                                    <form className="ui form" onSubmit={this.submit.bind(this)}>
+                                        <div className="field">
+                                            <label>Your sentence must include the word <strong
+                                                className="highlight">{this.state.keyword}</strong>.</label>
+                                            <textarea name="text" value={this.state.value}
+                                                      onChange={this.change} required>
+                                                </textarea>
+                                        </div>
+                                        <button className="ui teal submit icon button" type="submit">Submit
+                                        </button>
+
+                                        {this.state.error &&
+                                        <div className="ui negative message">
+                                            <div className="header">
+                                                Your sentence must include the word <strong
+                                                className="highlight">{this.state.keyword}</strong>.
                                             </div>
-                                            <button className="ui teal submit icon button" type="submit">Submit
-                                            </button>
-
-                                            {   this.state.error ?
-                                                <div className="ui negative message">
-                                                    <div className="header">
-                                                        Your sentence must include the word <strong
-                                                        className="highlight">{this.state.keyword}</strong>.
-                                                    </div>
-                                                    <p>Please try again.</p>
-                                                </div>
-                                                : null
-                                            }
-                                        </form>
-                                    </div>
+                                            <p>Please try again.</p>
+                                        </div>
+                                        }
+                                    </form>
                                 </div>
-                                : null
+                            </div>
                             }
 
                         </div>
@@ -331,9 +445,18 @@ class StoryIPR extends React.Component {
                 </div>
 
 
-                {this.state.displayLoginBox ?
-                    <Auth hide={this.closeLoginBox.bind(this)}/> :
-                    null}
+                {this.state.displayLoginBox &&
+                <Auth hide={this.closeLoginBox.bind(this)}/>
+                }
+
+                {this.state.displaySavingChanges &&
+                <div className="savingChangesMessage ui teal message">
+                    <div className="header">
+                        Success
+                    </div>
+                    <p>Your changes have been saved.</p>
+                </div>
+                }
 
             </div>
         );

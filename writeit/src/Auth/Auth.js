@@ -85,14 +85,14 @@ class Auth extends React.Component {
                                     <p className="signup">New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign up!</a></p>
 
 
-                                    {   this.state.error ?
+                                    {   this.state.error &&
                                         <div className="ui negative message">
                                             <div className="header">
                                                 Incorrect username or password.
                                             </div>
                                             <p>Please try again.</p>
                                         </div>
-                                        :null
+
                                     }
 
                                 </form>
