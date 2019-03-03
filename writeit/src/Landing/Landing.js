@@ -62,8 +62,6 @@ class Story extends React.Component {
         const response = updateStory(story);
 
         if (response) {
-
-
             this.setState({story: response});
         }
 
@@ -104,11 +102,11 @@ class Story extends React.Component {
                         className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
 
 
-                        {story.status === 'IPR' ?
-                            <span className="status inprogress"> (in progress)</span>
-                            :
-                            <span className="status"> (completed)</span>
-                        }
+                        {/*{story.status === 'IPR' ?*/}
+                            {/*<span className="status inprogress"> (in progress)</span>*/}
+                            {/*:*/}
+                            {/*<span className="status"> (completed)</span>*/}
+                        {/*}*/}
 
                     </div>
 

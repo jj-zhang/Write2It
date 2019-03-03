@@ -1,5 +1,4 @@
 import React from 'react';
-import {th} from 'date-fns/esm/locale';
 import {deleteStory, getStory, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import Auth from '../Auth/Auth';
@@ -8,10 +7,19 @@ import {Redirect} from 'react-router';
 
 
 class Sentence extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            displayEditBox: false,
+            error: false,
+            sentence: this.props.sentence
+        };
+    }
 
     // upvote a sentence, where val is 1 or -1 (representing the increment)
     upvote(val) {
-        const sentence = this.props.sentence;
+        const sentence = this.state.sentence;
         const user = localStorage.getItem('username');
 
 
@@ -44,13 +52,79 @@ class Sentence extends React.Component {
 
         sentence.upvotes += val;
 
-        // update the database with new sentence upvote count (this is a fake API call)
+        // fake API call to update the database with new sentence upvote count
         this.props.updateSentence(sentence);
     }
 
 
+    // toggle the edit box to edit sentences
+    toggleEditBox(e) {
+        e.preventDefault();
+
+        this.setState({displayEditBox: !this.state.displayEditBox});
+    }
+
+    // listen to changes to state variables in the edit box form
+    change(e) {
+        e.preventDefault();
+
+        const sentence = this.state.sentence;
+        // if (sentence.text.includes(sentence.keyword)) {
+            sentence[e.target.name] = e.target.value;
+            this.setState({sentence: sentence});
+        // }
+    }
+
+    // edit a sentence
+    saveEdit(e) {
+        e.preventDefault();
+
+        const sentence = this.state.sentence;
+
+
+
+        if (sentence.text.includes(sentence.keyword)) {
+            sentence[e.target.name] = e.target.value;
+
+            // fake API call to update the database with new sentence
+            this.props.updateSentence(sentence);
+
+            this.setState({displayEditBox: false});
+
+
+        } else {
+            this.setState({error: true, sentence: this.props.sentence});
+        }
+
+    }
+
+    // delete a sentence
+    deleteSentence(e) {
+        e.preventDefault();
+
+        const sentence = this.state.sentence;
+        sentence.delete = true;
+
+        // fake API call to update the database with new sentence
+        this.props.updateSentence(sentence);
+    }
+
     render() {
-        const sentence = this.props.sentence;
+        const sentence = this.state.sentence;
+
+        const user = localStorage.getItem('username');
+        const userType = localStorage.getItem('loginStatus');
+
+        const canEdit = sentence.author === user || userType === 'admin';
+        const canDelete = userType === 'admin';
+
+        // format sentence
+        const _temp = sentence.text.split(sentence.keyword);
+        let formattedText = _temp.map((s) => <span>{s}<strong className="highlight">{sentence.keyword}</strong></span>);
+        formattedText.splice(-1);
+        formattedText.push(<span>{_temp[_temp.length - 1]}</span>);
+
+        formattedText = <p>{formattedText}</p>;
 
         return (
             <div className="sentence">
@@ -77,14 +151,55 @@ class Sentence extends React.Component {
 
                 </div>
 
-                <div className="content">
-                    <div className="metadata">
-                        Written by <a className="author">{sentence.author}</a> <span
-                        className="date">{formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago</span>
-                    </div>
+                {this.state.displayEditBox ?
+                    (
+                        <div className="editBox">
+                            <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
+                                <div className="field">
+                                    <label>Your sentence must include the word <strong
+                                        className="highlight">{sentence.keyword}</strong>.</label>
+                                    <textarea name="text" value={sentence.text} onChange={this.change.bind(this)}
+                                              required>
+                                                </textarea>
+                                </div>
 
-                    <p>{sentence.text}</p>
-                </div>
+                                <button className="ui red icon button"
+                                        onClick={this.deleteSentence.bind(this)}>Delete
+                                </button>
+                                <button className="ui teal submit icon button" type="submit">Save
+                                </button>
+
+                                {this.state.error &&
+                                <div className="ui negative message">
+                                    <div className="header">
+                                        Your sentence must include the word <strong
+                                        className="highlight">{sentence.keyword}</strong>.
+                                    </div>
+                                    <p>Please try again.</p>
+                                </div>}
+                            </form>
+
+
+                        </div>
+
+                    ) : (
+                        <div className="content">
+                            <div className="metadata">
+                                Written by <a className="author">{sentence.author}</a> <span
+                                className="date">{formatDistance(subDays(sentence.dateCreated, 0), new Date())}
+                                ago</span>
+                                {canEdit &&
+                                <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
+                                    <i className="edit icon"></i>
+                                    Edit
+                                </button>
+                                }
+                            </div>
+                            {formattedText}
+                        </div>
+
+                    )
+                }
             </div>
         );
     }
@@ -96,15 +211,14 @@ class Sentences extends React.Component {
         const sentences = this.props.sentences;
 
         return (
-            <div>
-                {sentences.length > 0
-                    ? sentences.map((sentence) =>
-                        <Sentence displayLoginBox={this.props.displayLoginBox}
-                                  updateSentence={this.props.updateSentence}
-                                  key={sentence.id.toString()} sentence={sentence}/>)
-                    : null}
-            </div>
-        )
+            sentences.length > 0
+                ? sentences.map((sentence) =>
+                <Sentence displayLoginBox={this.props.displayLoginBox}
+                          updateSentence={this.props.updateSentence}
+                          key={sentence.id.toString()} sentence={sentence}/>)
+                : null
+        );
+
     }
 
 
@@ -147,7 +261,9 @@ class StoryIPR extends React.Component {
             return;
         }
 
+
         const text = e.target.text.value;
+
 
         // check if text contains require keyword
         if (!text.includes(this.state.keyword)) {
@@ -155,10 +271,11 @@ class StoryIPR extends React.Component {
             return;
         }
 
+
         const story = this.state.story;
 
         story.sentences.push({
-            id: story.sentences[story.sentences.length].id + 1,
+            id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 0,
             author: user,
             dateCreated: new Date(),
             upvotes: 0,
@@ -172,6 +289,7 @@ class StoryIPR extends React.Component {
         const response = updateStory(story);
         if (response) {
             this.setState({story: story, error: false});
+            e.target.text.value = '';
         }
 
     }
@@ -210,9 +328,9 @@ class StoryIPR extends React.Component {
             return;
         }
 
-        this.setState({displaySavingChanges: true});
+        this.setState({displaySavingChanges: true, displayEditBox: false});
         const _self = this;
-        setTimeout(() => _self.setState({displaySavingChanges: false, story: response, displayEditBox: false}), 1000);
+        setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
     }
 
     // delete a story
@@ -280,12 +398,18 @@ class StoryIPR extends React.Component {
 
         const story = this.state.story;
 
-        for (let i = 0; i > story.sentences.length; i++) {
-            if (story.sentences[i].id === sentence.id) {
-                story.sentence[i] = sentence;
-                break;
+        if (sentence.delete) { // delete sentence
+            story.sentences =
+                story.sentences.filter((_sentence) => _sentence.id !== sentence.id);
+        } else { // change sentence
+            for (let i = 0; i > story.sentences.length; i++) {
+                if (story.sentences[i].id === sentence.id) {
+                    story.sentence[i] = sentence;
+                    break;
+                }
             }
         }
+
 
         // fake API call to update a story
         const response = updateStory(story);
@@ -293,6 +417,10 @@ class StoryIPR extends React.Component {
         if (response) {
             this.setState({story: response});
         }
+
+        this.setState({displaySavingChanges: true});
+        const _self = this;
+        setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
     }
 
     // display the login box
@@ -312,15 +440,14 @@ class StoryIPR extends React.Component {
 
 
     render() {
-
         const story = this.state.story;
         const user = localStorage.getItem('username');
         const userType = localStorage.getItem('loginStatus');
 
-        const canEdit = this.state.story.author === user || userType === 'admin';
-        const canDelete = userType === 'admin';
+        const canEdit = story.author === user || userType === 'admin';
+        // const canDelete = userType === 'admin';
 
-        return this.state.goToLanding ?  <Redirect to="/"/> : (
+        return this.state.goToLanding ? <Redirect to="/"/> : (
             <div id="story" className="page">
                 <div className="container-fluid">
                     <div className="row">
@@ -381,11 +508,11 @@ class StoryIPR extends React.Component {
                                             Created by <a className="author">{story.author}</a> <span
                                             className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
                                             ago</span>
-                                            {story.status === 'IPR' ?
-                                                <span className="status inprogress"> (in progress)</span>
-                                                :
-                                                <span className="status"> (completed)</span>
-                                            }
+                                            {/*{story.status === 'IPR' ?*/}
+                                                {/*<span className="status inprogress"> (in progress)</span>*/}
+                                                {/*:*/}
+                                                {/*<span className="status"> (completed)</span>*/}
+                                            {/*}*/}
 
                                             {canEdit &&
                                             <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
@@ -406,7 +533,6 @@ class StoryIPR extends React.Component {
 
                             </div>
 
-
                             <Sentences sentences={this.state.story.sentences}
                                        updateSentence={this.updateSentence.bind(this)}
                                        displayLoginBox={this.displayLoginBox.bind(this)}/>
@@ -419,8 +545,8 @@ class StoryIPR extends React.Component {
                                         <div className="field">
                                             <label>Your sentence must include the word <strong
                                                 className="highlight">{this.state.keyword}</strong>.</label>
-                                            <textarea name="text" value={this.state.value}
-                                                      onChange={this.change} required>
+                                            <textarea name="text" placeholder="Write something..."
+                                                      required>
                                                 </textarea>
                                         </div>
                                         <button className="ui teal submit icon button" type="submit">Submit

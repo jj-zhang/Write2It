@@ -2,6 +2,8 @@ import React from 'react';
 import './Signup.css';
 import placeholderimage from './placeholder.png';
 import {signup} from '../db/users';
+import {Redirect} from 'react-router';
+
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -10,8 +12,8 @@ class SignUp extends React.Component {
             iconImageUrl: placeholderimage,
             imagefile: null,
             error: false,
-            errormessage: null
-
+            errormessage: null,
+            goToLanding: false
         }
     }
 
@@ -55,7 +57,10 @@ class SignUp extends React.Component {
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
-            window.location.reload();
+
+            this.setState({goToLanding: true});
+
+
         } else {
             // otherwise the reply should contains some errormessage
             const errormessage = "Username already in use, please try another one";
@@ -64,54 +69,56 @@ class SignUp extends React.Component {
     }
 
     render() {
-        return (
-            <div id="signup">
-                <form className="ui form" onSubmit={this.signup}>
-                    <div className="profileIconContainer field">
-                        <img id="iconImage" alt="User Icon Preview" src={this.state.iconImageUrl}></img>
-                    </div>
-                    <div className="profileInputContainer">
-                        <div className="field">
-                            <label>Username</label>
-                            <div className="ui left icon input">
-                                <input type="text" name="uname" placeholder="Username" required/>
-                                <i className="user icon"></i>
+        return (this.state.goToLanding ? <Redirect to="/"/>
+                : (
+                    <div id="signup">
+                        <form className="ui form" onSubmit={this.signup}>
+                            <div className="profileIconContainer field">
+                                <img id="iconImage" alt="User Icon Preview" src={this.state.iconImageUrl}></img>
                             </div>
-                        </div>
-                        <div className="field">
-                            <label>Email</label>
-                            <div className="ui left icon input">
-                                <input type="text" name="email" placeholder="XXXX@gmail.com" required/>
-                                <i className="envelope icon"></i>
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label>Profile Icon</label>
-                            <div className="ui left icon input">
-                                <input type="file" name="icon" accept="image/*" onChange={this.updateImage}/>
-                                <i className="arrow circle up icon"></i>
-                            </div>
-                        </div>
-
-                        <div className="field">
-                            <label>Password</label>
-                            <div className="ui left icon input">
-                                <input type="password" name="psw" placeholder="Username" required/>
-                                <i className="lock icon"></i>
-                            </div>
-                        </div>
-                        <button className="ui teal button" type="submit">Sign Up</button>
-                        {   this.state.error &&
-                            <div className="ui negative message">
-                                <div className="header">
-                                    {this.state.errormessage}
+                            <div className="profileInputContainer">
+                                <div className="field">
+                                    <label>Username</label>
+                                    <div className="ui left icon input">
+                                        <input type="text" name="uname" placeholder="Username" required/>
+                                        <i className="user icon"></i>
+                                    </div>
                                 </div>
-                                <p>Please try again.</p>
+                                <div className="field">
+                                    <label>Email</label>
+                                    <div className="ui left icon input">
+                                        <input type="text" name="email" placeholder="XXXX@gmail.com" required/>
+                                        <i className="envelope icon"></i>
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label>Profile Icon</label>
+                                    <div className="ui left icon input">
+                                        <input type="file" name="icon" accept="image/*" onChange={this.updateImage}/>
+                                        <i className="arrow circle up icon"></i>
+                                    </div>
+                                </div>
+
+                                <div className="field">
+                                    <label>Password</label>
+                                    <div className="ui left icon input">
+                                        <input type="password" name="psw" placeholder="Username" required/>
+                                        <i className="lock icon"></i>
+                                    </div>
+                                </div>
+                                <button className="ui teal button" type="submit">Sign Up</button>
+                                {   this.state.error &&
+                                <div className="ui negative message">
+                                    <div className="header">
+                                        {this.state.errormessage}
+                                    </div>
+                                    <p>Please try again.</p>
+                                </div>
+                                }
                             </div>
-                        }
+                        </form>
                     </div>
-                </form>
-            </div>
+                )
         )
     }
 

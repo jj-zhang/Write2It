@@ -19,7 +19,6 @@ function Main() {
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
                 <Route path='/createStory' component={CreateStory}/>
-
                 <Route path='/story/:id' component={StoryIPR}/>
 
             </Switch>

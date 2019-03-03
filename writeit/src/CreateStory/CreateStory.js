@@ -23,17 +23,11 @@ class CreateStory extends React.Component {
         const response = createStory(
             {
                 title: e.target.title.value,
-                description: e.target.description
+                description: e.target.description.value
 
             });
 
         if (response) {
-
-            // window.location.href = `../story/${response.id}`;
-            //
-            // return;
-
-
             this.setState({storyCreated: true, story: response});
         }
     }
