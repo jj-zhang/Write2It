@@ -1,18 +1,51 @@
 import React from 'react';
+import { th } from 'date-fns/esm/locale';
 
 class StoryIPR extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            sentences: [
-                {id:0, user:'a', content:'She needed help.',vote:22}
-            ],
-            value:''
+            title: '',
+            author:'',
+            context:'',
+            sentences: [],
+            value:'',
+            keyWord:'',
+            winner:''
         }
         this.change = this.change.bind(this);
         this.submit = this.submit.bind(this);
         this.upvote = this.upvote.bind(this);
     }
+
+    componentDidMount(){
+        // this is an api call data from api call hardcoded
+        this.setState({
+            title:'Alice Lost Her Socks',
+            author: 'a',
+            context:'Alice lost her socks and needs to find them.',
+            sentences: [
+                {id:0, user:'a', content:'She needed help.',vote:99}
+            ],
+            keyWord:'Frog'
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.winner !== prevState.winner){
+            console.log(this.state.winner);
+            console.log(prevState.winner);
+            const NewContext = this.state.context + this.state.winner;
+            console.log(NewContext);
+            this.setState({
+                        context: NewContext,
+                        sentences: [],
+                        keyWord: 'Water',
+                        winner:''
+            });
+        }
+    }
+
 
     change(e){
         e.persist();
@@ -39,27 +72,34 @@ class StoryIPR extends React.Component {
 
     upvote(e, n){
         e.persist();
-        for(let i=0;i<this.state.sentences.length;i++){
-            if(this.state.sentences[i].id == n){
-                this.state.sentences[i].vote += 1;
+        const NewSentences = this.state.sentences;
+        let w = '';
+        for(let i=0;i<NewSentences.length;i++){
+            if(NewSentences[i].id === n){
+                NewSentences[i].vote += 1;
+                if(NewSentences[i].vote === 100){
+                    w = NewSentences[i].content;
+                }
             }
         }
         this.setState(prevState => {
             return{
-                sentences: prevState.sentences,
-                value: prevState.value
+                sentences: NewSentences,
+                value: prevState.value,
+                winner: w
             }
         })
+        //this.refs.btn.setAttribute("disabled", "disabled");
     }
 
     render(){
         return (
             <div className="page">
                 <div className="ongoing">
-                    <h3>Alice Lost Her Socks</h3>
+                    <h3>{this.state.title}</h3>
                     <div>
-                        Created by: <a href="">a</a>--
-                        <b>Alice lost her socks and needs to find them.</b>
+                        Created by: <a href="">{this.state.author}</a>--
+                        <b>{this.state.context}</b>
                     </div>
                 </div>
                 <div className="discussion">
@@ -70,8 +110,7 @@ class StoryIPR extends React.Component {
                             <a href="">{item.user}</a>:{item.content}
                             <div>
                             {item.vote}
-                            <button className="upvoteButton" onClick={(e) => this.upvote(e, item.id)}>
-                            <i className="arrow up icon"></i>
+                            <button ref="btn" className="upvoteButton" onClick={(e) => this.upvote(e, item.id)}>Like!
                             </button>
                             </div>
                         </li>
@@ -79,7 +118,7 @@ class StoryIPR extends React.Component {
                 </ul>
                 </div>
                 <div className="container col-lg-6 col-xs-12">
-                Your sentence must include the word <strong className="keyWord">Frog</strong>.
+                Your sentence must include the word <strong className="keyWord">{this.state.keyWord}</strong>.
                 <form className="ui reply form" onSubmit={this.submit}>
                     <div className="field">
                         <textarea value={this.state.value} onChange={this.change} required>
