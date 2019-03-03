@@ -218,6 +218,7 @@ function updateStory(story) {
 
         if (_story.id === story.id ) {
             stories[i] = story;
+            return story;
         }
     }
 }

@@ -23,27 +23,34 @@ class Story extends React.Component {
             return 0;
         }
 
-        if (val === 1 && story.upvotedBy.includes(user)) {
-            val = -1;
-            story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-        } else if (val === -1 && story.downvotedBy.includes(user)) {
-           val = 1;
-            story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
-        } else if (val === 1) {
-            story.upvotedBy.push(user);
+        if (val === 1) {
+            if (story.upvotedBy.includes(user)) {
+                val = -1;
+                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
+            } else if (story.downvotedBy.includes(user)) {
+                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
+            } else {
+                story.upvotedBy.push(user);
+            }
         } else {
-            story.downvotedBy.push(user);
+            if (story.upvotedBy.includes(user)) {
+                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
+            } else if (story.downvotedBy.includes(user)) {
+                val = 1;
+                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
+            } else {
+                story.downvotedBy.push(user);
+            }
         }
-
 
         story.upvotes += val;
 
         // update the database with new story upvote count (this is a fake API call)
-        updateStory({story: story});
+        const _story = updateStory(story);
 
-
-        this.setState({story: story});
-
+        if (_story) {
+            this.setState({story: _story});
+        }
 
     }
 
