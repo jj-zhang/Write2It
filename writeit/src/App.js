@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+
 import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Landing from './Landing/Landing';
@@ -19,7 +20,7 @@ function Main() {
                 <Route path='/userProfile' component={Landing}/>
                 <Route path='/createStory' component={CreateStory}/>
 
-                {/*<Route path='/story' component={Story}/>*/}
+                <Route path='/story/:id' component={StoryIPR}/>
 
             </Switch>
         </main>

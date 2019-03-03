@@ -57,6 +57,7 @@
 
 body {
   background-color: #deeeef;
+  color: #4d5154;
 }
 
 .lovelo {
@@ -75,7 +76,7 @@ i.icon {
 
 
 .pageTitle {
-  background-color: #86d9de;
+  background-color: #4d5154;
   padding: 20px;
   color: white;
   margin-bottom: 20px;
@@ -85,47 +86,47 @@ i.icon {
   font-weight: bold;
 }
 
-.story .sentences .sentence {
-  display: flex;
-  margin-bottom: 10px;
-}
+/*.story .sentences .sentence {*/
+  /*display: flex;*/
+  /*margin-bottom: 10px;*/
+/*}*/
 
-.story .sentences .openingSentence {
-  margin-bottom: 20px;
-}
+/*.story .sentences .openingSentence {*/
+  /*margin-bottom: 20px;*/
+/*}*/
 
-.story .sentences .sentence .upvotes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  margin-right: 10px;
-}
+/*.story .sentences .sentence .upvotes {*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+  /*align-content: center;*/
+  /*margin-right: 10px;*/
+/*}*/
 
-.story .sentences .sentence .upvotes .value {
-  color: grey;
-}
+/*.story .sentences .sentence .upvotes .value {*/
+  /*color: grey;*/
+/*}*/
 
-.story .sentences .sentence .content .author {
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-}
+/*.story .sentences .sentence .content .author {*/
+  /*cursor: pointer;*/
+  /*font-weight: bold;*/
+  /*text-decoration: none;*/
+/*}*/
 
-.story .sentences .sentence .content .date {
-  color: grey;
-}
+/*.story .sentences .sentence .content .date {*/
+  /*color: grey;*/
+/*}*/
 
 
-.profile .ongoingStories .story {
-  cursor: pointer;
+/*.profile .ongoingStories .story {*/
+  /*cursor: pointer;*/
 
-}
+/*}*/
 
-.profile .profileInfo {
-  margin-bottom: 20px;
+/*.profile .profileInfo {*/
+  /*margin-bottom: 20px;*/
 
-}
+/*}*/
 
 .teal {
   color: teal;
@@ -135,12 +136,12 @@ i.icon {
   color: red;
 }
 
-.adminDashboard .list {
-  max-height: 500px;
-  overflow-y: scroll;
-}
+/*.adminDashboard .list {*/
+  /*max-height: 500px;*/
+  /*overflow-y: scroll;*/
+/*}*/
 
-.userReports .header span {
-  font-weight: normal;
-  color: grey;
-}
+/*.userReports .header span {*/
+  /*font-weight: normal;*/
+  /*color: grey;*/
+/*}*/

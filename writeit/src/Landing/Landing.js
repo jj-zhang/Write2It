@@ -14,6 +14,11 @@ class Story extends React.Component {
 
     // view a story
     goToStoryView() {
+
+        // window.location.href = `../story/${this.state.story.id}`;
+        //
+        // return;
+
         this.setState({goToStoryViewClicked: true});
     }
 
@@ -27,7 +32,7 @@ class Story extends React.Component {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
 
-            return 0;
+            return;
         }
 
         if (val === 1) {
@@ -56,6 +61,8 @@ class Story extends React.Component {
         const response = updateStory(story);
 
         if (response) {
+
+
             this.setState({story: response});
         }
 
@@ -65,7 +72,7 @@ class Story extends React.Component {
     render() {
         const story = this.state.story;
 
-        return this.state.goToStoryViewClicked ? <Redirect to="/CreateStory"/> : (
+        return this.state.goToStoryViewClicked ? <Redirect to={`../story/${this.state.story.id}`}/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
                     <button
@@ -107,8 +114,6 @@ class Story extends React.Component {
                     <h3 className="storyTitle">{story.title}</h3>
                     <p className="text">{story.description}</p>
                 </div>
-
-
             </div>
         );
     }
@@ -148,7 +153,7 @@ class Stories extends React.Component {
                 {this.state.hasMore ?
                     <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load
                         more</button>
-                    : <h3>No more stories to load.</h3> }
+                    : <div class="text-center">No more stories to load.</div> }
             </div>
 
         );

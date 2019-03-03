@@ -55,7 +55,7 @@ class SignUp extends React.Component {
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
-            window.location.href = "../";
+            window.location.reload();
         } else {
             // otherwise the reply should contains some errormessage
             const errormessage = "Username already in use, please try another one";

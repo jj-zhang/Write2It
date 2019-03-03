@@ -5,6 +5,11 @@ import {Redirect} from 'react-router';
 
 class CreateStory extends React.Component {
     constructor(props) {
+
+        console.log('h');
+
+
+
         super(props);
 
         this.state = {storyCreated: false};
@@ -15,15 +20,21 @@ class CreateStory extends React.Component {
         e.preventDefault();
 
         // fake API call to create a new story
-        const createStoryStatus = createStory(
+        const response = createStory(
             {
                 title: e.target.title.value,
                 description: e.target.description
 
             });
 
-        if (createStoryStatus) {
-            this.setState({storyCreated: true});
+        if (response) {
+
+            // window.location.href = `../story/${response.id}`;
+            //
+            // return;
+
+
+            this.setState({storyCreated: true, story: response});
         }
     }
 
@@ -31,24 +42,24 @@ class CreateStory extends React.Component {
 
 
     render() {
-        return this.state.storyCreated ? <Redirect to="/"/> :
+        return this.state.storyCreated ? <Redirect to={`../story/${this.state.story.id}`}/> :
             (<div id="createStory" className="page">
                     <div className="pageTitle">
-                        <h1>Create Your Own Story</h1>
+                        <h1>Create A Story</h1>
                     </div>
                     <div className="container">
                         <div className="row">
                             <div className="offset-lg-3 col-lg-6 col-xs-12">
                                 <form className="ui form" onSubmit={this.createStory.bind(this)}>
                                     <div className="field">
-                                        <h2><strong>Title</strong></h2>
+                                        <label>Title</label>
                                         <div className="ui input">
                                             <input type="text" name="title" placeholder="Title" required/>
                                         </div>
                                     </div>
 
                                     <div className="field">
-                                        <h2><strong>What is your story about?</strong></h2>
+                                        <label>What is your story about?</label>
                                         <textarea name="description" placeholder="Write something..."
                                                   required></textarea>
                                     </div>

@@ -17,7 +17,8 @@ const stories = [
         status: 'IPR',
         description: 'Alice lost her socks and needs to find them.',
         upvotedBy: ['user', 'admin'],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 1,
@@ -28,7 +29,9 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: ['user', 'admin']
+        downvotedBy: ['user', 'admin'],
+        sentences: []
+
     },
     {
         id: 2,
@@ -50,7 +53,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 4,
@@ -61,7 +65,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 5,
@@ -72,7 +77,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 6,
@@ -83,7 +89,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 7,
@@ -94,7 +101,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 8,
@@ -105,7 +113,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 9,
@@ -116,7 +125,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 10,
@@ -127,7 +137,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 11,
@@ -138,7 +149,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 12,
@@ -149,7 +161,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 13,
@@ -160,7 +173,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 14,
@@ -171,7 +185,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 15,
@@ -182,19 +197,20 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     }
 ];
 
 
 // get a story given its id
 // return -1 if no story with given id exists
-function getStory(id) {
+function getStory(story) {
     for (let i = 0; i < stories.length; i ++) {
-        const story = stories[i];
+        const _story = stories[i];
 
-        if (story.id === id) {
-            return story;
+        if (_story.id === story.id) {
+            return _story;
         }
     }
 
@@ -254,4 +270,4 @@ function createStory(story) {
 
 }
 
-export {createStory, getPage, updateStory};
+export {getStory, createStory, getPage, updateStory};

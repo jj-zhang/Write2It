@@ -42,7 +42,7 @@ class Auth extends React.Component {
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
-            window.location.href="../";    
+            window.location.reload();
         } else {
             this.setState({error: true});
         }
