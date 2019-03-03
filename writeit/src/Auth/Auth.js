@@ -82,7 +82,7 @@ class Auth extends React.Component {
 
                                     <button className="ui teal button" type="submit">Login</button>
 
-                                    <p>New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign up!</a></p>
+                                    <p className="signup">New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign up!</a></p>
 
 
                                     {   this.state.error ?

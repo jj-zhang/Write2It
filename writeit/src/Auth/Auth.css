@@ -25,3 +25,8 @@
     cursor: pointer;
     color: dodgerblue;
 }
+
+
+#auth .signup {
+    margin-bottom: 0px;
+}
