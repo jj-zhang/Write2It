@@ -11,7 +11,7 @@ class Auth extends React.Component {
     }
 
     // this function close the login box using the function passed in from parent Header
-    onclick(e) {
+    onclick = (e)=> {
         const loginbox=document.querySelector('#loginform');
         if (!loginbox.contains(e.target)){
             this.props.hide();
@@ -19,7 +19,7 @@ class Auth extends React.Component {
     }
 
     // this function handles the submit which is the login request
-    login(e) {
+    login = (e) => {
         e.preventDefault();
         // get the logininfo from the form
         const username=e.target.uname.value;
@@ -42,7 +42,7 @@ class Auth extends React.Component {
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
-            window.location.reload();        
+            window.location.href="../";    
         } else {
             this.setState({error: true});
         }

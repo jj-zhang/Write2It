@@ -1,21 +1,32 @@
 import React from 'react';
 import './Story.css';
+import { th } from 'date-fns/esm/locale';
 
 class StoryComplete extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            comments: [
-                {id:0,user:'a',content:'So good!'},
-                {id:1,user:'a',content:'I like it.'}
-            ],
+            title: '',
+            context:'',
+            comments: [],
             value: ''
         };
         this.change = this.change.bind(this);
         this.submit = this.submit.bind(this);
     }
 
+    componentDidMount(){
+        // this is an api call data from api call hardcoded
+        this.setState({
+            title:'Delicious Hope',
+            context:'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+            comments:[
+                {id:0,user:'a',content:'So good!'},
+                {id:1,user:'a',content:'I like it.'}
+            ]
+        })
+    }
     change(e){
         e.persist();
 
@@ -42,11 +53,11 @@ class StoryComplete extends React.Component {
     render(){
         return (
             <div className="page">
-            <h3>Delicious Hope</h3>
-            <div>
-            Xander and Jared are from two completly different worlds. The jock and the nerd.
+            <div className="storyComplete">
+            <h3>{this.state.title}</h3>
+            {this.state.context}
             </div>
-            <div>
+            <div className="commentsComplete">
                 <b>Comments:</b>
                 <ul>
                     {this.state.comments.map(item => (

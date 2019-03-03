@@ -4,6 +4,7 @@ import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
+import SignUp from './SignUp/Signup';
 import StoryIPR from './Story/StoryIPR';
 
 // routes
@@ -12,7 +13,7 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/signup' component={Landing}/>
+                <Route path='/signup' component={SignUp}/>
                 <Route path='/adminDashboard' component={Landing}/>
                 <Route path='/userProfile' component={Landing}/>
                 <Route path='/createStory' component={CreateStory}/>
@@ -22,6 +23,8 @@ function Main() {
         </main>
     );
 }
+
+
 
 // tester
 // function placeholder() {
