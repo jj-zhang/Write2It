@@ -42,7 +42,8 @@ const stories = [
         status: 'C',
         description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
         upvotedBy: [],
-        downvotedBy: []
+        downvotedBy: [],
+        sentences: []
     },
     {
         id: 3,
