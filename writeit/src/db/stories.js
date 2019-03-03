@@ -18,7 +18,19 @@ let stories = [
         description: 'Alice lost her socks and needs to find them.',
         upvotedBy: ['user', 'admin'],
         downvotedBy: [],
-        sentences: []
+        sentences: [
+            {
+                id: 0,
+                author: 'user',
+                dateCreated: new Date(),
+                upvotes: 0,
+                text: 'A frog unfortunately stole it.',
+                upvotedBy: [],
+                downvotedBy: [],
+                keyword: 'frog'
+            }
+
+        ]
     },
     {
         id: 1,

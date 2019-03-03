@@ -53,7 +53,7 @@ class Sentence extends React.Component {
         sentence.upvotes += val;
 
         // fake API call to update the database with new sentence upvote count
-        this.props.updateSentence(sentence);
+        this.props.updateSentence(sentence, false);
     }
 
 
@@ -87,7 +87,7 @@ class Sentence extends React.Component {
             sentence[e.target.name] = e.target.value;
 
             // fake API call to update the database with new sentence
-            this.props.updateSentence(sentence);
+            this.props.updateSentence(sentence, true);
 
             this.setState({displayEditBox: false});
 
@@ -106,7 +106,7 @@ class Sentence extends React.Component {
         sentence.delete = true;
 
         // fake API call to update the database with new sentence
-        this.props.updateSentence(sentence);
+        this.props.updateSentence(sentence, true);
     }
 
     render() {
@@ -120,9 +120,9 @@ class Sentence extends React.Component {
 
         // format sentence
         const _temp = sentence.text.split(sentence.keyword);
-        let formattedText = _temp.map((s) => <span>{s}<strong className="highlight">{sentence.keyword}</strong></span>);
+        let formattedText = _temp.map((s, index) => <span key={index}>{s}<strong className="highlight">{sentence.keyword}</strong></span>);
         formattedText.splice(-1);
-        formattedText.push(<span>{_temp[_temp.length - 1]}</span>);
+        formattedText.push(<span key={_temp.length - 1}>{_temp[_temp.length - 1]}</span>);
 
         formattedText = <p>{formattedText}</p>;
 
@@ -210,13 +210,17 @@ class Sentences extends React.Component {
     render() {
         const sentences = this.props.sentences;
 
-        return (
-            sentences.length > 0
-                ? sentences.map((sentence) =>
-                <Sentence displayLoginBox={this.props.displayLoginBox}
+        const temp =  sentences.length > 0
+            && sentences.map((sentence) =>
+                <Sentence key={sentence.id.toString()} displayLoginBox={this.props.displayLoginBox}
                           updateSentence={this.props.updateSentence}
-                          key={sentence.id.toString()} sentence={sentence}/>)
-                : null
+                          sentence={sentence}/>);
+
+        return (
+            <div>
+                {temp}
+            </div>
+
         );
 
     }
@@ -275,7 +279,7 @@ class StoryIPR extends React.Component {
         const story = this.state.story;
 
         story.sentences.push({
-            id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 0,
+            id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 10,
             author: user,
             dateCreated: new Date(),
             upvotes: 0,
@@ -394,7 +398,7 @@ class StoryIPR extends React.Component {
 
 
     // update a story's sentence
-    updateSentence(sentence) {
+    updateSentence(sentence, showConfirm) {
 
         const story = this.state.story;
 
@@ -418,9 +422,12 @@ class StoryIPR extends React.Component {
             this.setState({story: response});
         }
 
-        this.setState({displaySavingChanges: true});
-        const _self = this;
-        setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
+        if (showConfirm) {
+            this.setState({displaySavingChanges: true});
+            const _self = this;
+            setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
+        }
+
     }
 
     // display the login box
@@ -536,6 +543,7 @@ class StoryIPR extends React.Component {
                             <Sentences sentences={this.state.story.sentences}
                                        updateSentence={this.updateSentence.bind(this)}
                                        displayLoginBox={this.displayLoginBox.bind(this)}/>
+
                             {story.status === 'IPR' &&
                             <div className="row textBox">
                                 <div className="col-12">

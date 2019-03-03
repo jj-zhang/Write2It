@@ -149,6 +149,7 @@ class Stories extends React.Component {
                     ? this.state.stories.map((story) =>
                         <Story displayLoginBox={this.props.displayLoginBox} key={story.id.toString()} story={story}/>)
                     : null}
+
                 {this.state.hasMore ?
                     <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load
                         more</button>
