@@ -11,10 +11,12 @@ class Story extends React.Component {
         this.state = {goToStoryViewClicked: false, story: this.props.story};
     }
 
+    // view a story
     goToStoryView() {
         this.setState({goToStoryViewClicked: true});
     }
 
+    // upvote a story, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const story = this.state.story;
         const user = localStorage.getItem('username');
@@ -60,7 +62,7 @@ class Story extends React.Component {
         return this.state.goToStoryViewClicked ? <Redirect to="/CreateStory"/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
-                    <button className={'upvoteButton up' + (story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')} onClick={
+                    <button className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`} onClick={
                         (e) => {
                             e.stopPropagation();
                             this.upvote.bind(this)(1);
@@ -68,7 +70,7 @@ class Story extends React.Component {
                         <i className="arrow up icon"></i>
                     </button>
                     <div className="value center">{story.upvotes}</div>
-                    <button className={'upvoteButton down' + (story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')} onClick={
+                    <button className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`} onClick={
                         (e) => {
                             e.stopPropagation();
                             this.upvote.bind(this)(-1);
@@ -108,9 +110,10 @@ class Stories extends React.Component {
         this.state = {stories: getPage(0), cursor: 1, hasMore: true};
     }
 
+    // load another page of stories
     loadMore() {
-        // get a page stories from database (this is a fake API call)
         let stories = this.state.stories;
+        // get a page stories from database (this is a fake API call)
         const newPage = getPage(this.state.cursor + 1);
 
         if (newPage.length === 0) {

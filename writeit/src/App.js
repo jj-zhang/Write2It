@@ -2,13 +2,9 @@ import React from 'react';
 import './App.css';
 import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
-
-
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
 import StoryIPR from './Story/StoryIPR';
-
-
 
 // routes
 function Main() {

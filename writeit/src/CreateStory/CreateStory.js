@@ -10,9 +10,8 @@ class CreateStory extends React.Component {
         this.state = {storyCreated: false};
     }
 
-
+    // create a new story
     createStory(e) {
-        console.log('hu');
         e.preventDefault();
 
         // fake API call to create a new story

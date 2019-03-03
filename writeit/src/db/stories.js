@@ -1,7 +1,6 @@
-// hardcoded
+// HARDCODED DATA
 // a list of all current stories as well as fake API calls to retrieve/update the
 // the stories
-// for all api calls, 0 is return is not successful. Either the data required, or 1 is returned to indicate success
 
 // source: https://swoonreads.com/read/
 
@@ -187,6 +186,9 @@ const stories = [
     }
 ];
 
+
+// get a story given its id
+// return -1 if no story with given id exists
 function getStory(id) {
     for (let i = 0; i < stories.length; i ++) {
         const story = stories[i];
@@ -199,6 +201,8 @@ function getStory(id) {
     return -1;
 }
 
+// get a page of stories (a page consists of 5 stories per page),
+// ordered based on recency and popularity
 function getPage(pageNum) {
     const _stories = stories.sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.7 + (a.upvotes >= b.upvotes) ? 1 : 0 * 0.3);
 
@@ -206,10 +210,10 @@ function getPage(pageNum) {
 
 }
 
+// update a story and return if
+// return 0 if unsuccessful
 function updateStory(story) {
-    const user = localStorage.getItem('username');
-
-    if (!user) {
+    if (!localStorage.getItem('loginStatus')) {
         return 0;
     }
 
@@ -223,12 +227,14 @@ function updateStory(story) {
     }
 }
 
+// create a new story
+// return 0 if unsuccessful
 function createStory(story) {
-    const user = localStorage.getItem('username');
-
-    if (!user) {
+    if (!localStorage.getItem('loginStatus')) {
         return 0;
     }
+
+    const user = localStorage.getItem('username');
 
     const _story =  {
             id: stories.length,
@@ -244,7 +250,7 @@ function createStory(story) {
 
     stories.push(_story);
 
-    return 1;
+    return _story;
 
 }
 

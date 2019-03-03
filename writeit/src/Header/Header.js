@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './Header.css';
-import LoginBox from '../Auth/Auth';
+import Auth from '../Auth/Auth';
+import {logout} from '../db/users';
 
 class Header extends React.Component {
     constructor(props) {
@@ -20,16 +21,12 @@ class Header extends React.Component {
 
     logout = e => {
         e.preventDefault();
-        if (localStorage.getItem('loginStatus')!==null){
-            // if the current login state is login
-            // CODE FOR SEND LOGOUT REQUEST TO SERVER
-            localStorage.removeItem("loginStatus");
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            // refresh the page
+
+        // fake API call to logout users
+        if (logout()) {
+            //refresh the page
             window.location.reload();
         }
-        
     }
 
     displayloginbox = e =>{
@@ -108,7 +105,7 @@ class Header extends React.Component {
                     </nav>
                 </div>
                 {this.state.displayLoginBox?
-                <LoginBox hide={this.closeloginbox.bind(this)}/>:null}
+                <Auth hide={this.closeloginbox.bind(this)}/>:null}
             </header>
         );
     }
