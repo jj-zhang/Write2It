@@ -100,7 +100,7 @@ class Story extends React.Component {
                 <div className="content">
                     <div className="metadata">
                         Created by <a className="author">{story.author}</a> <span
-                        className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())} ago</span>
+                        className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
 
 
                         {story.status === 'IPR' ?
@@ -193,7 +193,7 @@ class Landing extends React.Component {
 
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="offset-lg-3 col-lg-6 col-xs-12">
+                            <div className="col-lg-9 col-xs-12">
                                 <Stories displayLoginBox={this.displayLoginBox.bind(this)}/>
                             </div>
                         </div>

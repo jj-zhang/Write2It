@@ -13,9 +13,9 @@
 #story .story {
     display: flex;
     padding: 20px 50px 20px 20px;
-    background-color: #4d5154;
+    background-color: #aab3ba;
     color: white;
-    margin-bottom: 20px;
+    margin: 20px 0px 10px 0px;
 }
 
 #story .story:hover {
@@ -73,7 +73,7 @@
 }
 
 #story .story .content {
-    width: 95%;
+    width: 85%;
 }
 
 #story .story .content .metadata .author {
@@ -83,7 +83,7 @@
 }
 
 #story .story .content .metadata .inprogress {
-    color: #ff9393;
+    color: #ff5555;
 }
 
 #story .sentence {
@@ -92,7 +92,6 @@
     margin-bottom: 10px;
     background-color: white;
     display: flex;
-    margin-bottom: 10px;
 }
 
 #story .sentence:hover {
@@ -115,7 +114,7 @@
     align-content: center;
     margin-right: 10px;
     padding: 10px 0px 10px 0px;
-    width: 10%;
+    width: 5%;
     border-radius: 5px 0px 0px 5px;
     background-color: #f5f5f5;
     font-weight: bold;
@@ -149,7 +148,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 90%;
+    width: 95%;
 }
 
 #story .sentence .content .metadata {
@@ -172,3 +171,17 @@
     color: black;
 }
 
+#story .row {
+    justify-content: center;
+}
+
+#story .offset-lg-3 {
+}
+
+/*#story .sentence .upvotes .offset-lg-3 {*/
+    /*width: 15%;*/
+/*}*/
+
+/*#story .sentence .content .offset-lg-3 {*/
+    /*width: 85%;*/
+/*}*/

@@ -44,7 +44,7 @@
     align-content: center;
     margin-right: 10px;
     padding: 10px 0px 10px 0px;
-    width: 10%;
+    width: 5%;
     border-radius: 5px 0px 0px 5px;
     background-color: #f5f5f5;
     font-weight: bold;
@@ -75,7 +75,7 @@
 }
 
 #landing .story .content {
-    width: 90%
+    width: 95%
 }
 
 #landing .story .content .metadata {
@@ -92,6 +92,15 @@
 #landing .story .content .metadata .inprogress {
     color: #ff9393;
 }
+
+#landing .row {
+    justify-content: center;
+}
+
+/*#landing .offset-lg-3 {*/
+    /*margin-left: 12.5%*/
+/*}*/
+
 
 /*#landing .story .content .metadata .completed {*/
     /*color: #ff9393;*/

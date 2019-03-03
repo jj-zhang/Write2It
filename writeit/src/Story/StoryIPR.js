@@ -8,8 +8,6 @@ import './Story.css';
 
 class Sentence extends React.Component {
 
-
-
     // upvote a sentence, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const sentence = this.props.sentence;
@@ -81,10 +79,10 @@ class Sentence extends React.Component {
                 <div className="content">
                     <div className="metadata">
                         Written by <a className="author">{sentence.author}</a> <span
-                        className="date">{formatDistance(subDays(sentence.dateCreated, 3), new Date())} ago</span>
+                        className="date">{formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago</span>
                     </div>
 
-                        <p>{sentence.text}</p>
+                    <p>{sentence.text}</p>
                 </div>
             </div>
         );
@@ -163,7 +161,9 @@ class StoryIPR extends React.Component {
         // fake API call to update a story
         const response = updateStory(story);
         if (response) {
-            this.setState({story: story});
+            this.setState({story: story, error: false});
+
+
         }
 
     }
@@ -253,92 +253,81 @@ class StoryIPR extends React.Component {
 
         return (
             <div id="story" className="page">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-lg-9 col-xs">
 
-                <div className="story">
-                    <div className="upvotes">
-                        <button
-                            className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
-                            onClick={this.upvote.bind(this, 1)}>
-                            <i className="arrow up icon"></i>
-                        </button>
-                        <div className="value center">{story.upvotes}</div>
-                        <button
-                            className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
-                            onClick={this.upvote.bind(this, -1)}>
-                            <i className="arrow down icon"></i>
-                        </button>
+                            <div className="story">
+                                <div className="upvotes">
+                                    <button
+                                        className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
+                                        onClick={this.upvote.bind(this, 1)}>
+                                        <i className="arrow up icon"></i>
+                                    </button>
+                                    <div className="value center">{story.upvotes}</div>
+                                    <button
+                                        className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
+                                        onClick={this.upvote.bind(this, -1)}>
+                                        <i className="arrow down icon"></i>
+                                    </button>
 
-                    </div>
+                                </div>
 
-                    <div className="content">
-                        <div className="metadata">
-                            Created by <a className="author">{story.author}</a> <span
-                            className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
-                            ago</span>
+                                <div className="content">
+                                    <div className="metadata">
+                                        Created by <a className="author">{story.author}</a> <span
+                                        className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
+                                        ago</span>
+                                        {story.status === 'IPR' ?
+                                            <span className="status inprogress"> (in progress)</span>
+                                            :
+                                            <span className="status"> (completed)</span>
+                                        }
+                                    </div>
+
+                                    <h1 className="storyTitle">{story.title}</h1>
+                                    <p className="text">{story.description}</p>
+                                </div>
+                            </div>
 
 
+                            <Sentences sentences={this.state.story.sentences}
+                                       updateSentence={this.updateSentence.bind(this)}
+                                       displayLoginBox={this.displayLoginBox.bind(this)}/>
                             {story.status === 'IPR' ?
-                                <span className="status inprogress"> (in progress)</span>
-                                :
-                                <span className="status"> (completed)</span>
+                                <div className="row textBox">
+                                    <div className="col-12">
+                                        <h2>Contribute to this story!</h2>
+
+                                        <form className="ui form" onSubmit={this.submit.bind(this)}>
+                                            <div className="field">
+                                                <label>Your sentence must include the word <strong
+                                                    className="highlight">{this.state.keyword}</strong>.</label>
+                                                <textarea name="text" value={this.state.value}
+                                                          onChange={this.change} required>
+                                            </textarea>
+                                            </div>
+                                            <button className="ui teal submit icon button" type="submit">Submit
+                                            </button>
+
+                                            {   this.state.error ?
+                                                <div className="ui negative message">
+                                                    <div className="header">
+                                                        Your sentence must include the word <strong
+                                                        className="highlight">{this.state.keyword}</strong>.
+                                                    </div>
+                                                    <p>Please try again.</p>
+                                                </div>
+                                                : null
+                                            }
+                                        </form>
+                                    </div>
+                                </div>
+                                : null
                             }
 
                         </div>
-
-                        <h3 className="storyTitle">{story.title}</h3>
-                        <p className="text">{story.description}</p>
                     </div>
-                </div>
-
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="offset-lg-3 col-lg-6 col-xs-12">
-
-
-
-                                <Sentences sentences={this.state.story.sentences}
-                                           updateSentence={this.updateSentence.bind(this)}
-                                           displayLoginBox={this.displayLoginBox.bind(this)}/>
-
-
-                                {story.status === 'IPR' ?
-                                    <div className="row textBox">
-                                        <div className="col-12">
-                                            <h2>Contribute to this story!</h2>
-
-                                            <form className="ui form" onSubmit={this.submit.bind(this)}>
-                                                <div className="field">
-                                                    <label>Your sentence must include the word <strong
-                                                        className="highlight">{this.state.keyword}</strong>.</label>
-                                                    <textarea name="text" value={this.state.value}
-                                                              onChange={this.change} required>
-                                            </textarea>
-                                                </div>
-                                                <button className="ui teal submit icon button" type="submit">Submit
-                                                </button>
-
-                                                {   this.state.error ?
-                                                    <div className="ui negative message">
-                                                        <div className="header">
-                                                            Your sentence must include the word <strong
-                                                            className="highlight">{this.state.keyword}</strong>.
-                                                        </div>
-                                                        <p>Please try again.</p>
-                                                    </div>
-                                                    : null
-                                                }
-
-                                            </form>
-                                        </div>
-
-
-                                    </div>
-                                    : null
-                                }
-
-                        </div>
-                    </div>
-
                 </div>
 
 
