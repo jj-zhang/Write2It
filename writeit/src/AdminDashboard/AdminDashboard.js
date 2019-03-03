@@ -1,36 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react'
+import UserStatus from './UserStatus';
 
-class user extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            status: this.props.status
-        }
-    }
-
-}
-
-
-
-class AdminDashboard extends React.Component {
+class AdminDashboard extends Component {
     render() {
         return (
-            <div class="container col-lg-6 col-xs-12">
-                <div class="ui segment">
-                <div class="ui middle aligned divided list">
-                    <div class="item">
-                        <div class="right floated content">
-                            <div class="ui small blue button">Edit</div>
-                        </div>
-                        <img class="ui avatar image" src="../../public/assets/images/stevie.jpg"/>
-                        <div class="content">
-                            <div class="header">Snickerdoodle</div>
-                            Active
-                        </div>
+            <div className="container col-lg-6 col-xs-12">
+                <div className="ui segment">
+                    <div className="ui middle aligned divided list">
+                    <UserStatus/>
                     </div>
                 </div>
-                </div>
             </div>
+
         );
     }
 }
