@@ -66,14 +66,29 @@
 }
 
 
+#landing .story .upvotes .upvoted {
+    color: #7bd4ad;
+}
+
+#landing .story .upvotes .downvoted {
+    color: #ff9393;
+}
+
 #landing .story .content .metadata {
     color: grey;
     font-size: 0.8rem;
 }
 
-#landing .story .content .author {
+#landing .story .content .metadata .author {
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
-
 }
+
+#landing .story .content .metadata .inprogress {
+    color: #ff9393;
+}
+
+/*#landing .story .content .metadata .completed {*/
+    /*color: #ff9393;*/
+/*}*/

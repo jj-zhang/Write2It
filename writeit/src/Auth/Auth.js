@@ -1,5 +1,6 @@
 import React from 'react';
 import './Auth.css';
+import {authenticate} from '../db/users';
 
 class Auth extends React.Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class Auth extends React.Component {
     }
 
     // this function close the login box using the function passed in from parent Header
-    onclick = e =>{
+    onclick(e) {
         const loginbox=document.querySelector('#loginform');
         if (!loginbox.contains(e.target)){
             this.props.hide();
@@ -18,39 +19,40 @@ class Auth extends React.Component {
     }
 
     // this function handles the submit which is the login request
-    login = e =>{
+    login(e) {
         e.preventDefault();
         // get the logininfo from the form
         const username=e.target.uname.value;
         const password=e.target.psw.value;
         console.log(username+password);
+
+
         // API CALL, Sending the password and user name to server 
-        const login_success=true;
-        if (login_success){
+        const loginSuccess = authenticate({username: username, password: password});
+
+        if (loginSuccess) {
             // reply should contains the following:
             // the hash should be generated on the serverside contains the login time& userid
             // when sending request to server for other actions the hash should be contained 
             // in the header part for server to verify if the login is still valid, if the user 
             // has the permission to access his private info .. etc.
             const reply_hash = "oqidhaoihfb13131341234";
-            const reply_usertype = "admin";
-            const reply_username = "NICK NAME";
+            const reply_usertype = username;
+            const reply_username = username;
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
             window.location.reload();        
-        }else{
-            this.setState({error:true});
+        } else {
+            this.setState({error: true});
         }
-
-
     }
 
-    componentDidMount(){
+    componentDidMount() {
         document.querySelector("#auth").addEventListener('click', this.onclick);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         document.querySelector("#auth").removeEventListener('click', this.onclick);
 
     }
@@ -73,7 +75,7 @@ class Auth extends React.Component {
                                     <div className="field">
                                         <label>Password</label>
                                         <div className="ui left icon input">
-                                            <input type="text" name="psw" placeholder="Username" required/>
+                                            <input type="password" name="psw" placeholder="Password" required/>
                                             <i className="lock icon"></i>
                                         </div>
                                     </div>
@@ -83,7 +85,7 @@ class Auth extends React.Component {
                                     <p>New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign up!</a></p>
 
 
-                                    {   this.state.error?
+                                    {   this.state.error ?
                                         <div className="ui negative message">
                                             <div className="header">
                                                 Incorrect username or password.

@@ -18,7 +18,7 @@ class Header extends React.Component {
         };
     }
 
-    logout = e =>{
+    logout = e => {
         e.preventDefault();
         if (localStorage.getItem('loginStatus')!==null){
             // if the current login state is login

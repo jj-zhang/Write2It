@@ -1,6 +1,7 @@
 // hardcoded
 // a list of all current stories as well as fake API calls to retrieve/update the
 // the stories
+// for all api calls, 0 is return is not successful. Either the data required, or 1 is returned to indicate success
 
 // source: https://swoonreads.com/read/
 
@@ -16,6 +17,8 @@ const stories = [
         upvotes: 3000,
         status: 'IPR',
         description: 'Alice lost her socks and needs to find them.',
+        upvotedBy: ['user', 'admin'],
+        downvotedBy: []
     },
     {
         id: 1,
@@ -24,7 +27,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: ['user', 'admin']
     },
     {
         id: 2,
@@ -33,7 +38,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 3,
@@ -42,7 +49,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 4,
@@ -51,7 +60,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 5,
@@ -60,7 +71,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 6,
@@ -69,7 +82,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 7,
@@ -78,7 +93,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 8,
@@ -87,7 +104,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 9,
@@ -96,7 +115,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 10,
@@ -105,7 +126,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 11,
@@ -114,7 +137,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 12,
@@ -123,7 +148,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 13,
@@ -132,7 +159,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 14,
@@ -141,7 +170,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     },
     {
         id: 15,
@@ -150,7 +181,9 @@ const stories = [
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'C',
-        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.'
+        description: 'Xander and Jared are from two completly different worlds. The jock and the nerd.',
+        upvotedBy: [],
+        downvotedBy: []
     }
 ];
 
@@ -174,13 +207,45 @@ function getPage(pageNum) {
 }
 
 function updateStory(story) {
+    const user = localStorage.getItem('username');
+
+    if (!user) {
+        return 0;
+    }
+
     for (let i = 0; i < stories.length; i ++) {
         const _story = stories[i];
 
         if (_story.id === story.id ) {
             stories[i] = story;
+            return story;
         }
     }
 }
 
-export {getPage, updateStory};
+function createStory(story) {
+    const user = localStorage.getItem('username');
+
+    if (!user) {
+        return 0;
+    }
+
+    const _story =  {
+            id: stories.length,
+            title: story.title,
+            author: user,
+            dateCreated: new Date(),
+            upvotes: 0,
+            status: 'IPR',
+            description: story.description,
+            upvotedBy: [],
+            downvotedBy: []
+    };
+
+    stories.push(_story);
+
+    return 1;
+
+}
+
+export {createStory, getPage, updateStory};
