@@ -1,7 +1,6 @@
 import React from 'react';
 import './Signup.css';
 import placeholderimage from './placeholder.png';
-import { browserHistory } from 'react-router';
 
 class SignUp extends React.Component {
     constructor(props) {
