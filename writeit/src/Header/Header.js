@@ -27,15 +27,16 @@ class Header extends React.Component {
         }
     }
 
-    displayloginbox = e => {
+    displayLoginBox = e => {
         e.preventDefault();
+
         this.setState(
             {displayLoginBox: true}
-        )
+        );
 
     }
 
-    closeloginbox = () => {
+    closeLoginBox = () => {
         this.setState(
             {displayLoginBox: false}
         );
@@ -64,7 +65,7 @@ class Header extends React.Component {
                                 {
                                     this.state.userType === "guest" ?
                                         <li className="nav-item">
-                                            <div className="nav-link act-as-a" onClick={this.displayloginbox}>Login
+                                            <div className="nav-link act-as-a" onClick={this.displayLoginBox}>Login
                                             </div>
                                         </li> :
                                         null
@@ -114,7 +115,7 @@ class Header extends React.Component {
                     </nav>
                 </div>
                 {this.state.displayLoginBox ?
-                    <Auth hide={this.closeloginbox.bind(this)}/> : null}
+                    <Auth hide={this.closeLoginBox.bind(this)}/> : null}
             </header>
         );
     }

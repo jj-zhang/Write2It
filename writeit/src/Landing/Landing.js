@@ -3,6 +3,7 @@ import './Landing.css';
 import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
+import Auth from '../Auth/Auth';
 
 class Story extends React.Component {
     constructor(props) {
@@ -21,7 +22,11 @@ class Story extends React.Component {
         const story = this.state.story;
         const user = localStorage.getItem('username');
 
+
         if (!user) {
+            // user is unauthenticated so bring up the login page
+            this.props.displayLoginBox();
+
             return 0;
         }
 
@@ -56,25 +61,30 @@ class Story extends React.Component {
 
     }
 
+
     render() {
         const story = this.state.story;
 
         return this.state.goToStoryViewClicked ? <Redirect to="/CreateStory"/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
-                    <button className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`} onClick={
-                        (e) => {
-                            e.stopPropagation();
-                            this.upvote.bind(this)(1);
-                        }}>
+                    <button
+                        className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
+                        onClick={
+                            (e) => {
+                                e.stopPropagation();
+                                this.upvote.bind(this)(1);
+                            }}>
                         <i className="arrow up icon"></i>
                     </button>
                     <div className="value center">{story.upvotes}</div>
-                    <button className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`} onClick={
-                        (e) => {
-                            e.stopPropagation();
-                            this.upvote.bind(this)(-1);
-                        }}>
+                    <button
+                        className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
+                        onClick={
+                            (e) => {
+                                e.stopPropagation();
+                                this.upvote.bind(this)(-1);
+                            }}>
                         <i className="arrow down icon"></i>
                     </button>
 
@@ -92,11 +102,13 @@ class Story extends React.Component {
                             <span className="status"> (completed)</span>
                         }
 
-                        </div>
+                    </div>
 
                     <h3 className="storyTitle">{story.title}</h3>
                     <p className="text">{story.description}</p>
                 </div>
+
+
             </div>
         );
     }
@@ -131,10 +143,11 @@ class Stories extends React.Component {
             <div>
                 {this.state.stories.length > 0
                     ? this.state.stories.map((story) =>
-                        // sort stories based on recency and upvotes
-                        <Story key={story.id.toString()} story={story}/>)
+                        <Story displayLoginBox={this.props.displayLoginBox} key={story.id.toString()} story={story}/>)
                     : null}
-                {this.state.hasMore ?  <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load more</button>
+                {this.state.hasMore ?
+                    <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load
+                        more</button>
                     : <h3>No more stories to load.</h3> }
             </div>
 
@@ -144,27 +157,51 @@ class Stories extends React.Component {
 
 
 class Landing extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {displayLoginBox: false};
+    }
+
+    displayLoginBox() {
+
+        this.setState(
+            {displayLoginBox: true}
+        );
+    }
+
+    closeLoginBox() {
+        this.setState(
+            {displayLoginBox: false}
+        );
+    }
+
     render() {
         return (
-            <div id="landing" className="page">
 
-                <div className="pageTitle">
-                    <h1>Top Stories</h1>
-                </div>
+            <div>
+                <div id="landing" className="page">
 
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="offset-lg-3 col-lg-6 col-xs-12">
-                            {/*<button className="ui massive teal button" onClick={this.createStory.bind(this)}>Create Story</button>*/}
+                    <div className="pageTitle">
+                        <h1>Top Stories</h1>
+                    </div>
 
-                            {/*<button className="ui massive teal button"><Link to='/createstory'>Create Story</Link>*/}
-                            {/*</button>*/}
-                            <Stories/>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="offset-lg-3 col-lg-6 col-xs-12">
+                                <Stories displayLoginBox={this.displayLoginBox.bind(this)}/>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
+                {this.state.displayLoginBox ?
+                    <Auth hide={this.closeLoginBox.bind(this)}/> :
+                    null}
+
             </div>
+
         );
     }
 }

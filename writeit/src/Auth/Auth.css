@@ -1,10 +1,10 @@
 #auth {
+    top: 0px;
     width: 100vw;
     height: 100vh;
     z-index: 1040;
     background-color: rgba(237, 236, 243, 0.5);
     position:fixed;
-
     display: flex;
     align-items: center;
     justify-content: center;
