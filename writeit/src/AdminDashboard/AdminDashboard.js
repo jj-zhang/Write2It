@@ -10,8 +10,11 @@ class AdminDashboard extends Component {
                     <UserStatus/>
                     </div>
                 </div>
+                <div className="ui segment">
+                    <div className="userList ui middle aligned divided list">
+                    </div>
+                </div>
             </div>
-
         );
     }
 }

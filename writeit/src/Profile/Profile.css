@@ -1,1 +1,104 @@
 /*add your css here*/
+
+body {
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+@font-face {
+    font-family: lovelo;
+    src: url('Lovelo Black.otf');
+}
+
+
+.lovelo {
+	font-family: lovelo;
+}
+
+/*overriding external css*/
+i.icon {
+	margin: 0px;
+	height: auto;
+}
+
+
+a {
+	text-decoration: none !important;
+	font-weight: bold;
+	cursor: pointer;
+	color: black;
+
+}
+
+
+.navbar-brand {
+	font-family: lovelo;
+}
+
+.page {
+	margin-top: 100px;
+}
+
+.container {
+	margin-bottom: 40px;
+}
+
+
+.story .sentences .sentence {
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.story .sentences .openingSentence {
+	margin-bottom: 20px;
+}
+
+.story .sentences .sentence .upvotes {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
+	margin-right: 10px;
+}
+
+.story .sentences .sentence .upvotes .value {
+	color: grey;
+}
+
+.story .sentences .sentence .content .author {
+	cursor: pointer;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.story .sentences .sentence .content .date {
+	color: grey;
+}
+
+
+.profile .ongoingStories .story {
+	cursor: pointer;
+
+}
+
+.profile .profileInfo {
+	margin-bottom: 20px;
+
+}
+
+.teal {
+	color: teal;
+}
+
+.red {
+	color: red;
+}
+
+.adminDashboard .list {
+	max-height: 500px;
+	overflow-y: scroll;
+}
+
+.userReports .header span {
+	font-weight: normal;
+	color: grey;
+}
