@@ -102,7 +102,7 @@ class SignUp extends React.Component {
                                 <div className="field">
                                     <label>Password</label>
                                     <div className="ui left icon input">
-                                        <input type="password" name="psw" placeholder="Username" required/>
+                                        <input type="password" name="psw" placeholder="Password" required/>
                                         <i className="lock icon"></i>
                                     </div>
                                 </div>
