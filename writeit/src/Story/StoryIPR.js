@@ -82,8 +82,6 @@ class Sentence extends React.Component {
 
         const sentence = this.state.sentence;
 
-
-
         if (sentence.text.includes(sentence.keyword)) {
             sentence[e.target.name] = e.target.value;
 
@@ -91,8 +89,6 @@ class Sentence extends React.Component {
             this.props.updateSentence(sentence, true);
 
             this.setState({displayEditBox: false});
-
-
         } else {
             this.setState({error: true, sentence: this.props.sentence});
         }

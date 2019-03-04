@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import './Header.css';
 import Auth from '../Auth/Auth';
 import {logout} from '../db/users';
+import placeholderimage from '../placeholder.png';
+
 
 class Header extends React.Component {
     constructor(props) {
@@ -10,9 +12,14 @@ class Header extends React.Component {
 
         // on rendered get loginStatus from localstorage, if not stored then it must be a 
         // guest
+
+        // fake API to get profile photo
+
+
         this.state = {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
+            profilePhoto: null,
             displayLoginBox: false,
             refresh: false
         };
@@ -103,8 +110,13 @@ class Header extends React.Component {
                             {
                                 this.state.userType !== "guest" &&
                                 <span className="user navbar-text">
-                                        Logged in as: <strong>{this.state.username}</strong>
-                                    </span>
+                                    Logged in as: <Link to={`/profile/${this.state.username}`}>
+
+                                    {/*<img className="profilePic" src={this.state.profilePhoto || placeholderimage} />*/}
+
+                                    <strong>{this.state.username}</strong></Link>
+
+                                </span>
                             }
 
                         </div>

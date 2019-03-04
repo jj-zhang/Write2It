@@ -1,5 +1,4 @@
 header a,.act-as-a {
-    /*text-decoration: none;*/
     /*font-weight: bold;*/
     cursor: pointer;
     /*color: black;*/
@@ -7,10 +6,23 @@ header a,.act-as-a {
     /*cursor: pointer;*/
 }
 
+header a:hover {
+    text-decoration: none;
+}
 
-header .user {
+
+header .user a {
     color: #4d5154 !important;
 }
+
+header .profilePic {
+    background-color: #f5f5f5;
+    margin: 0 10px 0 0;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+}
+
 
 /*#loginbox{*/
     /*width: 100vw;*/

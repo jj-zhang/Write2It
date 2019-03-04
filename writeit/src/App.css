@@ -21,6 +21,7 @@ i.icon {
 
 .navbar-brand {
   font-family: lovelo;
+  line-height: 100%;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -48,12 +49,7 @@ i.icon {
   color: red;
 }
 
-.savingChangesMessage {
-  position: fixed;
-  bottom: 0;
-  width: 50%;
-  margin: 0 25% 25px 25%;
-}
+
 
 .ui.form .field>label {
   color: #4d5154;
@@ -62,4 +58,11 @@ i.icon {
 
 .row {
   justify-content: center;
+}
+
+.savingChangesMessage {
+  position: fixed !important;
+  bottom: 0;
+  width: 50%;
+  margin: 0 25% 25px 25% !important;
 }

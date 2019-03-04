@@ -1,6 +1,6 @@
 import React from 'react';
 import './Signup.css';
-import placeholderimage from './placeholder.png';
+import placeholderimage from '../placeholder.png';
 import {signup} from '../db/users';
 import {Redirect} from 'react-router';
 
@@ -51,20 +51,13 @@ class SignUp extends React.Component {
             // when sending request to server for other actions the hash should be contained 
             // in the header part for server to verify if the login is still valid, if the user 
             // has the permission to access his private info .. etc.
-            const reply_hash = "oqidhaoihfb13131341234";
-            const reply_usertype = response.userType;
-            const reply_username = response.username;
-            localStorage.setItem("loginStatus", reply_usertype);
-            localStorage.setItem("token", reply_hash);
-            localStorage.setItem("username", reply_username);
+            localStorage.setItem("loginStatus", response.userType);
+            localStorage.setItem("token", "oqidhaoihfb13131341234");
+            localStorage.setItem("username", response.username);
+            // localStorage.setItem("profilePhoto", response.profilePhoto);
+            // localStorage.setItem("dateCreated", response.dateCreated);
 
-            this.props.history.goBack();
-            //
-
-            // this.setState({goToLanding: true});
-
-            // this.props.location.state.refresh();
-
+            window.location.href='../'
         } else {
             // otherwise the reply should contains some errormessage
             const errormessage = "Username already in use, please try another one";

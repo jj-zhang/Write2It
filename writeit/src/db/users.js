@@ -39,6 +39,17 @@ function getUser(user) {
     return user.username in users ? users[user.username] : 0;
 }
 
+// update a user
+// return the user object if successful and 0 if unsuccesful
+function updateUser(user) {
+
+    if (user.username in users) {
+        users[user.username] = user;
+        return users[user.username];
+    }
+
+    return 0;
+}
 
 // register a new user
 // return the user object if successful and
@@ -72,4 +83,4 @@ function setAsAdmin(username) {
     return 0;
 }
 
-export {getUser, logout, authenticate, signup};
+export {updateUser, getUser, logout, authenticate, signup};

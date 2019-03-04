@@ -33,15 +33,15 @@
     justify-content: center
 }
 
-#iconImage{
+#signup #iconImage{
     width:150px;
     height:150px;
-    border-radius: 50%;
+    border-radius: 5px;
     /*position: relative;*/
     /*top: calc(50% - 75px);*/
 }
 
-#profileInputContainer{
+#signup #profileInputContainer{
     /*width:calc(100% - 250px);*/
     /*float: left;*/
 }
