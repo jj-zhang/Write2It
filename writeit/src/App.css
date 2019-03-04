@@ -25,7 +25,6 @@ i.icon {
 
 .navbar-light .navbar-nav .nav-link {
   color: grey;
-
 }
 
 
@@ -34,6 +33,7 @@ i.icon {
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 
 .pageTitle h1 {

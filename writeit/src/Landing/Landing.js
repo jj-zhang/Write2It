@@ -187,7 +187,7 @@ class Landing extends React.Component {
             <div>
                 <div id="landing" className="page">
 
-                    <div className="shadow pageTitle">
+                    <div className="pageTitle">
                         <h1>Top Stories</h1>
                     </div>
 

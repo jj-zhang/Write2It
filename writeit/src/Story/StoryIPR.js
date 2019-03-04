@@ -509,8 +509,7 @@ class StoryIPR extends React.Component {
                                     <div className="content">
                                         <div className="metadata">
                                             Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
-                                            className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
-                                            ago</span>
+                                            className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())} ago</span>
                                             {/*{story.status === 'IPR' ?*/}
                                                 {/*<span className="status inprogress"> (in progress)</span>*/}
                                                 {/*:*/}

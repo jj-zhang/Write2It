@@ -28,7 +28,7 @@ class CreateStory extends React.Component {
     render() {
         return this.state.storyCreated ? <Redirect to={`../story/${this.state.story.id}`}/> :
             (<div id="createStory" className="page">
-                    <div className="pageTitle shadow">
+                    <div className="pageTitle">
                         <h1>Create A Story</h1>
                     </div>
                     <div className="container">
