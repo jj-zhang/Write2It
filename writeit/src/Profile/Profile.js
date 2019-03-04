@@ -1,6 +1,4 @@
 import React from 'react';
-import {createStory} from '../db/stories';
-import {Redirect} from 'react-router';
 import {updateUser, getUser} from '../db/users';
 import {getUserOngoingStories} from '../db/stories';
 import './Profile.css';
@@ -164,7 +162,7 @@ class Profile extends React.Component {
 
                                         <div className="ui card">
                                             <div className="image">
-                                                <img src={user.profilePhoto || placeholderimage}/>
+                                                <img alt="User Icon Preview" src={user.profilePhoto || placeholderimage}/>
                                             </div>
                                             <div className="content">
                                                 <span className="header">{user.username}</span>

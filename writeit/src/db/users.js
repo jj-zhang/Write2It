@@ -72,15 +72,15 @@ function signup(credentials) {
 }
 
 
-// set a user as an admin
-// return the user object if successful and 0 if unsuccesful
-function setAsAdmin(username) {
-    if (username in users) {
-        users[username].userType = 'admin';
-        return users[username];
-    }
-
-    return 0;
-}
+// // set a user as an admin
+// // return the user object if successful and 0 if unsuccesful
+// function setAsAdmin(username) {
+//     if (username in users) {
+//         users[username].userType = 'admin';
+//         return users[username];
+//     }
+//
+//     return 0;
+// }
 
 export {updateUser, getUser, logout, authenticate, signup};

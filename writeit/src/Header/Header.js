@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import './Header.css';
 import Auth from '../Auth/Auth';
 import {logout} from '../db/users';
-import placeholderimage from '../placeholder.png';
+// import placeholderimage from '../placeholder.png';
 
 
 class Header extends React.Component {

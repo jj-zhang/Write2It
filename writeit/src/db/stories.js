@@ -305,7 +305,7 @@ function getUserOngoingStories(user) {
 function deleteStory(story) {
     const userType = localStorage.getItem('loginStatus');
 
-    if (!userType || userType != 'admin') {
+    if (!userType || userType !== 'admin') {
         return 0;
     }
 

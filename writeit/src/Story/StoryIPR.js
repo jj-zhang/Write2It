@@ -113,7 +113,7 @@ class Sentence extends React.Component {
         const userType = localStorage.getItem('loginStatus');
 
         const canEdit = sentence.author === user || userType === 'admin';
-        const canDelete = userType === 'admin';
+        // const canDelete = userType === 'admin';
 
         // format sentence
         const _temp = sentence.text.split(sentence.keyword);
