@@ -6,8 +6,9 @@ import Header from './Header/Header';
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
 import SignUp from './SignUp/Signup';
-
 import StoryIPR from './Story/StoryIPR';
+import Profile from './Profile/Profile';
+
 
 // routes
 function Main() {
@@ -17,7 +18,7 @@ function Main() {
                 <Route exact path='/' component={Landing}/>
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/adminDashboard' component={Landing}/>
-                <Route path='/userProfile' component={Landing}/>
+                <Route path='/profile/:id' component={Profile}/>
                 <Route path='/createStory' component={CreateStory}/>
                 <Route path='/story/:id' component={StoryIPR}/>
 

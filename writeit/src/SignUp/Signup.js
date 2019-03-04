@@ -58,8 +58,12 @@ class SignUp extends React.Component {
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
 
-            this.setState({goToLanding: true});
+            this.props.history.goBack();
+            //
 
+            // this.setState({goToLanding: true});
+
+            // this.props.location.state.refresh();
 
         } else {
             // otherwise the reply should contains some errormessage

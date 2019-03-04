@@ -5,13 +5,7 @@ import {Redirect} from 'react-router';
 
 class CreateStory extends React.Component {
     constructor(props) {
-
-        console.log('h');
-
-
-
         super(props);
-
         this.state = {storyCreated: false};
     }
 
@@ -24,16 +18,12 @@ class CreateStory extends React.Component {
             {
                 title: e.target.title.value,
                 description: e.target.description.value
-
             });
 
         if (response) {
             this.setState({storyCreated: true, story: response});
         }
     }
-
-
-
 
     render() {
         return this.state.storyCreated ? <Redirect to={`../story/${this.state.story.id}`}/> :

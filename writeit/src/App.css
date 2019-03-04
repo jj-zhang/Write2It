@@ -38,23 +38,6 @@
   padding-bottom: 20px;
 }
 
-
-/*html {*/
-  /*height: 100%;*/
-/*}*/
-
-/*body {*/
-  /*font-family: verdana, arial, helvetica, sans-serif;*/
-  /*height: 100%;*/
-
-/*}*/
-
-/*@font-face {*/
-  /*font-family: lovelo;*/
-  /*src: url('Lovelo Black.otf');*/
-/*}*/
-
-
 body {
   background-color: #deeeef;
   color: #4d5154;
@@ -80,53 +63,12 @@ i.icon {
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  border: 1px solid lightgrey;
 }
 
 .pageTitle h1 {
   font-weight: bold;
 }
-
-/*.story .sentences .sentence {*/
-  /*display: flex;*/
-  /*margin-bottom: 10px;*/
-/*}*/
-
-/*.story .sentences .openingSentence {*/
-  /*margin-bottom: 20px;*/
-/*}*/
-
-/*.story .sentences .sentence .upvotes {*/
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*align-items: center;*/
-  /*align-content: center;*/
-  /*margin-right: 10px;*/
-/*}*/
-
-/*.story .sentences .sentence .upvotes .value {*/
-  /*color: grey;*/
-/*}*/
-
-/*.story .sentences .sentence .content .author {*/
-  /*cursor: pointer;*/
-  /*font-weight: bold;*/
-  /*text-decoration: none;*/
-/*}*/
-
-/*.story .sentences .sentence .content .date {*/
-  /*color: grey;*/
-/*}*/
-
-
-/*.profile .ongoingStories .story {*/
-  /*cursor: pointer;*/
-
-/*}*/
-
-/*.profile .profileInfo {*/
-  /*margin-bottom: 20px;*/
-
-/*}*/
 
 .teal {
   color: teal;
@@ -136,12 +78,9 @@ i.icon {
   color: red;
 }
 
-/*.adminDashboard .list {*/
-  /*max-height: 500px;*/
-  /*overflow-y: scroll;*/
-/*}*/
-
-/*.userReports .header span {*/
-  /*font-weight: normal;*/
-  /*color: grey;*/
-/*}*/
+.savingChangesMessage {
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+  margin: 0 25% 25px 25%;
+}

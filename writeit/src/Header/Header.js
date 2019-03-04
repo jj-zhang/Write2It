@@ -14,6 +14,7 @@ class Header extends React.Component {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
             displayLoginBox: false,
+            refresh: false
         };
     }
 
@@ -42,6 +43,9 @@ class Header extends React.Component {
         );
     }
 
+    refresh() {
+        this.setState({refresh: true});
+    }
 
     render() {
         return (
@@ -71,7 +75,7 @@ class Header extends React.Component {
                                 {
                                     this.state.userType !== "guest" &&
                                     <li className="nav-item">
-                                        <Link className="nav-link" to='/userProfile'>Profile</Link>
+                                        <Link className="nav-link" to={`/profile/${this.state.username}`}>Profile</Link>
                                     </li>
                                 }
                                 {
@@ -109,6 +113,8 @@ class Header extends React.Component {
                 </div>
                 {this.state.displayLoginBox &&
                 <Auth hide={this.closeLoginBox.bind(this)}/> }
+
+
             </header>
         );
     }

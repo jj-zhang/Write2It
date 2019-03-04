@@ -17,6 +17,7 @@
     color: white;
     margin: 20px 0 10px 0;
     border-radius: 5px;
+    border: 1px solid lightgrey;
 }
 
 #story .story:hover {
@@ -205,12 +206,7 @@
     color: #4d5154;
 }
 
-#story .savingChangesMessage {
-    position: fixed;
-    bottom: 0;
-    width: 50%;
-    margin: 0 25% 25px 25%;
-}
+
 
 /*#story .sentence .upvotes .offset-lg-3 {*/
     /*width: 15%;*/

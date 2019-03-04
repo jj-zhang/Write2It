@@ -258,23 +258,19 @@ class StoryIPR extends React.Component {
 
         const user = localStorage.getItem('username');
 
-
         // check if user authenticated
         if (!user) {
             this.displayLoginBox();
             return;
         }
 
-
         const text = e.target.text.value;
-
 
         // check if text contains require keyword
         if (!text.includes(this.state.keyword)) {
             this.setState({error: true});
             return;
         }
-
 
         const story = this.state.story;
 
