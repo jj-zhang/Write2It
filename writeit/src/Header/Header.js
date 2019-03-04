@@ -51,7 +51,7 @@ class Header extends React.Component {
         return (
             <header>
                 <div className="container">
-                    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm">
                         <Link className="navbar-brand" to="/">WriteIt</Link>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

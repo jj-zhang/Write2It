@@ -76,7 +76,7 @@ class SignUp extends React.Component {
         return (this.state.goToLanding ? <Redirect to="/"/>
                 : (
                     <div id="signup">
-                        <form className="ui form" onSubmit={this.signup}>
+                        <form className="ui form shadow-lg" onSubmit={this.signup}>
                             <div className="profileIconContainer field">
                                 <img id="iconImage" alt="User Icon Preview" src={this.state.iconImageUrl}></img>
                             </div>

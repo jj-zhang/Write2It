@@ -38,7 +38,7 @@ class Profile extends React.Component {
                 <div id="profile" className="page">
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="profileInfo offset-lg-3 col-lg-3 col-xs-12">
+                            <div className="profileInfo col-lg-3 col-xs-12">
                                 <div className="ui card">
                                     <div className="image">
                                         <img src={user.profilePhoto || placeholderimage}/>

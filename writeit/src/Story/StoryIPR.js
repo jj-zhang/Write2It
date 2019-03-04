@@ -186,9 +186,8 @@ class Sentence extends React.Component {
                     ) : (
                         <div className="content">
                             <div className="metadata">
-                                Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link> <span
-                                className="date">{formatDistance(subDays(sentence.dateCreated, 0), new Date())}
-                                ago</span>
+                                Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link><span
+                                className="date"> {formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago</span>
                                 {canEdit &&
                                 <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                     <i className="edit icon"></i>
@@ -457,7 +456,7 @@ class StoryIPR extends React.Component {
                     <div className="row">
                         <div className="col-lg-9 col-xs">
 
-                            <div className="story">
+                            <div className="story shadow">
                                 <div className="upvotes">
                                     <button
                                         className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}

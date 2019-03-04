@@ -1,37 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*shared css styles*/
 
 .page {
   padding-top: 50px;
@@ -47,7 +14,6 @@ body {
   font-family: lovelo;
 }
 
-/*overriding external css*/
 i.icon {
   margin: 0;
   height: auto;
@@ -68,7 +34,6 @@ i.icon {
   padding: 20px;
   color: white;
   margin-bottom: 20px;
-  border: 1px solid lightgrey;
 }
 
 .pageTitle h1 {
@@ -93,4 +58,8 @@ i.icon {
 .ui.form .field>label {
   color: #4d5154;
 
+}
+
+.row {
+  justify-content: center;
 }

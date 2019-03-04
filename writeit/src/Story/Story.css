@@ -17,7 +17,6 @@
     color: white;
     margin: 20px 0 10px 0;
     border-radius: 5px;
-    border: 1px solid lightgrey;
 }
 
 
@@ -177,10 +176,6 @@
 #story .highlight {
     background-color: #FFFF00;
     color: #00000061;
-}
-
-#story .row {
-    justify-content: center;
 }
 
 

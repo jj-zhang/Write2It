@@ -28,12 +28,12 @@ class CreateStory extends React.Component {
     render() {
         return this.state.storyCreated ? <Redirect to={`../story/${this.state.story.id}`}/> :
             (<div id="createStory" className="page">
-                    <div className="pageTitle">
+                    <div className="pageTitle shadow">
                         <h1>Create A Story</h1>
                     </div>
                     <div className="container">
                         <div className="row">
-                            <div className="offset-lg-3 col-lg-6 col-xs-12">
+                            <div className="col-lg-6 col-xs-12">
                                 <form className="ui form" onSubmit={this.createStory.bind(this)}>
                                     <div className="field">
                                         <label>Title</label>

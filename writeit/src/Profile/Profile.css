@@ -4,6 +4,7 @@
 
 #profile h1 {
     color: #4d5154;
+    font-weight: bold;
 }
 
 /*#profile .row {*/
@@ -13,7 +14,7 @@
 #profile .story a {
     text-decoration: none;
     color: grey;
-
+    font-weight: bold;
 }
 
 
@@ -33,4 +34,20 @@
 
 #profile .story .date {
     color: grey;
+}
+
+#profile .ongoingStories {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+}
+
+#profile .ongoingStories .segments {
+    overflow-y: scroll;
+    height: 350px;
+}
+
+#profile .card {
+    height: 400px;
 }
