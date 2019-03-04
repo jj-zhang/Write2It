@@ -57,6 +57,11 @@ i.icon {
   font-family: lovelo;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  color: grey;
+
+}
+
 
 .pageTitle {
   background-color: #aab3ba;
@@ -83,4 +88,9 @@ i.icon {
   bottom: 0;
   width: 50%;
   margin: 0 25% 25px 25%;
+}
+
+.ui.form .field>label {
+  color: #4d5154;
+
 }

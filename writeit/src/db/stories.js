@@ -11,7 +11,7 @@ let stories = [
     {
         id: 0,
         title: 'Alice Lost Her Socks',
-        author: 'Halo', // change to userid later
+        author: 'user', // change to userid later
         dateCreated: new Date(2019, 3, 2),
         upvotes: 3000,
         status: 'IPR',
@@ -35,7 +35,7 @@ let stories = [
     {
         id: 1,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -48,7 +48,7 @@ let stories = [
     {
         id: 2,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -60,7 +60,7 @@ let stories = [
     {
         id: 3,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -72,7 +72,7 @@ let stories = [
     {
         id: 4,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -84,7 +84,7 @@ let stories = [
     {
         id: 5,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -96,7 +96,7 @@ let stories = [
     {
         id: 6,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -108,7 +108,7 @@ let stories = [
     {
         id: 7,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -120,7 +120,7 @@ let stories = [
     {
         id: 8,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -132,7 +132,7 @@ let stories = [
     {
         id: 9,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'user',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -144,7 +144,7 @@ let stories = [
     {
         id: 10,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -156,7 +156,7 @@ let stories = [
     {
         id: 11,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -168,7 +168,7 @@ let stories = [
     {
         id: 12,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -180,7 +180,7 @@ let stories = [
     {
         id: 13,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -192,7 +192,7 @@ let stories = [
     {
         id: 14,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -204,7 +204,7 @@ let stories = [
     {
         id: 15,
         title: 'Delicious Hope',
-        author: 'Halo',
+        author: 'admin',
         dateCreated: new Date(2019, 2, 22),
         upvotes: 32,
         status: 'IPR',
@@ -285,6 +285,21 @@ function createStory(story) {
 
 }
 
+// get a user's ongoing stories
+function getUserOngoingStories(user) {
+
+    return stories.filter((story) => {
+
+
+            const temp1 = story.author === user.username;
+
+            const temp2 = story.sentences.filter((sentence) => sentence.author === user.username)
+
+            return temp1 || temp2.length > 0;
+    });
+}
+
+
 // delete a story given an id
 // return 1 if successful and 0 if not
 function deleteStory(story) {
@@ -301,4 +316,4 @@ function deleteStory(story) {
 }
 
 
-export {deleteStory, getStory, createStory, getPage, updateStory};
+export {getUserOngoingStories, deleteStory, getStory, createStory, getPage, updateStory};

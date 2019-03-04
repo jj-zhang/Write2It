@@ -4,6 +4,7 @@ import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
 import Auth from '../Auth/Auth';
+import {Link} from 'react-router-dom';
 
 class Story extends React.Component {
     constructor(props) {
@@ -98,7 +99,7 @@ class Story extends React.Component {
 
                 <div className="content">
                     <div className="metadata">
-                        Created by <a className="author">{story.author}</a> <span
+                        Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
                         className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
 
 

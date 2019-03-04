@@ -1,14 +1,14 @@
-#landing a {
-    font-weight: normal;
-}
+/*#landing a {*/
+    /*font-weight: normal;*/
+/*}*/
 
-#landing a:hover {
-    color: black;
-}
+/*!*#landing a:hover {*!*/
+    /*!*color: black;*!*/
+/*!*}*!*/
 
-#landing Link {
-    text-decoration: none;
-}
+/*#landing Link {*/
+    /*text-decoration: none;*/
+/*}*/
 
 #landing .story {
     border: 1px solid lightgrey;
@@ -87,9 +87,10 @@
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
+    color: grey;
 }
 
-#story .story .content .metadata .author:hover {
+#landing .story .content .metadata .author:hover {
     color: #4d5154;
 }
 

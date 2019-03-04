@@ -83,15 +83,15 @@
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
+    color: grey;
 }
 
 #story .content .metadata .author:hover {
     color: #4d5154;
 }
 
-
-#story .story .content .metadata .inprogress {
-    color: #ff5555;
+#story .content .metadata .inprogress {
+    color: #ff9393;
 }
 
 #story .sentence {
@@ -179,7 +179,7 @@
 
 #story .highlight {
     background-color: #FFFF00;
-    color: black;
+    color: #00000061;
 }
 
 #story .row {

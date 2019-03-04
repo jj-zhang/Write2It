@@ -4,6 +4,7 @@ import {formatDistance, subDays} from 'date-fns';
 import Auth from '../Auth/Auth';
 import './Story.css';
 import {Redirect} from 'react-router';
+import {Link} from 'react-router-dom';
 
 
 class Sentence extends React.Component {
@@ -185,7 +186,7 @@ class Sentence extends React.Component {
                     ) : (
                         <div className="content">
                             <div className="metadata">
-                                Written by <a className="author">{sentence.author}</a> <span
+                                Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link> <span
                                 className="date">{formatDistance(subDays(sentence.dateCreated, 0), new Date())}
                                 ago</span>
                                 {canEdit &&
@@ -508,7 +509,7 @@ class StoryIPR extends React.Component {
 
                                     <div className="content">
                                         <div className="metadata">
-                                            Created by <a className="author">{story.author}</a> <span
+                                            Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
                                             className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())}
                                             ago</span>
                                             {/*{story.status === 'IPR' ?*/}
