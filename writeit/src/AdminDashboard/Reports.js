@@ -25,7 +25,7 @@ export class Reports extends Component {
                   name: "Sam",
                   category: "Bug",
                   time: "3 days ago",
-                  content: "Hello, I cannot vote to the new story."
+                  content: "Hey, I cannot vote to the new story."
                 } 
             ]
         }
