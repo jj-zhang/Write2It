@@ -1,1 +1,33 @@
-/*add your css here*/
+#auth {
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1040;
+    background-color: rgba(237, 236, 243, 0.5);
+    position:fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auth form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow:    0px 0px 22px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:         0px 0px 22px 0px rgba(0, 0, 0, 0.4);
+}
+
+#auth a {
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: dodgerblue;
+}
+
+
+#auth .signup {
+    margin-bottom: 0px;
+}

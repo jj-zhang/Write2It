@@ -5,6 +5,7 @@ import Auth from '../Auth/Auth';
 import './Story.css';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
+import Filereport from '../FileReport/FileReport';
 
 
 class Sentence extends React.Component {
@@ -14,8 +15,17 @@ class Sentence extends React.Component {
         this.state = {
             displayEditBox: false,
             error: false,
-            sentence: this.props.sentence
+            sentence: this.props.sentence,
+            displayReportPage: false
         };
+    }
+
+    closeReportBox = () =>{
+        this.setState({displayReportPage:false});
+    }
+
+    displayReportPage = () =>{
+        this.setState({displayReportPage:true});
     }
 
     // upvote a sentence, where val is 1 or -1 (representing the increment)
@@ -192,9 +202,14 @@ class Sentence extends React.Component {
                                 {canEdit &&
                                 <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                     <i className="edit icon"></i>
-                                    Edit
                                 </button>
                                 }
+                                {/* following is the report codes */}
+                                <button className="editButton" onClick={this.displayReportPage}>
+                                    <i className="exclamation circle icon"></i>
+                                </button>
+                                {this.state.displayReportPage?
+                                <Filereport user={sentence.author} sentence={sentence.keyword} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
