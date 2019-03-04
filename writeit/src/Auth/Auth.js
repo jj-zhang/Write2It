@@ -62,7 +62,7 @@ class Auth extends React.Component {
                 <div id="auth">
                     <div className="container">
                         <div className="row">
-                            <div className="offset-lg-3 col-lg-6 col-xs-12">
+                            <div className="col-lg-6 col-xs-12">
                                 <form id="loginform" className="ui form" onSubmit={this.login}>
                                     <div className="field">
                                         <label>Username</label>

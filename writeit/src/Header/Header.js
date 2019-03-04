@@ -24,7 +24,7 @@ class Header extends React.Component {
         // fake API call to logout users
         if (logout()) {
             //refresh the page
-            window.location.reload();
+            window.location.href = '../';
         }
     }
 
