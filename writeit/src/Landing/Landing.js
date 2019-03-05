@@ -1,5 +1,4 @@
 import React from 'react';
-import './Landing.css';
 import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';

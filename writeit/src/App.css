@@ -61,3 +61,92 @@ i.icon {
   width: 50%;
   margin: 0 25% 25px 25% !important;
 }
+
+#landing .story, #story .sentence {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: white;
+  cursor: pointer;
+}
+
+#landing .story:hover, #story .sentence:hover  {
+  border-color: #b3b2b2;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+#landing .story, #story .sentence {
+  display: flex;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#landing .story .content, #story .sentence .content  {
+  padding: 10px 0 10px 0;
+}
+
+
+#landing .story .content .storyTitle, #story .story .content .storyTitle {
+  font-weight: bold;
+}
+
+#landing .story .upvotes, #story .upvotes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  margin-right: 10px;
+  padding: 10px 0 10px 0;
+  width: 5%;
+  border-radius: 5px 0 0 5px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  justify-content: center;
+}
+
+#landing .story .upvotes .upvoteButton, #story .upvotes .upvoteButton {
+  color: #7e7b7b;
+  border:none;
+  background: none;
+}
+
+#landing .story .upvotes .up:hover, #story .upvotes .up:hover {
+  color: #7bd4ad;
+}
+
+
+#landing .story .upvotes .down:hover, #story .upvotes .down:hover {
+  color: #ff9393;
+}
+
+#landing .story .upvotes .upvoted, #story .upvotes .upvoted {
+  color: #7bd4ad;
+}
+
+#landing .story .upvotes .downvoted, #story .upvotes .downvoted {
+  color: #ff9393;
+}
+
+#landing .story .content, #story .content {
+  width: 95%
+}
+
+#landing .story .content .metadata, #story .content .metadata {
+  color: grey;
+  font-size: 0.8rem;
+}
+
+#landing .story .content .metadata .author, #story .content .metadata .author  {
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  color: grey;
+}
+
+#landing .story .content .metadata .author:hover, #story .content .metadata .author:hover {
+  color: #4d5154;
+}
+
+#landing .story .content .metadata .inprogress, #story .content .metadata .inprogress  {
+  color: #ff9393;
+}

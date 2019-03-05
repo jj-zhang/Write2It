@@ -1,9 +1,5 @@
 header a,.act-as-a {
-    /*font-weight: bold;*/
     cursor: pointer;
-    /*color: black;*/
-    /*margin-right: 10px;*/
-    /*cursor: pointer;*/
 }
 
 header a:hover {
@@ -22,67 +18,3 @@ header .profilePic {
     width: 30px;
     height: 30px;
 }
-
-
-/*#loginbox{*/
-    /*width: 100vw;*/
-    /*height: 100vh;*/
-    /*min-height: 768px;*/
-    /*z-index: 1040;*/
-    /*background-color: rgba(237, 236, 243, 0.5);*/
-    /*position:fixed;*/
-
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-/*}*/
-
-
-/*#loginbox form {*/
-
-
-
-    /*!*width: 60%;*!*/
-    /*!*min-width: 420px;*!*/
-    /*!*position: relative;*!*/
-    /*!*left:50vw;*!*/
-    /*!*top:50vh;*!*/
-    /*!*border: 1px solid blueviolet;*!*/
-    /*!*transform: translate(-50%, -50%);*!*/
-    /*!*border-radius: 25px;*!*/
-    /*!*overflow: hidden;*!*/
-
-
-
-/*}*/
-
-/*!*#loginbox button {*!*/
-    /*!*background-color: rgb(54, 19, 182);*!*/
-    /*!*color: white;*!*/
-    /*!*padding: 14px 20px;*!*/
-    /*!*margin: 8px 0;*!*/
-    /*!*border: none;*!*/
-    /*!*cursor: pointer;*!*/
-    /*!*width: 100%;*!*/
-/*!*}*!*/
-
-/*!*#loginbox button:hover {*!*/
-    /*!*opacity: 0.8;*!*/
-/*!*}*!*/
-
-
-/*#loginbox input[type=text], input[type=password] {*/
-    /*width: 100%;*/
-    /*padding: 12px 20px;*/
-    /*margin: 8px 0;*/
-    /*display: inline-block;*/
-    /*border: 1px solid #ccc;*/
-    /*box-sizing: border-box;*/
-  /*}*/
-
-/*.loginbox-container {*/
-    /*padding: 50px;*/
-    /*background-color: #ffffff;*/
-/*}*/
-  /**/
-  
