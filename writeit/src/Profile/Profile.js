@@ -175,14 +175,6 @@ class Profile extends React.Component {
                                 <OngoingStories ongoingStories={this.state.ongoingStories}/>
                             </div>
                         </div>
-                        <div className="row">
-                            {canEdit && !this.state.displayEditBox &&
-                                <button className="editButton ui teal button" onClick={this.toggleEditBox.bind(this)}>
-                                    <i className="edit icon"></i>
-                                    Edit profile
-                                </button>
-                            }
-                        </div>
                     </div>
 
                 </div>
