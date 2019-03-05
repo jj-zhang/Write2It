@@ -142,7 +142,7 @@ class Stories extends React.Component {
                 {this.state.hasMore ?
                     <button className="ui teal button loadMoreButton" onClick={this.loadMore.bind(this)}>Load
                         more</button>
-                    : <div class="text-center">No more stories to load.</div> }
+                    : <div className="text-center">No more stories to load.</div> }
             </div>
 
         );

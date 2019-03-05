@@ -3,6 +3,12 @@ import {createStory} from '../db/stories';
 import {Redirect} from 'react-router';
 
 // react component to render the create story view
+/*
+This is used for creating a story. 
+The user can create a story here(must fill the title and what is the story about).
+After clicking the "create story" button, the users will get a story in progress page 
+created from the user's input
+*/
 class CreateStory extends React.Component {
     constructor(props) {
         super(props);
