@@ -2,7 +2,13 @@ import React from 'react';
 import {createStory} from '../db/stories';
 import {Redirect} from 'react-router';
 
-
+// react component to render the create story view
+/*
+This is used for creating a story. 
+The user can create a story here(must fill the title and what is the story about).
+After clicking the "create story" button, the users will get a story in progress page 
+created from the user's input
+*/
 class CreateStory extends React.Component {
     constructor(props) {
         super(props);
@@ -14,11 +20,10 @@ class CreateStory extends React.Component {
         e.preventDefault();
 
         // fake API call to create a new story
-        const response = createStory(
-            {
-                title: e.target.title.value,
-                description: e.target.description.value
-            });
+        const response = createStory({
+            title: e.target.title.value,
+            description: e.target.description.value
+        });
 
         if (response) {
             this.setState({storyCreated: true, story: response});
@@ -27,7 +32,8 @@ class CreateStory extends React.Component {
 
     render() {
         return this.state.storyCreated ? <Redirect to={`../story/${this.state.story.id}`}/> :
-            (<div id="createStory" className="page">
+            (
+                <div id="createStory" className="page">
                     <div className="pageTitle">
                         <h1>Create A Story</h1>
                     </div>
@@ -44,8 +50,7 @@ class CreateStory extends React.Component {
 
                                     <div className="field">
                                         <label>What is your story about?</label>
-                                        <textarea name="description" placeholder="Write something..."
-                                                  required></textarea>
+                                        <textarea name="description" placeholder="Write something..." required/>
                                     </div>
 
                                     <button className="ui teal button" type="submit">Create

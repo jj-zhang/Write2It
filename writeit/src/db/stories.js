@@ -3,9 +3,7 @@
 // the stories
 
 // source: https://swoonreads.com/read/
-
 import {isAfter} from 'date-fns';
-
 
 let stories = [
     {
@@ -215,18 +213,16 @@ let stories = [
     }
 ];
 
-
 // get a story given its id
 // return -1 if no story with given id exists
 function getStory(story) {
-    for (let i = 0; i < stories.length; i ++) {
+    for (let i = 0; i < stories.length; i++) {
         const _story = stories[i];
 
         if (_story.id === story.id) {
             return _story;
         }
     }
-
     return -1;
 }
 
@@ -234,9 +230,7 @@ function getStory(story) {
 // ordered based on recency and popularity
 function getPage(pageNum) {
     const _stories = stories.sort((a, b) => isAfter(a.dateCreated, b.dateCreated) * 0.7 + (a.upvotes >= b.upvotes) ? 1 : 0 * 0.3);
-
     return pageNum * 5 < stories.length ? _stories.slice(pageNum * 5, Math.min(pageNum * 5 + 5, stories.length)) : [];
-
 }
 
 // update a story and return if
@@ -245,11 +239,10 @@ function updateStory(story) {
     if (!localStorage.getItem('loginStatus')) {
         return 0;
     }
-
-    for (let i = 0; i < stories.length; i ++) {
+    for (let i = 0; i < stories.length; i++) {
         const _story = stories[i];
 
-        if (_story.id === story.id ) {
+        if (_story.id === story.id) {
             stories[i] = story;
             return story;
         }
@@ -262,40 +255,32 @@ function createStory(story) {
     if (!localStorage.getItem('loginStatus')) {
         return 0;
     }
-
     const user = localStorage.getItem('username');
-
-    const _story =  {
-            id: stories.length > 0 ? stories[stories.length - 1].id + 1 : 0,
-            title: story.title,
-            author: user,
-            dateCreated: new Date(),
-            upvotes: 0,
-            status: 'IPR',
-            description: story.description,
-            upvotedBy: [],
-            downvotedBy: [],
-            sentences: []
+    const _story = {
+        id: stories.length > 0 ? stories[stories.length - 1].id + 1 : 0,
+        title: story.title,
+        author: user,
+        dateCreated: new Date(),
+        upvotes: 0,
+        status: 'IPR',
+        description: story.description,
+        upvotedBy: [],
+        downvotedBy: [],
+        sentences: []
     };
 
     stories.push(_story);
 
-
     return _story;
-
 }
 
 // get a user's ongoing stories
 function getUserOngoingStories(user) {
 
     return stories.filter((story) => {
-
-
-            const temp1 = story.author === user.username;
-
-            const temp2 = story.sentences.filter((sentence) => sentence.author === user.username)
-
-            return temp1 || temp2.length > 0;
+        const temp1 = story.author === user.username;
+        const temp2 = story.sentences.filter((sentence) => sentence.author === user.username)
+        return temp1 || temp2.length > 0;
     });
 }
 
@@ -304,16 +289,12 @@ function getUserOngoingStories(user) {
 // return 1 if successful and 0 if not
 function deleteStory(story) {
     const userType = localStorage.getItem('loginStatus');
-
     if (!userType || userType !== 'admin') {
         return 0;
     }
-
     stories =
         stories.filter((_story) => _story.id !== story.id);
-
     return 1;
 }
-
 
 export {getUserOngoingStories, deleteStory, getStory, createStory, getPage, updateStory};

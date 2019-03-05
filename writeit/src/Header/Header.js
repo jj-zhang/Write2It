@@ -14,6 +14,8 @@ class Header extends React.Component {
         // guest
 
         // fake API to get profile photo
+
+
         this.state = {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
@@ -109,8 +111,10 @@ class Header extends React.Component {
                                 this.state.userType !== "guest" &&
                                 <span className="user navbar-text">
                                    <Link to={`/profile/${this.state.username}`}>
+                                    Logged in as: <Link to={`/profile/${this.state.username}`}>
                                     {/*<img className="profilePic" src={this.state.profilePhoto || placeholderimage} />*/}
                                     Logged in as: <strong>{this.state.username}</strong></Link>
+                                    <strong>{this.state.username}</strong></Link>
                                 </span>
                             }
 
@@ -118,10 +122,7 @@ class Header extends React.Component {
 
                     </nav>
                 </div>
-                {this.state.displayLoginBox &&
-                <Auth hide={this.closeLoginBox.bind(this)}/> }
-
-
+                {this.state.displayLoginBox && <Auth hide={this.closeLoginBox.bind(this)}/>}
             </header>
         );
     }

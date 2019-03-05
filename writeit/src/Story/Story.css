@@ -19,92 +19,8 @@
     border-radius: 5px;
 }
 
-
-#story .content  {
-    padding: 10px 0 10px 0;
-}
-
-
-#story .story .content .storyTitle {
-    font-weight: bold;
-}
-
-#story .upvotes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    margin-right: 10px;
-    padding: 10px 0 10px 0;
-    width: 5%;
-    border-radius: 5px 0 0 5px;
-    font-weight: bold;
-    justify-content: center;
-}
-
-#story .upvotes .upvoteButton {
-    color: #7e7b7b;
-    border:none;
+#story .story .upvotes {
     background: none;
-}
-
-#story .upvotes .up:hover {
-    color: #7bd4ad;
-}
-
-#story .upvotes .down:hover {
-    color: #ff9393;
-}
-
-
-#story .upvotes .upvoted {
-    color: #7bd4ad;
-}
-
-#story .upvotes .downvoted {
-    color: #ff9393;
-}
-
-#story .content {
-    width: 85%;
-}
-
-#story .content .metadata {
-    color: grey;
-    font-size: 0.8rem;
-}
-
-
-#story .content .metadata .author {
-    cursor: pointer;
-    font-weight: bold;
-    text-decoration: none;
-    color: grey;
-}
-
-#story .content .metadata .author:hover {
-    color: #4d5154;
-}
-
-#story .content .metadata .inprogress {
-    color: #ff9393;
-}
-
-#story .sentence {
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: white;
-    display: flex;
-}
-
-#story .sentence:hover {
-    border-color: #b3b2b2;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-}
-
-#story .sentence .content  {
-    padding: 10px 0 10px 0;
 }
 
 #story .sentence .upvotes {
@@ -131,16 +47,13 @@
     color: #00000061;
 }
 
-
 #story .story .editBox label {
     color: white;
 }
 
-
 #story .sentence .editBox {
     width: 100%;
 }
-
 
 
 #story .sentence .editBox form {
