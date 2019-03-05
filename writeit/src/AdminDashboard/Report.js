@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 
 export class Report extends Component {
   render() {
+    const id = this.props.report.id;
     return (
         <div className="item">
             <div className="right floated content">
-              <div className="ui small blue button">Archive</div>
+              <button className="ui small blue button" onClick={this.props.archiveList.bind(this,id)}>Archive</button>
             </div>
             <div className="content">
                 <div className="header">{this.props.report.category}</div>
