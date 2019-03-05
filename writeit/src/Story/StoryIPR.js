@@ -204,11 +204,13 @@ class Sentence extends React.Component {
                                     {canEdit &&
                                     <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                         <i className="edit icon"></i>
+                                        Edit
                                     </button>
                                     }
                                     {(userType === 'admin' || userType === 'user') &&
                                         <button className="editButton" onClick={this.displayReportPage}>
                                             <i className="exclamation circle icon"></i>
+                                            Report
                                         </button>
                                     }
 

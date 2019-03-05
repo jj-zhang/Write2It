@@ -12,7 +12,7 @@ export class UserItem extends Component {
         this.state = {user: user};
     }
 
-    // toggle whether a user is suspended or not
+    // Fake API call toggle whether a user is suspended or not
     toggleSuspend() {
         const user = this.state.user;
         user.suspended = !user.suspended;

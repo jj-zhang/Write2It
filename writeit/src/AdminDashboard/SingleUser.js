@@ -10,7 +10,7 @@ export class SingleUser extends Component {
         this.state = {user: props.user};
     }
 
-    // toggle whether a user is suspended or not
+    // Fake API call to set users as admins or regular players
     toggleSuspend() {
         const user = this.state.user;
         user.userType = user.userType === 'admin' ? 'user' : 'admin';
