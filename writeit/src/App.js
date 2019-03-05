@@ -9,6 +9,7 @@ import CreateStory from './CreateStory/CreateStory';
 import SignUp from './SignUp/Signup';
 import StoryIPR from './Story/StoryIPR';
 import Profile from './Profile/Profile';
+import adminDashboard from './AdminDashboard/AdminDashboard';
 
 
 // routes
@@ -18,7 +19,7 @@ function Main() {
             <Switch>
                 <Route exact path='/' component={Landing}/>
                 <Route path='/signup' component={SignUp}/>
-                <Route path='/adminDashboard' component={Landing}/>
+                <Route path='/adminDashboard' component={adminDashboard}/>
                 <Route path='/profile/:id' component={Profile}/>
                 <Route path='/createStory' component={CreateStory}/>
                 <Route path='/story/:id' component={StoryIPR}/>
