@@ -11,7 +11,7 @@ export class UserItem extends Component {
             <img className="ui avatar image" src={this.props.user.src} alt="logo" />
             <div className="content">
                 <div className="header"> {this.props.user.name}</div>
-                <span>{this.props.user.status}</span>
+                {/* <span>{this.props.user.status}</span> */}
             </div>
         </div>
     )

@@ -45,94 +45,19 @@ class AdminDashboard extends Component {
             users: [
                 {
                     id: 1,
-                    name: "Amy",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-1.svg'
-                },
-                {
-                    id: 2,
-                    name: "John",
-                    pic: null,
-                    status:"Active",
+                    name: 'user', 
+                    password: 'user', 
+                    userType: 'user', 
+                    email: 'hi@gmail.com',
                     src: process.env.PUBLIC_URL + '/assets/images/boy-2.svg'
                 },
-                {
-                    id: 3,
-                    name: "Mike",
-                    pic: null,
-                    status:"Suspended",
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-1.svg'
-                },
-                {
-                    id: 4,
-                    name: "Henry",
-                    pic: null,
-                    status:"Suspended",
+               {
+                    id:2,
+                    name: 'admin', 
+                    password: 'admin', 
+                    userType: 'admin', 
+                    email: 'hi@gmail.com', 
                     src: process.env.PUBLIC_URL + '/assets/images/girl-2.svg'
-                },
-                {
-                    id: 5,
-                    name: "Jerry",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-3.svg'
-                },
-                {
-                    id: 6,
-                    name: "Johnson",
-                    pic: null,
-                    status:"Suspended",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-3.svg'
-                },
-                {
-                    id: 7,
-                    name: "Jack",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-4.svg'
-                },
-                {
-                    id: 8,
-                    name: "Hellen",
-                    pic: null,
-                    status:"Suspended",
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-5.svg'
-                },
-                {
-                    id: 9,
-                    name: "Smith",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-5.svg'
-                },
-                {
-                    id: 10,
-                    name: "Jane",
-                    pic: null,
-                    status:"Suspended",
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-6.svg'
-                },
-                {
-                    id: 11,
-                    name: "Joe",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-7.svg'
-                },
-                {
-                    id: 12,
-                    name: "Jimmy",
-                    pic: null,
-                    status:"Suspended",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-5.svg'
-                },
-                {
-                    id: 13,
-                    name: "Oscar",
-                    pic: null,
-                    status:"Active",
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-6.svg'
                 }
             ]
         }
@@ -160,6 +85,10 @@ class AdminDashboard extends Component {
         return this.state.reports.filter(report => report.id === idToSearch);
     }
 
+    changeStatus = (id) => {
+        
+    }
+
     render() {
         return (
             <div className="container col-lg-6 col-xs-12">
@@ -169,6 +98,7 @@ class AdminDashboard extends Component {
                     </div>
                 </div>
                 <div className="ui segment">
+                    <h2>Admin Role</h2>
                     <div className="userList ui middle aligned divided list">
                     <UsersList users={this.state.users} removeUser={this.removeUser}/>
                     </div>
