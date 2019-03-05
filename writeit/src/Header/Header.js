@@ -12,10 +12,6 @@ class Header extends React.Component {
 
         // on rendered get loginStatus from localstorage, if not stored then it must be a 
         // guest
-
-        // fake API to get profile photo
-
-
         this.state = {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
@@ -111,10 +107,8 @@ class Header extends React.Component {
                                 this.state.userType !== "guest" &&
                                 <span className="user navbar-text">
                                    <Link to={`/profile/${this.state.username}`}>
-                                    Logged in as: <Link to={`/profile/${this.state.username}`}>
                                     {/*<img className="profilePic" src={this.state.profilePhoto || placeholderimage} />*/}
-                                    Logged in as: <strong>{this.state.username}</strong></Link>
-                                    <strong>{this.state.username}</strong></Link>
+                                       Logged in as: <strong>{this.state.username}</strong></Link>
                                 </span>
                             }
 
