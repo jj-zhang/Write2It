@@ -38,6 +38,10 @@ function getUser(user) {
     return user.username in users ? users[user.username] : 0;
 }
 
+function getUsers() {
+    return users;
+}
+
 // update a user
 // return the user object if successful and 0 if unsuccesful
 function updateUser(user) {
@@ -81,4 +85,4 @@ function signup(credentials) {
 //     return 0;
 // }
 
-export {updateUser, getUser, logout, authenticate, signup};
+export {updateUser, getUser, getUsers, logout, authenticate, signup};
