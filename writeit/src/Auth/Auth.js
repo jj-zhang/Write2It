@@ -1,11 +1,14 @@
 import React from 'react';
 import './Auth.css';
 import {authenticate} from '../db/users';
+import {Link} from 'react-router-dom';
+
 
 // component to render authentication box
 class Auth extends React.Component {
     constructor(props) {
         super(props);
+        // when error is true, error message will appear
         this.state = {
             error: false
         }
@@ -25,9 +28,6 @@ class Auth extends React.Component {
         // get the logininfo from the form
         const username = e.target.uname.value;
         const password = e.target.psw.value;
-        console.log(username + password);
-
-
         // Fake API call, sending the password and user name to server
         const response = authenticate({username: username, password: password});
 
@@ -43,16 +43,16 @@ class Auth extends React.Component {
             localStorage.setItem("loginStatus", reply_usertype);
             localStorage.setItem("token", reply_hash);
             localStorage.setItem("username", reply_username);
-            window.location.reload();
+            window.location.href="../";
         } else {
             this.setState({error: true});
         }
     }
 
+    // add/remove onclick to the event listener
     componentDidMount() {
         document.querySelector("#auth").addEventListener('click', this.onclick);
     }
-
     componentWillUnmount() {
         document.querySelector("#auth").removeEventListener('click', this.onclick);
 
@@ -72,7 +72,6 @@ class Auth extends React.Component {
                                         <i className="user icon"/>
                                     </div>
                                 </div>
-
                                 <div className="field">
                                     <label>Password</label>
                                     <div className="ui left icon input">
@@ -80,11 +79,9 @@ class Auth extends React.Component {
                                         <i className="lock icon"/>
                                     </div>
                                 </div>
-
                                 <button className="ui teal button" type="submit">Login</button>
-                                <p className="signup">New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign
-                                    up!</a></p>
-
+                                <p className="signup">New to <span className="lovelo">WriteIt</span>? <Link to="/signup">Sign
+                                    up!</Link></p>
                                 {this.state.error &&
                                     <div className="ui negative message">
                                         <div className="header">
@@ -93,7 +90,6 @@ class Auth extends React.Component {
                                         <p>Please try again.</p>
                                     </div>
                                 }
-
                             </form>
                         </div>
                     </div>
@@ -101,9 +97,5 @@ class Auth extends React.Component {
             </div>
         )
     }
-
-
 }
-
-
 export default Auth;

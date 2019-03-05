@@ -3,41 +3,38 @@ import {Link} from 'react-router-dom';
 import './Header.css';
 import Auth from '../Auth/Auth';
 import {logout} from '../db/users';
-// import placeholderimage from '../placeholder.png';
+import ContactForm from '../FileReport/ContactForm'
 
-
+// component to render the header
 class Header extends React.Component {
     constructor(props) {
         super(props);
-
-        // on rendered get loginStatus from localstorage, if not stored then it must be a 
-        // guest
+        // on rendered get loginStatus from localstorage, not stored implies it is a guest
+        // default dont present any form to user
         this.state = {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
             profilePhoto: null,
             displayLoginBox: false,
-            refresh: false
+            displayContactForm: false,
         };
     }
 
     logout = e => {
         e.preventDefault();
-
         // fake API call to logout users
         if (logout()) {
-            //refresh the page
+            // refresh page back to root, rerender everything
             window.location.href = '../';
         }
     }
 
+    // the following functions simply display/hide the login boxes
     displayLoginBox = e => {
         e.preventDefault();
-
         this.setState(
             {displayLoginBox: true}
         );
-
     }
 
     closeLoginBox = () => {
@@ -46,8 +43,12 @@ class Header extends React.Component {
         );
     }
 
-    refresh() {
-        this.setState({refresh: true});
+    closeContactForm = () =>{
+        this.setState({displayContactForm: false})
+    }
+
+    displayContactForm = () =>{
+        this.setState({displayContactForm: true})
     }
 
     render() {
@@ -99,8 +100,9 @@ class Header extends React.Component {
                                         <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
                                     </li>
                                 }
-
-
+                                <li className="nav-item">
+                                    <div className="nav-link act-as-a" onClick={this.displayContactForm}>Contact Us</div>
+                                </li>
                             </ul>
 
                             {
@@ -117,6 +119,7 @@ class Header extends React.Component {
                     </nav>
                 </div>
                 {this.state.displayLoginBox && <Auth hide={this.closeLoginBox.bind(this)}/>}
+                {this.state.displayContactForm && <ContactForm hide={this.closeContactForm.bind(this)}/>}
             </header>
         );
     }

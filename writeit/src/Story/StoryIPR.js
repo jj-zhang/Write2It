@@ -5,6 +5,7 @@ import Auth from '../Auth/Auth';
 import './Story.css';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
+import Filereport from '../FileReport/FileReport';
 
 // a component to render a story's sentence
 /*
@@ -21,8 +22,17 @@ class Sentence extends React.Component {
         this.state = {
             displayEditBox: false,
             error: false,
-            sentence: this.props.sentence
+            sentence: this.props.sentence,
+            displayReportPage: false
         };
+    }
+
+    closeReportBox = () =>{
+        this.setState({displayReportPage:false});
+    }
+
+    displayReportPage = () =>{
+        this.setState({displayReportPage:true});
     }
 
     // upvote a sentence, where val is 1 or -1 (representing the increment)
@@ -194,9 +204,14 @@ class Sentence extends React.Component {
                                 {canEdit &&
                                 <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                     <i className="edit icon"></i>
-                                    Edit
                                 </button>
                                 }
+                                {/* following is the report codes */}
+                                <button className="editButton" onClick={this.displayReportPage}>
+                                    <i className="exclamation circle icon"></i>
+                                </button>
+                                {this.state.displayReportPage?
+                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
@@ -318,9 +333,10 @@ class StoryIPR extends React.Component {
             return;
         }
 
-        this.setState({displaySavingChanges: true, displayEditBox: false});
+        
         const _self = this;
         setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
+        this.setState({displaySavingChanges: true, displayEditBox: false});
     }
 
     // delete a story
@@ -332,10 +348,10 @@ class StoryIPR extends React.Component {
         if (!response) {
             return;
         }
-
-        this.setState({displayEditBox: false, displaySavingChanges: true});
         const _self = this;
         setTimeout(() => _self.setState({goToLanding: true}), 1000);
+        console.log("story deleted");
+        this.setState({displayEditBox: false, displaySavingChanges: true});
     }
 
     // upvote this story
@@ -468,9 +484,10 @@ class StoryIPR extends React.Component {
                                                               onChange={this.change.bind(this)} required>
                                                     </textarea>
                                                 </div>
+                                                {userType === "admin"?
                                                 <button className="ui red icon button"
                                                         onClick={this.deleteStory.bind(this)}>Delete
-                                                </button>
+                                                </button>:null}
                                                 <button className="ui teal submit icon button" type="submit">Save
                                                 </button>
 
