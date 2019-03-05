@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
-import { Switch, Route} from 'react-router-dom';
+
+import {Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
-
-
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
-import AdminDashBoard from './AdminDashboard/AdminDashboard';
 
+import SignUp from './SignUp/Signup';
+import StoryIPR from './Story/StoryIPR';
+import Profile from './Profile/Profile';
 
 
 // routes
@@ -16,14 +17,18 @@ function Main() {
         <main>
             <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/signup' component={Landing}/>
-                <Route path='/adminDashboard' component={AdminDashBoard}/>
-                <Route path='/userProfile' component={Landing}/>
+                <Route path='/signup' component={SignUp}/>
+                <Route path='/adminDashboard' component={Landing}/>
+                <Route path='/profile/:id' component={Profile}/>
                 <Route path='/createStory' component={CreateStory}/>
+                <Route path='/story/:id' component={StoryIPR}/>
+
             </Switch>
         </main>
     );
 }
+
+
 
 // tester
 // function placeholder() {

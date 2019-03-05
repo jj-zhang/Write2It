@@ -1,22 +1,24 @@
-#auth {
-    top: 0px;
+#signup {
     width: 100vw;
     height: 100vh;
     z-index: 1040;
     background-color: rgba(237, 236, 243, 0.5);
     position:fixed;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#auth form {
+#signup form {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
 }
 
-#auth a {
+#signup a {
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
@@ -24,6 +26,15 @@
 }
 
 
-#auth .signup {
-    margin-bottom: 0px;
+#signup .profileIconContainer{
+    margin-right: 20px;
+    width: 250px;
+    display: flex;
+    justify-content: center
+}
+
+#signup #iconImage{
+    width:150px;
+    height:150px;
+    border-radius: 5px;
 }
