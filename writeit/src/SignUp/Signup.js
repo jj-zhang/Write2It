@@ -41,12 +41,9 @@ class SignUp extends React.Component {
         // Fake API call to signup a new user
         const response = signup({username: username, password: password, email: email, profilePhoto: icon});
         if (response) {
-            // if signup success, the client side should immediately switch status to the logged in status
-            // reply should contains the following:
-            localStorage.setItem("loginStatus", response.userType);
-            localStorage.setItem("token", "oqidhaoihfb13131341234");
-            localStorage.setItem("username", response.username);
-            // rerender the page
+            // if signup success, by design the client side should immediately switch status to the logged in status
+            // & response should contains the all the login info
+            // due to inconsistent with the mimic db, for now, just refresh the page to landing, no data is actually stored
             window.location.href='../'
         } else {
             // otherwise the reply should contains some errormessage
