@@ -1,4 +1,9 @@
 /*shared css styles*/
+@font-face {
+  font-family: lovelo;
+  src: url(Lovelo_Black.otf);
+}
+
 .page {
   padding-top: 50px;
   padding-bottom: 20px;
