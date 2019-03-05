@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import placeholderimage from '../placeholder.png';
+import {Link} from 'react-router-dom';
 
 
 export class SingleUser extends Component {
@@ -16,7 +17,7 @@ export class SingleUser extends Component {
             </div>
             <img className="ui avatar image" src={placeholderimage} alt="logo" />
             <div className="content">
-                <div className="header">{this.props.user.name}</div>
+                <Link to={`/profile/${this.props.user.name}`} className="header">{this.props.user.name}</Link>
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import UserStatus from './UserStatus';
 import Reports from './Reports';
 import ArchivedReports from './ArchivedReports';
 import UsersList from './UsersList';
-
+import './AdminDashboard.css';
 
 class AdminDashboard extends Component {
     constructor(props) {
@@ -91,20 +91,8 @@ class AdminDashboard extends Component {
 
     render() {
         return (
-            <div className="container col-lg-6 col-xs-12">
-                <div className="ui segment">
-                    <div className="ui middle aligned divided list">
-                    <UserStatus users={this.state.users}/>
-                    </div>
-                </div>
-                <div className="ui segment">
-                    <h2>Admin Role</h2>
-                    <div className="userList ui middle aligned divided list">
-                    <UsersList users={this.state.users} removeUser={this.removeUser}/>
-                    </div>
-                </div>
 
-        <div id="landing" className="page">
+        <div id="adminDashboard" className="page">
             <div className="pageTitle">
                 <h1>Admin Panel</h1>
             </div>
