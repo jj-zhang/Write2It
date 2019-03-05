@@ -1,73 +1,65 @@
 import React from 'react';
 import './FileReport.css';
 
-class Auth extends React.Component {
-    constructor(props) {
-        // takes 2 props user & sentence, both as string and a hide() function
-        super(props);
-    }
+class FileReport extends React.Component {
+    // takes 2 props user & sentence, both as string and a hide() function
 
     // this function close the login box using the function passed in from parent Header
     onclick = (e)=> {
-        const loginbox=document.querySelector('#loginform');
-        if (!loginbox.contains(e.target)){
+        const form=document.querySelector('#reportform');
+        if (!form.contains(e.target)){
             this.props.hide();
         }
     }
 
-    // this function handles the submit which is the login request
+    // this function handles the submit which is the report request
     submit = (e) => {
         e.preventDefault();
-        // get the logininfo from the form
-        const reportinfo=e.target.querySelector("#reason").value;
-        const reportedID = this.props.id;
-        const reportedUser = this.props.user;
-        console.log(reportinfo+reportedUser+reportedID);
+        // // get the logininfo from the form commented out for avoid warning
+        // const reportinfo=e.target.querySelector("#reason").value;
+        // const reportedID = this.props.id;
+        // const reportedUser = this.props.user;
         // API CALL 
         // close the popup
         this.props.hide();
     }
 
     componentDidMount() {
-        document.querySelector("#auth").addEventListener('click', this.onclick);
+        document.querySelector("#filereport").addEventListener('click', this.onclick);
     }
 
     componentWillUnmount() {
-        document.querySelector("#auth").removeEventListener('click', this.onclick);
+        document.querySelector("#filereport").removeEventListener('click', this.onclick);
 
     }
 
     render() {
         return (
-                <div id="auth">
+                <div id="filereport">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6 col-xs-12">
-                                <form id="loginform" className="ui form" onSubmit={this.submit}>
+                                <form id="reportform" className="ui form" onSubmit={this.submit}>
                                     <div className="field">
-                                        <label>Post</label>
+                                        <label>Posted Sentence</label>
                                         <div className="ui left icon input">
                                             {this.props.sentence}
                                         </div>
                                     </div>
                                     <div className="field">
-                                        <label>User</label>
+                                        <label>User Name</label>
                                         <div className="ui left icon input">
                                             {this.props.user}
                                         </div>
                                     </div>
-
                                     <div className="field">
-                                        <label>Reason for Reporting</label>
+                                        <label>Reasoning</label>
                                         <div className="ui left icon input">
-                                            <textarea id="reason" rows="4" cols="50"></textarea>
+                                            <textarea id="reason" rows="5" cols="50"></textarea>
                                         </div>
                                     </div>
-
-                                    <button className="ui teal button" type="submit">REPORT</button>
+                                    <button className="ui teal button" type="submit">REPORT POST</button>
                                 </form>
-
-
                             </div>
                         </div>
                     </div>
@@ -79,4 +71,4 @@ class Auth extends React.Component {
 }
 
 
-export default Auth;
+export default FileReport;

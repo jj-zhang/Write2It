@@ -209,7 +209,7 @@ class Sentence extends React.Component {
                                     <i className="exclamation circle icon"></i>
                                 </button>
                                 {this.state.displayReportPage?
-                                <Filereport user={sentence.author} sentence={sentence.keyword} hide={this.closeReportBox} id={sentence.id}/>:null}
+                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
@@ -331,9 +331,10 @@ class StoryIPR extends React.Component {
             return;
         }
 
-        this.setState({displaySavingChanges: true, displayEditBox: false});
+        
         const _self = this;
         setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
+        this.setState({displaySavingChanges: true, displayEditBox: false});
     }
 
     // delete a story
@@ -345,10 +346,10 @@ class StoryIPR extends React.Component {
         if (!response) {
             return;
         }
-
-        this.setState({displayEditBox: false, displaySavingChanges: true});
         const _self = this;
         setTimeout(() => _self.setState({goToLanding: true}), 1000);
+        console.log("story deleted");
+        this.setState({displayEditBox: false, displaySavingChanges: true});
     }
 
     // upvote this story
@@ -481,9 +482,10 @@ class StoryIPR extends React.Component {
                                                               onChange={this.change.bind(this)} required>
                                                     </textarea>
                                                 </div>
+                                                {userType === "admin"?
                                                 <button className="ui red icon button"
                                                         onClick={this.deleteStory.bind(this)}>Delete
-                                                </button>
+                                                </button>:null}
                                                 <button className="ui teal submit icon button" type="submit">Save
                                                 </button>
 
