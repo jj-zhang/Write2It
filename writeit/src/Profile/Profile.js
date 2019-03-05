@@ -173,9 +173,17 @@ class Profile extends React.Component {
                                                 <div className="description">
                                                     {user.description || ''}
                                                 </div>
+
+                                                <div className="text-center">
+                                                    {canEdit && !this.state.displayEditBox &&
+                                                    <button className="editButton ui basic button" onClick={this.toggleEditBox.bind(this)}>
+                                                        <i className="edit icon"></i>
+                                                        Edit profile
+                                                    </button>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-
 
                                     )
                                 }
@@ -191,14 +199,7 @@ class Profile extends React.Component {
 
                         </div>
 
-                        <div className="row">
-                            {canEdit && !this.state.displayEditBox &&
-                            <button className="editButton ui teal button" onClick={this.toggleEditBox.bind(this)}>
-                                <i className="edit icon"></i>
-                                Edit profile
-                            </button>
-                            }
-                        </div>
+
                     </div>
 
                 </div>

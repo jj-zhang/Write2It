@@ -11,6 +11,8 @@ class Sentence extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('d');
+
         this.state = {
             displayEditBox: false,
             error: false,
