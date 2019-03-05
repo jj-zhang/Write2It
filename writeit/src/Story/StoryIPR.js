@@ -16,9 +16,6 @@ upvote or downvote other users' post. The admin can also delete the story.
 class Sentence extends React.Component {
     constructor(props) {
         super(props);
-
-        console.log('d');
-
         this.state = {
             displayEditBox: false,
             error: false,
@@ -201,15 +198,22 @@ class Sentence extends React.Component {
                             <div className="metadata">
                                 Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link><span
                                 className="date"> {formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago</span>
-                                {canEdit &&
-                                <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
-                                    <i className="edit icon"></i>
-                                </button>
-                                }
-                                {/* following is the report codes */}
-                                <button className="editButton" onClick={this.displayReportPage}>
-                                    <i className="exclamation circle icon"></i>
-                                </button>
+
+                                <div className="buttonGroup">
+
+                                    {canEdit &&
+                                    <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
+                                        <i className="edit icon"></i>
+                                    </button>
+                                    }
+                                    {userType === 'admin' || userType === 'user' &&
+                                        <button className="editButton" onClick={this.displayReportPage}>
+                                            <i className="exclamation circle icon"></i>
+                                        </button>
+                                    }
+
+                                </div>
+
                                 {this.state.displayReportPage?
                                 <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>

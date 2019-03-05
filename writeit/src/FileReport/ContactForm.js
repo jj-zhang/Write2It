@@ -40,15 +40,16 @@ class ContactForm extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 col-xs-12">
-                            <form id="contactform" className="ui form" onSubmit={this.submit}>
+                            <form id="contactform" className="shadow-lg ui form" onSubmit={this.submit}>
                                 <div className="field">
                                     <label>Message to admins</label>
                                     <div className="ui left icon input">
                                         <textarea id="contactmessage" rows="10" cols="60"></textarea>
                                     </div>
                                 </div>
-                                <div>You may also email us through <strong>admin@writeit.ca</strong></div>
-                                <button className="ui teal button" type="submit">Send</button>
+                                <p>You may also email us through <strong>admin@writeit.ca</strong></p>
+
+                                <button className="ui teal button" type="submit">Submit</button>
                             </form>
                         </div>
                     </div>

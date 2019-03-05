@@ -39,26 +39,26 @@ class FileReport extends React.Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6 col-xs-12">
-                                <form id="reportform" className="ui form" onSubmit={this.submit}>
+                                <form id="reportform" className="shadow-lg ui form" onSubmit={this.submit}>
                                     <div className="field">
-                                        <label>Posted Sentence</label>
+                                        <label>Sentence</label>
                                         <div className="ui left icon input">
                                             {this.props.sentence}
                                         </div>
                                     </div>
                                     <div className="field">
-                                        <label>User Name</label>
+                                        <label>Username</label>
                                         <div className="ui left icon input">
                                             {this.props.user}
                                         </div>
                                     </div>
                                     <div className="field">
-                                        <label>Reasoning</label>
+                                        <label>Message</label>
                                         <div className="ui left icon input">
                                             <textarea id="reason" rows="5" cols="50"></textarea>
                                         </div>
                                     </div>
-                                    <button className="ui teal button" type="submit">REPORT POST</button>
+                                    <button className="ui teal button" type="submit">Submit</button>
                                 </form>
                             </div>
                         </div>
