@@ -100,11 +100,13 @@ class AdminDashboard extends Component {
                 <div className="row">
                     <div className="col-lg-9 col-xs-12">
                         <div className="ui segment">
+                            <h2>User Status</h2>
                             <div className="ui middle aligned divided list">
                                 <UserStatus users={this.state.users}/>
                             </div>
                         </div>
                         <div className="ui segment">
+                            <h2>User Roles</h2>
                             <div className="userList ui middle aligned divided list">
                                 <UsersList users={this.state.users} removeUser={this.removeUser}/>
                             </div>

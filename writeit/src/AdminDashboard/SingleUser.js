@@ -4,24 +4,45 @@ import {Link} from 'react-router-dom';
 
 
 export class SingleUser extends Component {
-  
-  render() {
-    const id = this.props.user.id;
-    return (
-        <div className="item">
-            <div className="right floated content">
-               {this.props.user.name === "admin" ?
-                <button className="ui small red button" onClick={this.props.removeUser.bind(this,id)}>Remove</button>
-                : <button className="ui small blue button" onClick={this.props.removeUser.bind(this,id)}>Add</button>
-               }
+    constructor(props) {
+        super(props);
+
+        // const user = {name: this.props.user.name, suspended: false};
+
+        this.state = {user: props.user};
+    }
+
+    // toggle whether a user is suspended or not
+    toggleSuspend() {
+        const user = this.state.user;
+        user.userType = user.userType === 'admin' ? 'user' : 'admin';
+
+        this.setState({user: user});
+    }
+
+
+    render() {
+        return (
+            <div className="item">
+                <div className="right floated content">
+
+                    {this.state.user.userType === 'admin' ?
+                        <div className="ui small red button userOption" onClick={this.toggleSuspend.bind(this)}>Remove</div>
+                        :
+                        <div className="ui small blue button userOption" onClick={this.toggleSuspend.bind(this)}>Add</div>
+                    }
+
+                </div>
+                <img className="ui avatar image" src={placeholderimage} alt="logo"/>
+                <div className="content">
+
+                    <Link to={`/profile/${this.state.user.name}`} className="header">{this.state.user.name}</Link>
+
+                    <p>{this.state.user.userType === 'admin' ? 'Admin' : 'Player'}</p>
+                </div>
             </div>
-            <img className="ui avatar image" src={placeholderimage} alt="logo" />
-            <div className="content">
-                <Link to={`/profile/${this.props.user.name}`} className="header">{this.props.user.name}</Link>
-            </div>
-        </div>
-    )
-  }
+        )
+    }
 }
 
 export default SingleUser

@@ -27,9 +27,9 @@ export class UserItem extends Component {
                 <div className="right floated content">
 
                     {this.state.user.suspended ?
-                        <div className="ui small green button" onClick={this.toggleSuspend.bind(this)}>Unsuspend</div>
+                        <div className="ui small blue button userOption" onClick={this.toggleSuspend.bind(this)}>Unsuspend</div>
                         :
-                        <div className="ui small red button" onClick={this.toggleSuspend.bind(this)}>Suspend</div>
+                        <div className="ui small red button userOption" onClick={this.toggleSuspend.bind(this)}>Suspend</div>
                     }
 
                 </div>
