@@ -206,7 +206,7 @@ class Sentence extends React.Component {
                                         <i className="edit icon"></i>
                                     </button>
                                     }
-                                    {userType === 'admin' || userType === 'user' &&
+                                    {(userType === 'admin' || userType === 'user') &&
                                         <button className="editButton" onClick={this.displayReportPage}>
                                             <i className="exclamation circle icon"></i>
                                         </button>
