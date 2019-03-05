@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import './Header.css';
 import Auth from '../Auth/Auth';
 import {logout} from '../db/users';
+// import placeholderimage from '../placeholder.png';
+
 
 class Header extends React.Component {
     constructor(props) {
@@ -13,6 +15,7 @@ class Header extends React.Component {
         this.state = {
             userType: localStorage.getItem('loginStatus') || 'guest',
             username: localStorage.getItem('username'),
+            profilePhoto: null,
             displayLoginBox: false,
             refresh: false
         };
@@ -51,7 +54,7 @@ class Header extends React.Component {
         return (
             <header>
                 <div className="container">
-                    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm">
                         <Link className="navbar-brand" to="/">WriteIt</Link>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,29 +99,24 @@ class Header extends React.Component {
                                         <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
                                     </li>
                                 }
-
-
                             </ul>
 
                             {
                                 this.state.userType !== "guest" &&
                                 <span className="user navbar-text">
-                                        Logged in as: <strong>{this.state.username}</strong>
-                                    </span>
+                                    Logged in as: <Link to={`/profile/${this.state.username}`}>
+                                    {/*<img className="profilePic" src={this.state.profilePhoto || placeholderimage} />*/}
+                                    <strong>{this.state.username}</strong></Link>
+                                </span>
                             }
 
                         </div>
-
                     </nav>
                 </div>
-                {this.state.displayLoginBox &&
-                <Auth hide={this.closeLoginBox.bind(this)}/> }
-
-
+                {this.state.displayLoginBox && <Auth hide={this.closeLoginBox.bind(this)}/>}
             </header>
         );
     }
 }
-
 
 export default Header;

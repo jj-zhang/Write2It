@@ -28,7 +28,6 @@ function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
 
-
     return 1;
 }
 
@@ -39,6 +38,17 @@ function getUser(user) {
     return user.username in users ? users[user.username] : 0;
 }
 
+// update a user
+// return the user object if successful and 0 if unsuccesful
+function updateUser(user) {
+
+    if (user.username in users) {
+        users[user.username] = user;
+        return users[user.username];
+    }
+
+    return 0;
+}
 
 // register a new user
 // return the user object if successful and
@@ -56,20 +66,19 @@ function signup(credentials) {
         };
         return users[credentials.username];
     }
-
     return 0;
 }
 
 
-// set a user as an admin
-// return the user object if successful and 0 if unsuccesful
-function setAsAdmin(username) {
-    if (username in users) {
-        users[username].userType = 'admin';
-        return users[username];
-    }
+// // set a user as an admin
+// // return the user object if successful and 0 if unsuccesful
+// function setAsAdmin(username) {
+//     if (username in users) {
+//         users[username].userType = 'admin';
+//         return users[username];
+//     }
+//
+//     return 0;
+// }
 
-    return 0;
-}
-
-export {getUser, logout, authenticate, signup};
+export {updateUser, getUser, logout, authenticate, signup};

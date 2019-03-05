@@ -4,16 +4,21 @@
 
 #profile h1 {
     color: #4d5154;
+    font-weight: bold;
 }
 
-/*#profile .row {*/
-    /*justify-content: center;*/
-/*}*/
+#profile .editBox {
+    background: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
 
 #profile .story a {
     text-decoration: none;
     color: grey;
-
+    font-weight: bold;
 }
 
 
@@ -22,6 +27,14 @@
     color: #4d5154;
 }
 
+#profile .ui.card>.image {
+    background-color: #f5f5f5;
+}
+
+
+#profile .ui.card>.image img {
+    max-height: 300px;
+}
 
 #profile .story a:hover {
     color: #4d5154;
@@ -34,3 +47,35 @@
 #profile .story .date {
     color: grey;
 }
+
+#profile .ongoingStories {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+}
+
+#profile .ongoingStories .segments {
+    overflow-y: scroll;
+    height: 350px;
+}
+
+#profile .card {
+    height: 400px;
+}
+
+#profile .editButton {
+    margin-top: 20px;
+}
+
+#profile #iconImage{
+    width:150px;
+    height:150px;
+    border-radius: 5px;
+}
+
+#profile .profileIconContainer {
+    display: flex;
+    justify-content: center;
+}
+
