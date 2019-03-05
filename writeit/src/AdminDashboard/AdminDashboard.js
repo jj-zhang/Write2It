@@ -9,6 +9,7 @@ class AdminDashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            displayView: 'userReports',
             reports: [
                 {
                     id: 1,
@@ -85,7 +86,15 @@ class AdminDashboard extends Component {
         return this.state.reports.filter(report => report.id === idToSearch);
     }
 
-    changeStatus = (id) => {
+
+    // display view (user reports, user status, user roles)
+    displayView(viewName) {
+
+
+        console.log('d');
+
+        this.setState({displayView: viewName});
+
 
     }
 
@@ -97,22 +106,43 @@ class AdminDashboard extends Component {
                 <h1>Admin Panel</h1>
             </div>
             <div className="container-fluid">
+
+
                 <div className="row">
+
+
                     <div className="col-lg-9 col-xs-12">
-                        <div className="ui segment">
+
+                        <div className="ui pointing menu">
+                            <button className={`item ${this.state.displayView === 'userReports' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userReports')}>
+                                User Reports
+                                {/*<div class="ui teal left pointing label">3</div>*/}
+                            </button>
+                            <button className={`item ${this.state.displayView === 'userStatus' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userStatus')}>
+                                User Status
+                            </button>
+                            <button className={`item ${this.state.displayView === 'userRoles' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userRoles')}>
+                                User Roles
+                            </button>
+
+                        </div>
+
+                        { this.state.displayView === 'userStatus' && <div className="ui segment">
                             <h2>User Status</h2>
                             <div className="ui middle aligned divided list">
                                 <UserStatus users={this.state.users}/>
                             </div>
-                        </div>
-                        <div className="ui segment">
+                        </div> }
+
+
+                        { this.state.displayView === 'userRoles' && <div className="ui segment">
                             <h2>User Roles</h2>
                             <div className="userList ui middle aligned divided list">
                                 <UsersList users={this.state.users} removeUser={this.removeUser}/>
                             </div>
-                        </div>
+                        </div> }
 
-                        <div className="ui segment userReports">
+                        { this.state.displayView === 'userReports' && <div className="ui segment userReports">
                             <h2>New Reports</h2>
                             <div className="ui middle aligned divided list">
                                 <Reports reports={this.state.reports} archiveList={this.archiveList}/>
@@ -123,6 +153,7 @@ class AdminDashboard extends Component {
                                 <ArchivedReports archivedReports={this.state.archivedReports}/>
                             </div>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
