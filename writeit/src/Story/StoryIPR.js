@@ -7,6 +7,11 @@ import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
 
 // a component to render a story's sentence
+/*
+This is used for story in progress. 
+The user can continue the story by posting their ideas(need to include the keyword), 
+upvote or downvote other users' post. The admin can also delete the story.
+*/
 class Sentence extends React.Component {
     constructor(props) {
         super(props);
