@@ -36,7 +36,7 @@ export class UserItem extends Component {
                 <img className="ui avatar image" src={placeholderimage} alt="logo"/>
                 <div className="content">
 
-                    <Link to={`/profile/${this.state.user.name}`} className="header">{this.state.user.name}</Link>
+                    <Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>
 
                     <p>{this.state.user.suspended ? <span className="suspended">Suspended</span> : 'Active'}</p>
                 </div>

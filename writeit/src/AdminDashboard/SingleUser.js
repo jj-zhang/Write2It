@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 export class SingleUser extends Component {
     constructor(props) {
         super(props);
+
         this.state = {user: props.user};
     }
 
@@ -32,8 +33,7 @@ export class SingleUser extends Component {
                 </div>
                 <img className="ui avatar image" src={placeholderimage} alt="logo"/>
                 <div className="content">
-
-                    <Link to={`/profile/${this.state.user.name}`} className="header">{this.state.user.name}</Link>
+                    <Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>
                     <p>{this.state.user.userType === 'admin' ? 'Admin' : 'Player'}</p>
                 </div>
             </div>

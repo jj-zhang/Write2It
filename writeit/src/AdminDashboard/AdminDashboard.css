@@ -1,13 +1,17 @@
 #adminDashboard a  {
     cursor: pointer;
-    font-weight: bold;
     text-decoration: none;
     color: grey !important;
 }
 
-#adminDashboard a:hover  {
+#adminDashboard .user:hover, #adminDashboard a:hover  {
     color: #4d5154 !important;
 
+}
+
+#adminDashboard .menu .item {
+    /*background: none;*/
+    border: none;
 }
 
 #adminDashboard .suspended {
