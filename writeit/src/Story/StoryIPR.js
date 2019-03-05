@@ -6,7 +6,7 @@ import './Story.css';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
 
-
+// a component to render a story's sentence
 class Sentence extends React.Component {
     constructor(props) {
         super(props);
@@ -201,7 +201,7 @@ class Sentence extends React.Component {
     }
 }
 
-
+// component to wrap a story's sentences
 class Sentences extends React.Component {
     render() {
         const sentences = this.props.sentences;
@@ -211,20 +211,16 @@ class Sentences extends React.Component {
                 <Sentence key={sentence.id.toString()} displayLoginBox={this.props.displayLoginBox}
                           updateSentence={this.props.updateSentence}
                           sentence={sentence}/>);
-
         return (
             <div>
                 {temp}
             </div>
-
         );
 
     }
-
-
 }
 
-
+// component to render the story view
 class StoryIPR extends React.Component {
     constructor(props) {
         super(props);
@@ -246,7 +242,6 @@ class StoryIPR extends React.Component {
                 keyword: keyword
             };
         }
-
     }
 
     submit(e) {
@@ -293,29 +288,21 @@ class StoryIPR extends React.Component {
     // toggle the edit box to edit stories
     toggleEditBox(e) {
         e.preventDefault();
-
         this.setState({displayEditBox: !this.state.displayEditBox});
     }
 
     // listen to changes to state variables in the edit box form
     change(e) {
         e.preventDefault();
-
         const story = this.state.story;
-
         story[e.target.name] = e.target.value;
-
         this.setState({story: story});
     }
 
     // edit a story
     saveEdit(e) {
         e.preventDefault();
-
         const story = this.state.story;
-        //
-        // story.title = e.target.title.value;
-        // story.description = e.target.description.value;
 
         // update the database with new story upvote count (this is a fake API call)
         // fake API call to update a story
@@ -344,12 +331,10 @@ class StoryIPR extends React.Component {
         setTimeout(() => _self.setState({goToLanding: true}), 1000);
     }
 
-
     // upvote this story
     upvote(val) {
         const story = this.state.story;
         const user = localStorage.getItem('username');
-
 
         if (!user) {
             // user is unauthenticated so bring up the login page
@@ -391,7 +376,6 @@ class StoryIPR extends React.Component {
 
     // update a story's sentence
     updateSentence(sentence, showConfirm) {
-
         const story = this.state.story;
 
         if (sentence.delete) { // delete sentence
@@ -405,7 +389,6 @@ class StoryIPR extends React.Component {
                 }
             }
         }
-
 
         // fake API call to update a story
         const response = updateStory(story);
@@ -424,19 +407,13 @@ class StoryIPR extends React.Component {
 
     // display the login box
     displayLoginBox() {
-
-        this.setState(
-            {displayLoginBox: true}
-        );
+        this.setState({displayLoginBox: true});
     }
 
     // close the loginbox
     closeLoginBox() {
-        this.setState(
-            {displayLoginBox: false}
-        );
+        this.setState({displayLoginBox: false});
     }
-
 
     render() {
         const story = this.state.story;
@@ -465,23 +442,18 @@ class StoryIPR extends React.Component {
                                         onClick={this.upvote.bind(this, -1)}>
                                         <i className="arrow down icon"></i>
                                     </button>
-
                                 </div>
-
 
                                 { this.state.displayEditBox ?
                                     <div className="col-12">
                                         <div className="editBox">
-
                                             <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
-
                                                 <div className="field">
                                                     <label>Title</label>
                                                     <input type="text" name="title" value={this.state.story.title}
                                                            onChange={this.change.bind(this)} required>
                                                     </input>
                                                 </div>
-
                                                 <div className="field">
                                                     <label>What is your story about?</label>
                                                     <textarea name="description"
@@ -489,7 +461,6 @@ class StoryIPR extends React.Component {
                                                               onChange={this.change.bind(this)} required>
                                                     </textarea>
                                                 </div>
-
                                                 <button className="ui red icon button"
                                                         onClick={this.deleteStory.bind(this)}>Delete
                                                 </button>
@@ -498,10 +469,8 @@ class StoryIPR extends React.Component {
 
                                             </form>
                                         </div>
-
                                     </div>
                                     :
-
                                     <div className="content">
                                         <div className="metadata">
                                             Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
@@ -511,7 +480,6 @@ class StoryIPR extends React.Component {
                                                 {/*:*/}
                                                 {/*<span className="status"> (completed)</span>*/}
                                             {/*}*/}
-
                                             {canEdit &&
                                             <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                                 <i className="edit icon"></i>
@@ -520,15 +488,10 @@ class StoryIPR extends React.Component {
                                             }
 
                                         </div>
-
-
                                         <h1 className="storyTitle">{story.title}</h1>
                                         <p className="text">{story.description}</p>
                                     </div>
-
                                 }
-
-
                             </div>
 
                             <Sentences sentences={this.state.story.sentences}
@@ -536,53 +499,45 @@ class StoryIPR extends React.Component {
                                        displayLoginBox={this.displayLoginBox.bind(this)}/>
 
                             {story.status === 'IPR' &&
-                            <div className="row textBox">
-                                <div className="col-12">
-                                    <h2>Contribute to this story!</h2>
-
-                                    <form className="ui form" onSubmit={this.submit.bind(this)}>
-                                        <div className="field">
-                                            <label>Your sentence must include the word <strong
-                                                className="highlight">{this.state.keyword}</strong>.</label>
-                                            <textarea name="text" placeholder="Write something..."
-                                                      required>
-                                                </textarea>
-                                        </div>
-                                        <button className="ui teal submit icon button" type="submit">Submit
-                                        </button>
-
-                                        {this.state.error &&
-                                        <div className="ui negative message">
-                                            <div className="header">
-                                                Your sentence must include the word <strong
-                                                className="highlight">{this.state.keyword}</strong>.
+                                <div className="row textBox">
+                                    <div className="col-12">
+                                        <h2>Contribute to this story!</h2>
+                                        <form className="ui form" onSubmit={this.submit.bind(this)}>
+                                            <div className="field">
+                                                <label>Your sentence must include the word <strong
+                                                    className="highlight">{this.state.keyword}</strong>.</label>
+                                                <textarea name="text" placeholder="Write something..."
+                                                          required>
+                                                    </textarea>
                                             </div>
-                                            <p>Please try again.</p>
-                                        </div>
-                                        }
-                                    </form>
-                                </div>
-                            </div>
-                            }
+                                            <button className="ui teal submit icon button" type="submit">Submit
+                                            </button>
 
+                                            {this.state.error &&
+                                                <div className="ui negative message">
+                                                    <div className="header">
+                                                        Your sentence must include the word <strong
+                                                        className="highlight">{this.state.keyword}</strong>.
+                                                    </div>
+                                                    <p>Please try again.</p>
+                                                </div>
+                                            }
+                                        </form>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-
-
-                {this.state.displayLoginBox &&
-                <Auth hide={this.closeLoginBox.bind(this)}/>
-                }
-
+                {this.state.displayLoginBox && <Auth hide={this.closeLoginBox.bind(this)}/>}
                 {this.state.displaySavingChanges &&
-                <div className="savingChangesMessage ui teal message">
-                    <div className="header">
-                        Success
+                    <div className="savingChangesMessage ui teal message">
+                        <div className="header">
+                            Success
+                        </div>
+                        <p>Your changes have been saved.</p>
                     </div>
-                    <p>Your changes have been saved.</p>
-                </div>
                 }
-
             </div>
         );
     }

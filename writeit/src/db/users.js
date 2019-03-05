@@ -28,7 +28,6 @@ function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
 
-
     return 1;
 }
 
@@ -67,7 +66,6 @@ function signup(credentials) {
         };
         return users[credentials.username];
     }
-
     return 0;
 }
 

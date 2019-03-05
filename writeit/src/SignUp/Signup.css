@@ -37,11 +37,4 @@
     width:150px;
     height:150px;
     border-radius: 5px;
-    /*position: relative;*/
-    /*top: calc(50% - 75px);*/
-}
-
-#signup #profileInputContainer{
-    /*width:calc(100% - 250px);*/
-    /*float: left;*/
 }

@@ -4,7 +4,6 @@ import {getUserOngoingStories} from '../db/stories';
 import './Profile.css';
 import {formatRelative, subDays} from 'date-fns';
 import {Link} from 'react-router-dom';
-
 import placeholderimage from '../placeholder.png';
 
 // a component to render user profiles
@@ -32,7 +31,6 @@ class Profile extends React.Component {
         this.setState({displayEditBox: !this.state.displayEditBox});
     }
 
-
     // upload a new image
     updateImage(e) {
         e.preventDefault();
@@ -41,7 +39,6 @@ class Profile extends React.Component {
         let file = e.target.files[0];
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-
             const user = this.state.user;
             user.profilePhoto = reader.result;
 
@@ -65,16 +62,12 @@ class Profile extends React.Component {
     // save edit changes
     saveEdit(e) {
         e.preventDefault();
-
         const user = this.state.user;
-
         // fake API call to update a story
         const response = updateUser(user);
 
         if (response) {
-            this.setState({user: response});
-
-            this.setState({displaySavingChanges: true, displayEditBox: false});
+            this.setState({displaySavingChanges: true, displayEditBox: false, user: response});
             const _self = this;
             setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
         }
@@ -82,7 +75,6 @@ class Profile extends React.Component {
 
 
     render() {
-
         const user = this.state.user;
 
         const userType = localStorage.getItem('loginStatus');
@@ -98,13 +90,11 @@ class Profile extends React.Component {
                             <div className="profileInfo col-lg-3 col-xs-12">
                                 {
                                     this.state.displayEditBox ? (
-
                                         <div className="editBox">
                                             <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
                                                 <div className="profileIconContainer field">
                                                     <img id="iconImage" alt="User Icon Preview" src={user.profilePhoto || placeholderimage}></img>
                                                 </div>
-
                                                 <div className="profileInputContainer">
                                                     {/*<div className="field">*/}
                                                         {/*<label>Username</label>*/}
@@ -135,11 +125,7 @@ class Profile extends React.Component {
                                                             <i className="lock icon"></i>
                                                         </div>
                                                     </div>
-
-
                                                     <button className="ui teal button" type="submit">Save</button>
-
-
                                                     {/*{this.state.error &&*/}
                                                     {/*<div className="ui negative message">*/}
                                                         {/*<div className="header">*/}
@@ -150,16 +136,8 @@ class Profile extends React.Component {
                                                     {/*}*/}
                                                 </div>
                                             </form>
-
-
-
                                         </div>
-
-
-
                                     ) : (
-
-
                                         <div className="ui card">
                                             <div className="image">
                                                 <img alt="User Icon Preview" src={user.profilePhoto || placeholderimage}/>
@@ -175,63 +153,47 @@ class Profile extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     )
                                 }
-
-
                             </div>
 
                             <div className="ongoingStories col-lg-3 col-xs-12">
                                 <h1>Ongoing Stories</h1>
                                 <OngoingStories ongoingStories={this.state.ongoingStories}/>
                             </div>
-
-
                         </div>
-
                         <div className="row">
                             {canEdit && !this.state.displayEditBox &&
-                            <button className="editButton ui teal button" onClick={this.toggleEditBox.bind(this)}>
-                                <i className="edit icon"></i>
-                                Edit profile
-                            </button>
+                                <button className="editButton ui teal button" onClick={this.toggleEditBox.bind(this)}>
+                                    <i className="edit icon"></i>
+                                    Edit profile
+                                </button>
                             }
                         </div>
                     </div>
 
                 </div>
-
-
                 {this.state.displaySavingChanges &&
-                <div className="savingChangesMessage ui teal message">
-                    <div className="header">
-                        Success
+                    <div className="savingChangesMessage ui teal message">
+                        <div className="header">
+                            Success
+                        </div>
+                        <p>Your changes have been saved.</p>
                     </div>
-                    <p>Your changes have been saved.</p>
-                </div>
                 }
-
-
             </div>);
     }
 }
 
 // a component to redender a list of ongoing stories
 class OngoingStories extends React.Component {
-
     render() {
-
         let ongoingStories = this.props.ongoingStories;
-
         ongoingStories = ongoingStories.map((story) => <div key={story.id} className="story ui segment">
             <Link to={`/story/${story.id}`}>{story.title}</Link>
         </div>);
-
         return (<div className="ui segments">{ongoingStories}</div>);
     }
 }
-
 
 export default Profile;

@@ -1,5 +1,4 @@
 /*shared css styles*/
-
 .page {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -28,7 +27,6 @@ i.icon {
   color: grey;
 }
 
-
 .pageTitle {
   background-color: #aab3ba;
   padding: 20px;
@@ -49,11 +47,8 @@ i.icon {
   color: red;
 }
 
-
-
 .ui.form .field>label {
   color: #4d5154;
-
 }
 
 .row {

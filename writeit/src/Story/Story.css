@@ -19,11 +19,9 @@
     border-radius: 5px;
 }
 
-
 #story .content  {
     padding: 10px 0 10px 0;
 }
-
 
 #story .story .content .storyTitle {
     font-weight: bold;
@@ -131,16 +129,13 @@
     color: #00000061;
 }
 
-
 #story .story .editBox label {
     color: white;
 }
 
-
 #story .sentence .editBox {
     width: 100%;
 }
-
 
 
 #story .sentence .editBox form {
