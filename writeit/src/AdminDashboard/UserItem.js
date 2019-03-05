@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import placeholderimage from '../placeholder.png';
 import {Link} from 'react-router-dom';
 
-
+// React component to render the individual user.
 export class UserItem extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ export class UserItem extends Component {
         return (
             <div className="item">
                 <div className="right floated content">
-
+                {/* Switch unsuspend and suspend status. */}
                     {this.state.user.suspended ?
                         <div className="ui small blue button userOption" onClick={this.toggleSuspend.bind(this)}>Unsuspend</div>
                         :

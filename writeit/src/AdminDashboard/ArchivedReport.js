@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+// React component to render the individual archived report.
 export class ArchivedReport extends Component {
   render() {
     return (
