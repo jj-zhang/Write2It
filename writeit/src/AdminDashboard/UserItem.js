@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import pic1 from './boy-1.svg';
+import placeholderimage from '../placeholder.png';
 
 export class UserItem extends Component {
   render() {
@@ -8,7 +8,7 @@ export class UserItem extends Component {
             <div className="right floated content">
                 <div className="ui small blue button">Edit</div>
             </div>
-            <img className="ui avatar image" src={this.props.user.src} alt="logo" />
+            <img className="ui avatar image" src={placeholderimage} alt="logo" />
             <div className="content">
                 <div className="header"> {this.props.user.name}</div>
                 <span>{this.props.user.status}</span>

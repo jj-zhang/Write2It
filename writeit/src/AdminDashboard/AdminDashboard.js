@@ -162,30 +162,43 @@ class AdminDashboard extends Component {
 
     render() {
         return (
-            <div className="container col-lg-6 col-xs-12">
-                <div className="ui segment">
-                    <div className="ui middle aligned divided list">
-                    <UserStatus users={this.state.users}/>
-                    </div>
-                </div>
-                <div className="ui segment">
-                    <div className="userList ui middle aligned divided list">
-                    <UsersList users={this.state.users} removeUser={this.removeUser}/>
-                    </div>
-                </div>
 
-                <div className="ui segment userReports">
-                    <h2>New Reports</h2>
-                    <div className="ui middle aligned divided list">
-                    <Reports reports={this.state.reports} archiveList={this.archiveList}/>
-                    </div>
+        <div id="landing" className="page">
+            <div className="pageTitle">
+                <h1>Admin Panel</h1>
+            </div>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-lg-9 col-xs-12">
+                        <div className="ui segment">
+                            <div className="ui middle aligned divided list">
+                                <UserStatus users={this.state.users}/>
+                            </div>
+                        </div>
+                        <div className="ui segment">
+                            <div className="userList ui middle aligned divided list">
+                                <UsersList users={this.state.users} removeUser={this.removeUser}/>
+                            </div>
+                        </div>
 
-                    <h2>Archived Reports</h2>
-                    <div className="ui middle aligned divided list">
-                    <ArchivedReports archivedReports={this.state.archivedReports}/>
+                        <div className="ui segment userReports">
+                            <h2>New Reports</h2>
+                            <div className="ui middle aligned divided list">
+                                <Reports reports={this.state.reports} archiveList={this.archiveList}/>
+                            </div>
+
+                            <h2>Archived Reports</h2>
+                            <div className="ui middle aligned divided list">
+                                <ArchivedReports archivedReports={this.state.archivedReports}/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+
+
         );
     }
 }
