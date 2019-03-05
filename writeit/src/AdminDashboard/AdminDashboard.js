@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import UserStatus from './UserStatus';
 import Reports from './Reports';
 import ArchivedReports from './ArchivedReports';
-import UsersList from './UsersList';
+import UserRoles from './UserRoles';
 import './AdminDashboard.css';
 
 class AdminDashboard extends Component {
     constructor(props) {
         super(props);
+        // Hardcode data that records different reports.
         this.state = {
             displayView: 'userReports',
             reports: [
@@ -33,6 +34,7 @@ class AdminDashboard extends Component {
                   content: "Hey, I cannot vote to the new story."
                 } 
             ],
+            // Hardcode data that records different archived reports.
             archivedReports: [               
               {
                   id: 4,
@@ -43,29 +45,29 @@ class AdminDashboard extends Component {
               }
             ],
 
+            // Hardcode data that records different users.
             users: [
                 {
                     id: 1,
                     name: 'user',
                     password: 'user',
                     userType: 'user',
-                    email: 'hi@gmail.com',
-                    src: process.env.PUBLIC_URL + '/assets/images/boy-2.svg'
+                    email: 'hi@gmail.com'
                 },
                {
                     id:2,
                     name: 'admin',
                     password: 'admin',
                     userType: 'admin',
-                    email: 'hi@gmail.com',
-                    src: process.env.PUBLIC_URL + '/assets/images/girl-2.svg'
+                    email: 'hi@gmail.com'
                 }
             ]
         }
+        // Bind the function archiveList with the constructor.
         this.archiveList = this.archiveList.bind(this);
-        this.removeUser = this.removeUser.bind(this);
     }
 
+    // The function to archive the report list and add it to the archive report list.
     archiveList = (id) => {
         var getReport = this.state.reports.find(obj => {
             return obj.id === id;
@@ -76,6 +78,7 @@ class AdminDashboard extends Component {
       }));
     }
 
+    // React component to render the admin dashboard view
     removeUser = (id) => {
         this.setState(prevState => ({
             users: prevState.users.filter(el => el.id !== id),
@@ -97,10 +100,8 @@ class AdminDashboard extends Component {
 
 
     }
-
     render() {
         return (
-
         <div id="adminDashboard" className="page">
             <div className="pageTitle">
                 <h1>Admin Panel</h1>
@@ -138,7 +139,7 @@ class AdminDashboard extends Component {
                         { this.state.displayView === 'userRoles' && <div className="ui segment">
                             <h2>User Roles</h2>
                             <div className="userList ui middle aligned divided list">
-                                <UsersList users={this.state.users} removeUser={this.removeUser}/>
+                                <UserRoles users={this.state.users}/>
                             </div>
                         </div> }
 
@@ -158,9 +159,6 @@ class AdminDashboard extends Component {
                 </div>
             </div>
         </div>
-
-
-
         );
     }
 }

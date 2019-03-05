@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+// React component to render the individual report.
 export class Report extends Component {
   render() {
     const id = this.props.report.id;

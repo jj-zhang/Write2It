@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import placeholderimage from '../placeholder.png';
 import {Link} from 'react-router-dom';
 
-
+// React component to render the single user.
 export class SingleUser extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ export class SingleUser extends Component {
         return (
             <div className="item">
                 <div className="right floated content">
-
+                    {/* Switch unsuspend and suspend status. */}    
                     {this.state.user.userType === 'admin' ?
                         <div className="ui small red button userOption" onClick={this.toggleSuspend.bind(this)}>Remove</div>
                         :
@@ -33,9 +33,7 @@ export class SingleUser extends Component {
                 </div>
                 <img className="ui avatar image" src={placeholderimage} alt="logo"/>
                 <div className="content">
-
                     <Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>
-
                     <p>{this.state.user.userType === 'admin' ? 'Admin' : 'Player'}</p>
                 </div>
             </div>
