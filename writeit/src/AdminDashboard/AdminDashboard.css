@@ -10,3 +10,7 @@
 
 }
 
+#adminDashboard .suspended {
+    color:red;
+}
+
