@@ -5,7 +5,8 @@
 ![Node.JS](https://img.shields.io/badge/Node-v11.0-green.svg)
 [![License](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/csc309-winter-2019/team15/blob/master/LICENSE)
 
-<img width="1439" alt="profile" src="https://user-images.githubusercontent.com/24790572/53849516-2460c500-3f86-11e9-8e2e-2f43aecbcd59.png">
+
+<img width="750" alt="profile" src="https://user-images.githubusercontent.com/24790572/53849516-2460c500-3f86-11e9-8e2e-2f43aecbcd59.png">
 
 Acquiring a new language can be a challenging endeavour that often leads to individuals quitting part-way through the process of learning one. To make language-learning less daunting, this work aims to develop a fun and engaging story-writing web-game, *WriteIt*, a web application powered by React and NodeJS, supports players in learning English.
 
