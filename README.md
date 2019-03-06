@@ -1,4 +1,4 @@
-# SpeakIt
+# WriteIt
 
 ![React](https://img.shields.io/badge/React-v16.8-blue.svg)
 ![BootStrap](https://img.shields.io/badge/Bootstrap-v4.1-purple.svg)
