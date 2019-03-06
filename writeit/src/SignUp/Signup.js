@@ -18,7 +18,6 @@ class SignUp extends React.Component {
     // update the image preview on image change
     updateImage = e => {
         e.preventDefault();
-        console.log("called");
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.readAsDataURL(file)
@@ -44,6 +43,9 @@ class SignUp extends React.Component {
             // if signup success, by design the client side should immediately switch status to the logged in status
             // & response should contains the all the login info
             // due to inconsistent with the mimic db, for now, just refresh the page to landing, no data is actually stored
+            localStorage.setItem("loginStatus", response.userType);
+            localStorage.setItem("token", "oqidhaoihfb13131341234");
+            localStorage.setItem("username", response.username);
             window.location.href='../'
         } else {
             // otherwise the reply should contains some errormessage
