@@ -6,6 +6,7 @@ import './Story.css';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
 import Filereport from '../FileReport/FileReport';
+import randomWords from 'random-words';
 
 // a component to render a story's sentence
 /*
@@ -257,7 +258,7 @@ class StoryIPR extends React.Component {
         const response = getStory({id: parseInt(this.props.match.params.id)});
 
         // fake API call to get a keyword
-        const keyword = 'frog';
+        const keyword = randomWords();
 
         if (response) {
             this.state = {
