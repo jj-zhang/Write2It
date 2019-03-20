@@ -1,0 +1,46 @@
+/*shared css styles*/
+@font-face {
+    font-family: lovelo;
+    src: url(../Lovelo_Black.otf);
+}
+
+
+#about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#about h1 {
+    font-family: lovelo;
+    font-size: 10rem;
+    line-height: 5rem;
+}
+
+#about .header {
+    text-align: center;
+
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*justify-items: center;*/
+}
+
+#about p {
+    margin: 40px;
+
+}
+
+
+#about p {
+    max-width: 500px;
+}
+
+#about a {
+    text-decoration: none;
+    color: white;
+}

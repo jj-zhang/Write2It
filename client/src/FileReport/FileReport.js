@@ -64,7 +64,7 @@ class FileReport extends React.Component {
                         </div>
                     </div>
                 </div>
-        )
+        );
     }
 
 

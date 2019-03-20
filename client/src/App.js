@@ -10,6 +10,7 @@ import SignUp from './SignUp/Signup';
 import StoryIPR from './Story/StoryIPR';
 import Profile from './Profile/Profile';
 import adminDashboard from './AdminDashboard/AdminDashboard';
+import About from './About/About';
 
 
 // routes
@@ -23,6 +24,7 @@ function Main() {
                 <Route path='/profile/:id' component={Profile}/>
                 <Route path='/createStory' component={CreateStory}/>
                 <Route path='/story/:id' component={StoryIPR}/>
+                <Route path='/about' component={About}/>
 
             </Switch>
         </main>
