@@ -18,21 +18,15 @@
     font-family: lovelo;
     font-size: 10rem;
     line-height: 5rem;
+    color: black;
 }
 
 #about .header {
     text-align: center;
-
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    /*justify-items: center;*/
 }
 
 #about p {
     margin: 40px;
-
 }
 
 
