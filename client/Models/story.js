@@ -6,7 +6,7 @@ const story = new mongoose.Schema({
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "userid"
+            ref: "user"
         },
         userName: String,
         password: String,
