@@ -22,3 +22,4 @@ const story = new mongoose.Schema({
 
  // Export the model
  module.exports = mongoose.model("story", story);
+

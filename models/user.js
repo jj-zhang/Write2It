@@ -27,10 +27,6 @@ const UserSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
-    },
-    sentences: {
-        type: [mongoose.Schema.Types.ObjectId],
-        required: true
     }
 });
 
