@@ -7,13 +7,13 @@ const { User } = require('../models/user');
 module.exports = function (app) {
     app.post('/users', (req, res) => {
 
-        console.log('hi');
+        console.log(req.body);
 
         const user = new User({
-            email: 'hi',
-            password: 'hi',
-            role: 'hi',
-            status: 'hi'
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role,
+            status: req.body.status
         });
 
         // save user to the database
