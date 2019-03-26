@@ -3,17 +3,15 @@ const path = require('path');
 const { mongoose } = require('./db/mongoose');
 const bodyParser = require('body-parser');
 const app = express();
-
-
-
-//routes
-require('./routes/user')(app);
-
-
+//const { User } = require('./models/user');
 
 
 // body-parser middleware
 app.use(bodyParser.json());
+
+//routes
+require('./routes/user')(app);
+require('./routes/sentence')(app);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
