@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-require('../models/sentence');
+require('../models/sentence(unused)');
 module.exports = function (app) {
     app.post('/sentence',
         (req, res)=>{
