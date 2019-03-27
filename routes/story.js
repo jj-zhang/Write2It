@@ -1,13 +1,14 @@
 
 const mongoose = require('mongoose');
-require('../models/Story');
+const Story = require('../models/Story');
 module.exports = function (app) {
     app.post('/story',
         (req, res)=>{
             console.log(req.body);
             var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
-            const story = connection.model("story");
-            story.create(req.body.storyobject, 
+            const storySchema = connection.model('Story').schema;
+            var stories = connection.model("Story", storySchema);
+            stories.create({title:req.body.title, description:req.body.description, author:req.body.author}, 
                 (error,story)=>{
                     if (error){
                         res.status(400).send(error);
@@ -34,21 +35,26 @@ module.exports = function (app) {
             )
         })
     app.post('/upvote',(req,res) => {
-        Story.findOne({_id: req.body.storyID}, function(err, story){
+        var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
+        const storySchema = connection.model('Story').schema;
+        var stories = connection.model("Story", storySchema);
+        stories.findOne({_id: req.body.storyID}, function(err, story){
             if(err){
                 res.send(err);
-            }else if(story != NULL){
-                const vote = new upvote({
+            }else if(story != null){
+                story.upvotes.push({
                     vote:req.body.vote,
                     user:req.body.userID
                 });
-                story.upvotes.push(vote);
-                story.save().then((story) => {
+                /*story.save().then((story) => {
                     res.send(story)
                 }, (error) => {
                     res.status(400).send(error);
-                })
+                })*/
+                console.log(story);
+                res.send(story);
             }
+            connection.close();
         })
     })
 
