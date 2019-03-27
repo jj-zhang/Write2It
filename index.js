@@ -30,7 +30,7 @@ app.use(session({
 
 //routes
 require('./routes/user')(app);
-require('./routes/sentence')(app);
+require('./routes/story')(app);
 
 
 // Serve the static files from the React app

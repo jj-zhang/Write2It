@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-require('../models/Story');
+require('../models/story');
 module.exports = function (app) {
     app.post('/story',
         (req, res)=>{

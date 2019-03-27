@@ -3,16 +3,16 @@
 const mongoose = require("mongoose");
 
 const upvote = new mongoose.Schema({
-    vote: int,
+    vote: Number,
     user: {type: mongoose.Schema.Types.ObjectId, ref:"user"}
 });
 
 const sentence = new mongoose.Schema({
-    content: string,
+    content: String,
     author:{type: mongoose.Schema.Types.ObjectId, ref:"user"},
     dateModified:{type: Date, default: Date.now},
     upvotes:[upvote],
-    keyword: string
+    keyword: String
 });
 
 const story = new mongoose.Schema({
@@ -29,5 +29,5 @@ const story = new mongoose.Schema({
 
  
  // Export the model
- module.exports = mongoose.model("Story", story);
+ module.exports = mongoose.model("story", story);
 
