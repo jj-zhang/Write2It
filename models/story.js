@@ -22,9 +22,9 @@ const story = new mongoose.Schema({
     author: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
     dateCreated: {type: Date, default: Date.now},
     // upvote only has 2 field lets keep them as subdocuments instead of another reference?
-    upvotes: [upvote],
+    upvotes: {type: [upvote], default:[]},
     // sentences are only used within a story object so also create as subdocument?
-    sentences: [sentence]
+    sentences: {type: [sentence], default:[]}
  });
 
  
