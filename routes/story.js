@@ -6,13 +6,13 @@ module.exports = function (app) {
         (req, res)=>{
             console.log(req.body);
             var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
-            const sentence = connection.model("story");
-            sentence.create(req.body.sentenceobject, 
-                (error,sentence)=>{
+            const story = connection.model("story");
+            story.create(req.body.storyobject, 
+                (error,story)=>{
                     if (error){
                         res.status(400).send(error);
                     }else{
-                        res.send(sentence)
+                        res.send(story)
                     }
                     connection.close();
                 })
@@ -20,10 +20,9 @@ module.exports = function (app) {
     )
     app.get('/story',
         (req,res)=>{
-            console.log("request sentent get:");
             var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
-            const sentence = connection.model("story");
-            sentence.find(req.body.condition).exec(
+            const story = connection.model("story");
+            story.find(req.body.condition).exec(
                 (error, document)=>{
                     if (error){
                         res.status(400).send(error);
