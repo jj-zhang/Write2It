@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-require('../models/story');
+require('../models/Story');
 module.exports = function (app) {
     app.post('/story',
         (req, res)=>{
@@ -34,5 +34,23 @@ module.exports = function (app) {
                 }
             )
         })
+    app.post('/upvote',(req,res) => {
+        Story.findOne({_id: req.body.storyID}, function(err, story){
+            if(err){
+                res.send(err);
+            }else if(story != NULL){
+                const vote = new upvote({
+                    vote:req.body.vote,
+                    user:req.body.userID
+                });
+                story.upvotes.push(vote);
+                story.save().then((story) => {
+                    res.send(story)
+                }, (error) => {
+                    res.status(400).send(error);
+                })
+            }
+        })
+    })
 
 }
