@@ -1,3 +1,5 @@
+'use strict';
+
 // i think we should use normalized model for reference users, but denormalized model for reference sentences, votes, as they only
 // appears within a story
 const mongoose = require("mongoose");

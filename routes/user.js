@@ -12,10 +12,16 @@ module.exports = function (app) {
             role: req.body.role,
             status: req.body.status
         });
+
+
         console.log(user);
         // save user to the database
         user.save().then((user) => {
-            res.send(user)
+
+            console.log('hi');
+
+
+            res.send(user);
         }, (error) => {
             res.status(400).send(error);
         })
