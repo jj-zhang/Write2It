@@ -7,7 +7,7 @@ module.exports = function (app) {
             console.log(req.body);
             var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
             const story = connection.model("story");
-            story.create(req.body.storyobject, 
+            story.create(req.body, 
                 (error,story)=>{
                     if (error){
                         res.status(400).send(error);

@@ -4,22 +4,22 @@ const mongoose = require("mongoose");
 
 const upvote = new mongoose.Schema({
     vote: Number,
-    user: {type: mongoose.Schema.Types.ObjectId, ref:"user"}
+    user: {type: mongoose.Schema.Types.ObjectId, ref:"User"}
 });
 
 const sentence = new mongoose.Schema({
     content: String,
-    author:{type: mongoose.Schema.Types.ObjectId, ref:"user"},
+    author:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
     dateModified:{type: Date, default: Date.now},
     upvotes:[upvote],
     keyword: String
 });
 
 const story = new mongoose.Schema({
-    title: String,
-    description: String,
+    title: {type:String,required:true},
+    description: {type:String,required:true},
     // on rendering the web, we probably only need to display the name & save the id of the user object for later? 
-    author: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+    author: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     dateCreated: {type: Date, default: Date.now},
     // upvote only has 2 field lets keep them as subdocuments instead of another reference?
     upvotes: {type: [upvote], default:[]},
