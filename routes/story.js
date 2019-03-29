@@ -1,7 +1,8 @@
-
 const mongoose = require('mongoose');
 require('../models/story');
 module.exports = function (app) {
+
+
     app.post('/story',
         (req, res)=>{
             console.log(req.body);
@@ -18,6 +19,8 @@ module.exports = function (app) {
                 })
         }
     )
+
+
     app.get('/story',
         (req,res)=>{
             var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
@@ -33,6 +36,8 @@ module.exports = function (app) {
                 }
             )
         })
+
+
     app.post('/upvote',(req,res) => {
         Story.findOne({_id: req.body.storyID}, function(err, story){
             if(err){

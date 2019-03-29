@@ -1,6 +1,11 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 // connect to our database
-mongoose.connect('mongodb://localhost:27017/WriteItAPI', { useNewUrlParser: true});
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/WriteItAPI';
+
+//mongoose.connect('mongodb://localhost:27017/StudentAPI', { useNewUrlParser: true});
+mongoose.connect(mongoURI, { useNewUrlParser: true});
 
 module.exports = { mongoose };

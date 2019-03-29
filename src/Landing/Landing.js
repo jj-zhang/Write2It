@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
