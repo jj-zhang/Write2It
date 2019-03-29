@@ -34,20 +34,50 @@ module.exports = function (app) {
             )
         })
     app.post('/upvote',(req,res) => {
-        Story.findOne({_id: req.body.storyID}, function(err, story){
+        var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
+        const story = connection.model("story");
+        story.findOne({_id: req.body.storyID}, function(err, story){
             if(err){
                 res.send(err);
-            }else if(story != NULL){
-                const vote = new upvote({
+            }else if(story != null){
+                story.upvotes.push({
                     vote:req.body.vote,
                     user:req.body.userID
                 });
-                story.upvotes.push(vote);
-                story.save().then((story) => {
-                    res.send(story)
-                }, (error) => {
-                    res.status(400).send(error);
-                })
+                story.save(function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).send(err);
+                    }else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                    connection.close();
+                  });
+            }
+        })
+    })
+    app.post('/removeUpvote',(req,res) => {
+        var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
+        const story = connection.model("story");
+        //console.log(req);
+        story.findOne({_id: req.body.storyID}, function(err, story){
+            if(err){
+                res.send(err);
+            }else if(story != null){
+                //story.upvotes.pull({user: req.body.userID});
+                story.update({ $pull : { upvotes : { user: req.body.userID}}}, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).send(err);
+                    }else{
+                        //console.log(story);
+                        res.send(result);
+                    }
+                    connection.close();
+                  })
+                //console.log(story);
+                //res.send(story);
             }
         })
     })
