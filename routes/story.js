@@ -48,7 +48,6 @@ module.exports = function (app) {
             if(!story){
                 res.status(404).send()
             }else{
-                console.log("!!");
                 story.upvotes.push({
                     vote:req.body.vote,
                     user:req.body.userID
@@ -80,5 +79,51 @@ module.exports = function (app) {
             }
         })
     })
-
+    app.post('/upvote/:storyId/:sentenceId',(req,res) => {
+        const storyId = req.params.storyId;
+        const sentenceId = req.params.sentenceId;
+	    if (!ObjectID.isValid(storyId)) {
+		    res.status(404).send()
+        };
+        if (!ObjectID.isValid(sentenceId)) {
+		    res.status(404).send()
+	    };
+        Story.findById(storyId).then((story) => {
+            if(!story){
+                res.status(404).send()
+            }else{
+                var sentence = story.sentences.id(sentenceId);
+                sentence.upvotes.push({
+                    vote:req.body.vote,
+                    user:req.body.userID
+                });
+                story.save().then((result) => {
+                    res.send(result);
+                }, (error) => {
+                    res.status(400).send(error)
+                })
+            }
+        })
+    })
+    app.post('/removeUpvote/:storyId/:sentenceId',(req,res) => {
+        const storyId = req.params.storyId;
+        const sentenceId = req.params.sentenceId;
+	    if (!ObjectID.isValid(storyId)) {
+		    res.status(404).send()
+        };
+        if (!ObjectID.isValid(sentenceId)) {
+		    res.status(404).send()
+	    };
+        Story.findById(storyId).then((story) => {
+            if(!story){
+                res.status(404).send()
+            }else{
+                story.updateOne(
+                    {"sentences._id" : sentenceId},
+                    {"$pull": { "sentences.upvotes" : {"user":req.body.userID}}}
+                )
+                res.send(story);
+            }
+        })
+    })
 }
