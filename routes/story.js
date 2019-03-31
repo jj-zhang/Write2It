@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-require('../models/story');
+const { ObjectID } = require('mongodb')
+const { Story } = require('../models/story');
 module.exports = function (app) {
 
 
@@ -38,51 +39,44 @@ module.exports = function (app) {
         })
 
 
-    app.post('/upvote',(req,res) => {
-        var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
-        const story = connection.model("story");
-        story.findOne({_id: req.body.storyID}, function(err, story){
-            if(err){
-                res.send(err);
-            }else if(story != null){
+    app.post('/upvote/:storyId',(req,res) => {
+        const storyId = req.params.storyId;
+	    if (!ObjectID.isValid(storyId)) {
+		    res.status(404).send()
+	    };
+        Story.findById(storyId).then((story) => {
+            if(!story){
+                res.status(404).send()
+            }else{
+                console.log("!!");
                 story.upvotes.push({
                     vote:req.body.vote,
                     user:req.body.userID
                 });
-                story.save(function (err, result) {
-                    if (err) {
-                        console.log(err);
-                        res.status(400).send(err);
-                    }else{
-                        console.log(result);
-                        res.send(result);
-                    }
-                    connection.close();
-                  });
+                story.save().then((result) => {
+                    res.send(result);
+                }, (error) => {
+                    res.status(400).send(error)
+                })
             }
         })
     })
-    app.post('/removeUpvote',(req,res) => {
-        var connection = mongoose.createConnection('mongodb://localhost:27017/WriteItAPI');
-        const story = connection.model("story");
-        //console.log(req);
-        story.findOne({_id: req.body.storyID}, function(err, story){
-            if(err){
-                res.send(err);
-            }else if(story != null){
-                //story.upvotes.pull({user: req.body.userID});
+    app.post('/removeUpvote/:storyId',(req,res) => {
+        const storyId = req.params.storyId;
+	    if (!ObjectID.isValid(storyId)) {
+		    res.status(404).send()
+	    };
+        Story.findById(storyId).then((story) => {
+            if(!story){
+                res.status(404).send()
+            }else{
                 story.update({ $pull : { upvotes : { user: req.body.userID}}}, function(err, result) {
                     if (err) {
-                        console.log(err);
                         res.status(400).send(err);
                     }else{
-                        //console.log(story);
                         res.send(result);
                     }
-                    connection.close();
-                  })
-                //console.log(story);
-                //res.send(story);
+                });
             }
         })
     })
