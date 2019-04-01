@@ -71,7 +71,7 @@ class Story extends React.Component {
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
                     <button
-                        className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
+                        className={`upvoteButton up ${ true ? ' upvoted' : ''}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
@@ -79,9 +79,9 @@ class Story extends React.Component {
                             }}>
                         <i className="arrow up icon"/>
                     </button>
-                    <div className="value center">{story.upvotes}</div>
+                    <div className="value center">{story.upvoteCount}</div>
                     <button
-                        className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
+                        className={`upvoteButton down ${ true ? ' downvoted' : ''}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
@@ -94,12 +94,7 @@ class Story extends React.Component {
                 <div className="content">
                     <div className="metadata">
                         Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
-                        className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
-                        {/*{story.status === 'IPR' ?*/}
-                            {/*<span className="status inprogress"> (in progress)</span>*/}
-                            {/*:*/}
-                            {/*<span className="status"> (completed)</span>*/}
-                        {/*}*/}
+                        className="date">{formatDistance(subDays(new Date(story.createdAt), 0), new Date())} ago</span>
                     </div>
                     <h3 className="storyTitle">{story.title}</h3>
                     <p className="text">{story.description}</p>
@@ -114,22 +109,30 @@ class Stories extends React.Component {
     constructor(props) {
         super(props);
         // Fake API call to get a page stories from database
-        this.state = {stories: getPage(0), cursor: 1, hasMore: true};
+        this.state = {cursor: 1, hasMore: true, stories: []};
+    }
+
+
+    componentDidMount() {
+        this.loadMore();
     }
 
     // load another page of stories
     loadMore() {
-        let stories = this.state.stories;
-        // get a page stories from database (this is a fake API call)
-        const newPage = getPage(this.state.cursor + 1);
 
-        if (newPage.length === 0) {
-            this.setState({hasMore: false});
-        } else {
-            stories = stories.concat(newPage);
-            this.setState({stories: stories, cursor: this.state.cursor + 1});
-        }
-
+        fetch('/story/' + this.state.cursor)
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    return Promise.reject("Could not find stories");
+                }
+            })
+            .then((json) => {
+                this.setState({stories: this.state.stories.concat(json.docs), cursor: this.state.cursor + 1, hasMore: json.page < json.pages});
+            }).catch((error) => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -137,7 +140,7 @@ class Stories extends React.Component {
             <div>
                 {this.state.stories.length > 0
                     ? this.state.stories.map((story) =>
-                        <Story displayLoginBox={this.props.displayLoginBox} key={story.id.toString()} story={story}/>)
+                        <Story displayLoginBox={this.props.displayLoginBox} key={story.id} story={story}/>)
                     : null}
 
                 {this.state.hasMore ?

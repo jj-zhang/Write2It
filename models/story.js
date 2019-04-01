@@ -51,6 +51,10 @@ const story = new mongoose.Schema({
     sentences: {
         type: [sentence],
         default: []
+    },
+    upvoteCount: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true
