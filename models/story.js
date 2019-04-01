@@ -25,6 +25,10 @@ const sentence = new mongoose.Schema({
         default: Date.now
     },
     upvotes: [upvote],
+    upvoteCount: {
+        type: Number,
+        default: 0
+    },
     keyword: String
 });
 
