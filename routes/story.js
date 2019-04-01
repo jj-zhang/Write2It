@@ -73,7 +73,7 @@ module.exports = function (app) {
 
                 story.upvotes.push({
                     vote: req.body.vote,
-                    user: req.body.userID
+                    user: req.body.userId
                 });
 
 
@@ -85,6 +85,40 @@ module.exports = function (app) {
             }
         })
     });
+
+    app.delete('/upvote/:storyId/:upvoteId', (req, res) => {
+        const storyId = req.params.storyId;
+        const upvoteId = req.params.upvoteId;
+
+        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(upvoteId)) {
+            res.status(404).send()
+        }
+
+        Story.updateOne({
+            '_id': storyId,
+            'upvotes._id': upvoteId
+        }, {
+            $pull: {
+                upvotes: {
+                    _id: upvoteId
+                }
+            }
+            ,
+            $inc: {
+                upvoteCount: 1
+            }
+        }, {new: true}).then((result) => {
+
+            if (!result) {
+                res.status(404).send(error);
+            }
+
+            res.send(result);
+        }, (error) => {
+            res.status(400).send(error);
+        });
+    });
+
 
     app.post('/removeUpvote/:storyId', (req, res) => {
         const storyId = req.params.storyId;
@@ -104,8 +138,9 @@ module.exports = function (app) {
                     }
                 });
             }
-        })
+        });
     });
+
 
     app.post('/upvote/:storyId/:sentenceId', (req, res) => {
         const storyId = req.params.storyId;
@@ -136,6 +171,30 @@ module.exports = function (app) {
         })
     });
 
+
+    app.delete('/upvote/:storyId/:sentenceId', (req, res) => {
+        const storyId = req.params.storyId;
+        const sentenceId = req.params.sentenceId;
+        if (!ObjectID.isValid(storyId)) {
+            res.status(404).send()
+        }
+        if (!ObjectID.isValid(sentenceId)) {
+            res.status(404).send()
+        }
+        Story.findById(storyId).then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                story.updateOne(
+                    {"sentences._id": sentenceId},
+                    {"$pull": {"sentences.upvotes": {"user": req.body.userID}}}
+                );
+                res.send(story);
+            }
+        })
+    });
+
+
     app.post('/removeUpvote/:storyId/:sentenceId', (req, res) => {
         const storyId = req.params.storyId;
         const sentenceId = req.params.sentenceId;
@@ -156,5 +215,5 @@ module.exports = function (app) {
                 res.send(story);
             }
         })
-    })
+    });
 };
