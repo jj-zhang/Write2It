@@ -71,6 +71,8 @@ class SignUp extends React.Component {
                 }
                 else{
                     //console.log("success");
+                    localStorage.setItem("loginStatus", res.user.role);
+                    localStorage.setItem("username", res.user.name);
                     window.location.href='../';
                 }
             }

@@ -23,10 +23,15 @@ class Header extends React.Component {
     logout = e => {
         e.preventDefault();
         // fake API call to logout users
-        if (logout()) {
-            // refresh page back to root, rerender everything
-            window.location.href = '../';
-        }
+        // refresh page back to root, rerender everything
+        localStorage.removeItem('username');
+        localStorage.removeItem('loginStatus');
+        const request = new Request("/logout", {
+            method: 'get', 
+        });
+        fetch(request)
+        window.location.href = '../';
+    
     }
 
     // the following functions simply display/hide the login boxes

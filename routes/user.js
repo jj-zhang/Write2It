@@ -15,7 +15,9 @@ module.exports = function (app) {
         });
         // save user to the database
         user.save().then((user) => {
-            res.send({error:false});
+            //
+            req.session.user = user._id;
+            res.send({error:false, user:user});
         }, (error) => {
             // handle duplicate username
             if(error.code == 11000){
@@ -39,20 +41,20 @@ module.exports = function (app) {
                 res.status(401).send();
             } else {
                 req.session.user = user._id;
-                req.session.name = user.name;
-                res.send({user: req.session.user});
+                res.send({usertype: user.role, username:user.name});
             }
         }).catch((error) => {
-            res.status(400).send(error);
+            res.status(401).send();
         })
     });
 
     app.get('/logout', (req, res) => {
+        console.log(req.session.user);
         req.session.destroy((error) => {
             if (error) {
                 res.status(500).send(error);
             } else {
-                res.redirect('/');
+                res.status(200).send();
             }
         })
     });

@@ -29,24 +29,52 @@ class Auth extends React.Component {
         const username = e.target.uname.value;
         const password = e.target.psw.value;
         // Fake API call, sending the password and user name to server
-        const response = authenticate({username: username, password: password});
+        const data = {name: username, password: password}
+        const request = new Request("/login", {
+            method: 'post', 
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        fetch(request)
+        .then(
+            (res)=>{
+                console.log(res);
+                if (res.status != 200){
+                    this.setState({error: true})
+                    localStorage.removeItem("loginStatus");
+                    localStorage.removeItem("username");
+                    return Promise.reject(new Error("incorrect password"));
+                }else{
+                    return res.json()
+                }
+            }
+        ).then(
+            (res)=>{
+                localStorage.setItem("username", res.username);
+                localStorage.setItem("loginStatus",res.usertype);
+                window.location.href="../"
+            }
 
-        if (response) {
-            // reply should contains the following:
-            // the hash should be generated on the serverside contains the login time& userid
-            // when sending request to server for other actions the hash should be contained 
-            // in the header part for server to verify if the login is still valid, if the user 
-            // has the permission to access his private info .. etc.
-            const reply_hash = "oqidhaoihfb13131341234";
-            const reply_usertype = response.userType;
-            const reply_username = response.username;
-            localStorage.setItem("loginStatus", reply_usertype);
-            localStorage.setItem("token", reply_hash);
-            localStorage.setItem("username", reply_username);
-            window.location.href="../";
-        } else {
-            this.setState({error: true});
-        }
+        ).catch((error)=>{console.log(error);})
+        // if (response) {
+        //     // reply should contains the following:
+        //     // the hash should be generated on the serverside contains the login time& userid
+        //     // when sending request to server for other actions the hash should be contained 
+        //     // in the header part for server to verify if the login is still valid, if the user 
+        //     // has the permission to access his private info .. etc.
+        //     const reply_hash = "oqidhaoihfb13131341234";
+        //     const reply_usertype = response.userType;
+        //     const reply_username = response.username;
+        //     localStorage.setItem("loginStatus", reply_usertype);
+        //     localStorage.setItem("token", reply_hash);
+        //     localStorage.setItem("username", reply_username);
+        //     window.location.href="../";
+        // } else {
+        //     this.setState({error: true});
+        // }
     }
 
     // add/remove onclick to the event listener
