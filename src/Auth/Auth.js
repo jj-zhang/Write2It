@@ -41,7 +41,6 @@ class Auth extends React.Component {
         fetch(request)
         .then(
             (res)=>{
-                console.log(res);
                 if (res.status != 200){
                     this.setState({error: true})
                     localStorage.removeItem("loginStatus");

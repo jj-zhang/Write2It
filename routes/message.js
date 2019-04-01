@@ -1,4 +1,5 @@
 const {Message} = require("../models/messages");
+const {authenticateAdmin, authenticateUser} = require("./authentication");
 module.exports = function (app) {
 
 app.post('/message', (req, res) => {

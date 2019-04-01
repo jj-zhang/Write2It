@@ -33,7 +33,8 @@ module.exports = function (app) {
         })
     });
 
-    app.post('/login', (req, res) => {
+   
+    app.post('/login',  (req, res) => {
         const name = req.body.name;
         const password = req.body.password;
 
@@ -50,7 +51,7 @@ module.exports = function (app) {
     });
 
     app.get('/logout', (req, res) => {
-        console.log(req.session.user);
+        console.log("user: "+req.session.user+"has logged out");
         req.session.destroy((error) => {
             if (error) {
                 res.status(500).send(error);

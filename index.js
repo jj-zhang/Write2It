@@ -39,66 +39,6 @@ app.get('*', (req,res) =>{
 });
 
 
-// Add middleware to check for logged-in users
-const sessionChecker = (req, res, next) => {
-    if (req.session.user) {
-        res.redirect('/');
-    } else {
-        next();
-    }
-};
-
-
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// whenever it is needed to access private data, must add authenticate middleware.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-// need the user schema 
-const { User } = require('./models/user');
-// Middleware for authentication for resources
-// use authenticate as middleware, any request require admin should check again for 
-const authenticateUser = (req, res, next) => {
-    if (req.session.user) {
-        User.findById(req.session.user).then((user) => {
-            if (!user) {
-                req.session.destroy();
-                return Promise.reject()
-            } else {
-                req.user = user
-                next()
-            }
-        }).catch((error) => {
-            req.session.destroy();
-            res.status(401).send();
-        })
-    } else {
-        req.session.destroy();
-        res.status(401).send();
-    }
-};
-
-const authenticateAdmin = (req, res, next) => {
-    if (req.session.user) {
-        User.find({_id:req.session.user, role:"admin"}).then((user) => {
-            if (!user) {
-                req.session.destroy();
-                return Promise.reject()
-            } else {
-                req.user = user
-                next()
-            }
-        }).catch((error) => {
-            req.session.destroy();
-            res.status(401).send();
-        })
-    } else {
-        req.session.destroy();
-        res.status(401).send();
-    }
-};
-
-
 
 
 
