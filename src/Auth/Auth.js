@@ -2,7 +2,7 @@ import React from 'react';
 import './Auth.css';
 import {authenticate} from '../db/users';
 import {Link} from 'react-router-dom';
-
+import {onlogin, onlogout} from '../Session/AuthSession'
 
 // component to render authentication box
 class Auth extends React.Component {
@@ -53,28 +53,10 @@ class Auth extends React.Component {
             }
         ).then(
             (res)=>{
-                localStorage.setItem("username", res.username);
-                localStorage.setItem("loginStatus",res.usertype);
-                window.location.href="../"
+                onlogin(res.username,res.usertype);
             }
 
-        ).catch((error)=>{console.log(error);})
-        // if (response) {
-        //     // reply should contains the following:
-        //     // the hash should be generated on the serverside contains the login time& userid
-        //     // when sending request to server for other actions the hash should be contained 
-        //     // in the header part for server to verify if the login is still valid, if the user 
-        //     // has the permission to access his private info .. etc.
-        //     const reply_hash = "oqidhaoihfb13131341234";
-        //     const reply_usertype = response.userType;
-        //     const reply_username = response.username;
-        //     localStorage.setItem("loginStatus", reply_usertype);
-        //     localStorage.setItem("token", reply_hash);
-        //     localStorage.setItem("username", reply_username);
-        //     window.location.href="../";
-        // } else {
-        //     this.setState({error: true});
-        // }
+        ).catch((error)=>{})
     }
 
     // add/remove onclick to the event listener

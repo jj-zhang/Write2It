@@ -2,7 +2,7 @@ import React from 'react';
 import './Signup.css';
 import placeholderimage from '../placeholder.png';
 import {signup} from '../db/users';
-
+import {onlogin} from '../Session/AuthSession'
 // the Sign up page
 class SignUp extends React.Component {
     constructor(props) {
@@ -32,15 +32,15 @@ class SignUp extends React.Component {
     // this function handles the submit which is the signup request
     signup = e => {
         e.preventDefault();
-        console.log("signup triggered")
+        //console.log("signup triggered")
         // get the logininfo from the form
         const username = e.target.uname.value;
         const password = e.target.psw.value;
         const email = e.target.email.value;
         const icon = this.state.imagefile;
         // validate if the password is valid(8chars or longer)
-        if(password.length < 8){
-            this.setState({error: true, errormessage: "password must be at least 8 characters long"})
+        if(password.length < 4){
+            this.setState({error: true, errormessage: "password must be at least 4 characters long"})
             return;
         }
         // 
@@ -70,29 +70,10 @@ class SignUp extends React.Component {
                     this.setState({error: true, errormessage: res.message});
                 }
                 else{
-                    //console.log("success");
-                    localStorage.setItem("loginStatus", res.user.role);
-                    localStorage.setItem("username", res.user.name);
-                    window.location.href='../';
+                    onlogin(res.user.role, res.user.name);
                 }
             }
         )
-
-        // Fake API call to signup a new user
-        // const response = signup({username: username, password: password, email: email, profilePhoto: icon});
-        // if (response) {
-        //     // if signup success, by design the client side should immediately switch status to the logged in status
-        //     // & response should contains the all the login info
-        //     // due to inconsistent with the mimic db, for now, just refresh the page to landing, no data is actually stored
-        //     localStorage.setItem("loginStatus", response.userType);
-        //     localStorage.setItem("token", "oqidhaoihfb13131341234");
-        //     localStorage.setItem("username", response.username);
-        //     window.location.href='../'
-        // } else {
-        //     // otherwise the reply should contains some errormessage
-        //     const errormessage = "Username already in use, please try another one";
-        //     this.setState({error: true, errormessage: errormessage});
-        // }
     }
 
     render() {

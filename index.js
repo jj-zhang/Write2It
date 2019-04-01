@@ -27,7 +27,7 @@ app.use(session({
 //routes
 require('./routes/user')(app);
 require('./routes/story')(app);
-
+require('./routes/message')(app);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
@@ -62,15 +62,18 @@ const authenticateUser = (req, res, next) => {
     if (req.session.user) {
         User.findById(req.session.user).then((user) => {
             if (!user) {
+                req.session.destroy();
                 return Promise.reject()
             } else {
                 req.user = user
                 next()
             }
         }).catch((error) => {
+            req.session.destroy();
             res.status(401).send();
         })
     } else {
+        req.session.destroy();
         res.status(401).send();
     }
 };
@@ -79,15 +82,18 @@ const authenticateAdmin = (req, res, next) => {
     if (req.session.user) {
         User.find({_id:req.session.user, role:"admin"}).then((user) => {
             if (!user) {
+                req.session.destroy();
                 return Promise.reject()
             } else {
                 req.user = user
                 next()
             }
         }).catch((error) => {
+            req.session.destroy();
             res.status(401).send();
         })
     } else {
+        req.session.destroy();
         res.status(401).send();
     }
 };

@@ -15,11 +15,24 @@ class ContactForm extends React.Component {
     // this function handles the submit which is the report request
     submit = (e) => {
         e.preventDefault();
-        //// get the logininfo from the form lines below are commented out for avoid warnings
-        // const userhash = localStorage.getItem("token");
-        // const reportinfo=e.target.querySelector("#contactmessage").value;
-        // FAKE API CALL
-
+         const reportinfo=e.target.querySelector("#contactmessage").value;
+         const request = new Request("/message", {
+            method: 'post', 
+            body: JSON.stringify({message:reportinfo}),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        fetch(request).then(
+            (res)=>{
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    alert("message has been sent");
+                }
+            }
+        )
         // close the popup
         this.props.hide();
     }
@@ -42,13 +55,12 @@ class ContactForm extends React.Component {
                         <div className="col-lg-6 col-xs-12">
                             <form id="contactform" className="shadow-lg ui form" onSubmit={this.submit}>
                                 <div className="field">
-                                    <label>Message to admins</label>
+                                    <label>Message to admins(login if you want us know who you are)</label>
                                     <div className="ui left icon input">
                                         <textarea id="contactmessage" rows="10" cols="60"></textarea>
                                     </div>
                                 </div>
                                 <p>You may also email us through <strong>admin@writeit.ca</strong></p>
-
                                 <button className="ui teal button" type="submit">Submit</button>
                             </form>
                         </div>

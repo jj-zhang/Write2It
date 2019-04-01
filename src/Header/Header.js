@@ -4,6 +4,7 @@ import './Header.css';
 import Auth from '../Auth/Auth';
 import {logout} from '../db/users';
 import ContactForm from '../FileReport/ContactForm'
+import {onlogout} from "../Session/AuthSession"
 
 // component to render the header
 class Header extends React.Component {
@@ -20,17 +21,15 @@ class Header extends React.Component {
         };
     }
 
-    logout = e => {
+    logout = (e) => {
         e.preventDefault();
         // fake API call to logout users
         // refresh page back to root, rerender everything
-        localStorage.removeItem('username');
-        localStorage.removeItem('loginStatus');
         const request = new Request("/logout", {
             method: 'get', 
         });
         fetch(request)
-        window.location.href = '../';
+        onlogout();
     
     }
 
