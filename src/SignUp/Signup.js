@@ -32,26 +32,65 @@ class SignUp extends React.Component {
     // this function handles the submit which is the signup request
     signup = e => {
         e.preventDefault();
+        console.log("signup triggered")
         // get the logininfo from the form
         const username = e.target.uname.value;
         const password = e.target.psw.value;
         const email = e.target.email.value;
         const icon = this.state.imagefile;
-        // Fake API call to signup a new user
-        const response = signup({username: username, password: password, email: email, profilePhoto: icon});
-        if (response) {
-            // if signup success, by design the client side should immediately switch status to the logged in status
-            // & response should contains the all the login info
-            // due to inconsistent with the mimic db, for now, just refresh the page to landing, no data is actually stored
-            localStorage.setItem("loginStatus", response.userType);
-            localStorage.setItem("token", "oqidhaoihfb13131341234");
-            localStorage.setItem("username", response.username);
-            window.location.href='../'
-        } else {
-            // otherwise the reply should contains some errormessage
-            const errormessage = "Username already in use, please try another one";
-            this.setState({error: true, errormessage: errormessage});
+        // validate if the password is valid(8chars or longer)
+        if(password.length < 8){
+            this.setState({error: true, errormessage: "password must be at least 8 characters long"})
+            return;
         }
+        // 
+        const data = {name:username, password:password, email:email};
+        const request = new Request("/signup", {
+            method: 'post', 
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        fetch(request)
+        .then(
+            (res)=>{
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    return res.json()
+                }
+            }
+        )
+        .then(
+            (res)=>{
+                //console.log(res);
+                if (res.error){
+                    this.setState({error: true, errormessage: res.message});
+                }
+                else{
+                    //console.log("success");
+                    window.location.href='../';
+                }
+            }
+        )
+
+        // Fake API call to signup a new user
+        // const response = signup({username: username, password: password, email: email, profilePhoto: icon});
+        // if (response) {
+        //     // if signup success, by design the client side should immediately switch status to the logged in status
+        //     // & response should contains the all the login info
+        //     // due to inconsistent with the mimic db, for now, just refresh the page to landing, no data is actually stored
+        //     localStorage.setItem("loginStatus", response.userType);
+        //     localStorage.setItem("token", "oqidhaoihfb13131341234");
+        //     localStorage.setItem("username", response.username);
+        //     window.location.href='../'
+        // } else {
+        //     // otherwise the reply should contains some errormessage
+        //     const errormessage = "Username already in use, please try another one";
+        //     this.setState({error: true, errormessage: errormessage});
+        // }
     }
 
     render() {

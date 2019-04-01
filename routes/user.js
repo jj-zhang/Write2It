@@ -5,41 +5,41 @@ const { User } = require('../models/user');
 
 
 module.exports = function (app) {
-    app.post('/users', (req, res) => {
+    app.post('/signup', (req, res) => {
         const user = new User({
+            name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            role: req.body.role,
-            status: req.body.status
+            role: "user",
+            status: "status"
         });
-
-
-        console.log(user);
         // save user to the database
         user.save().then((user) => {
-
-            console.log('hi');
-
-
-            res.send(user);
+            res.send({error:false});
         }, (error) => {
-            res.status(400).send(error);
+            // handle duplicate username
+            if(error.code == 11000){
+                res.status(200).send({error: true, message:"Duplicate user name, please try another one."})
+            // handle invalid email address
+            }else if(error.errors && error.errors.email){
+                res.status(200).send({error: true, message:"Please enter a valid email address."})
+            // handle other error, the error invalid password is already handled by frontend
+            }else{
+                res.status(400).send({error: true, message: error});
+            }
         })
     });
 
-    app.post('/users/login', (req, res) => {
-        const email = req.body.email;
+    app.post('/login', (req, res) => {
+        const name = req.body.name;
         const password = req.body.password;
 
-        User.findByEmailPassword(email, password).then((user) => {
+        User.findByNamePassword(name, password).then((user) => {
             if (!user) {
-                // res.redirect('/login');
                 res.status(401).send();
             } else {
-                // Add the user to the session cookie that we will
-                // send to the client
                 req.session.user = user._id;
-                req.session.email = user.email;
+                req.session.name = user.name;
                 res.send({user: req.session.user});
             }
         }).catch((error) => {
@@ -47,7 +47,7 @@ module.exports = function (app) {
         })
     });
 
-    app.get('/users/logout', (req, res) => {
+    app.get('/logout', (req, res) => {
         req.session.destroy((error) => {
             if (error) {
                 res.status(500).send(error);
