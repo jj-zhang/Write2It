@@ -30,6 +30,21 @@ module.exports = function (app) {
         }
     );
 
+    app.post('/story/:storyId', (req, res) => {
+        const storyId = req.params.storyId;
+        if (!ObjectID.isValid(storyId)) {
+            res.status(404).send()
+        }
+
+        Story.findById(storyId).then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                res.send(story);
+            }
+        })
+    });
+
 
     app.get('/story',
         (req, res) => {
