@@ -10,7 +10,7 @@ const upvote = new mongoose.Schema({
     vote: Number,
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "user"
     }
 });
 
@@ -18,7 +18,7 @@ const sentence = new mongoose.Schema({
     content: String,
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "user"
     },
     dateModified: {
         type: Date,
@@ -40,7 +40,7 @@ const story = new mongoose.Schema({
     // on rendering the web, we probably only need to display the name & save the id of the user object for later? 
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "user"
     },
     // upvote only has 2 field lets keep them as subdocuments instead of another reference?
     upvotes: {
