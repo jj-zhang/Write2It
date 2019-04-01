@@ -10,7 +10,7 @@ const logout = () => {
 
 // this function is used with authenticationuser or authenticationadmin functions, when error 401 is detected
 // authmiddleware knows authentication has failed, remove localstorage, logout and alert to login again
-// usage: fetch(request).then(res=>authmiddleware(res)).then(//whatever you do with regular response)
+// usage: fetch(request).then(res=>return authmiddleware(res)).then(//whatever you do with regular response)
 module.exports.authmiddleware = (res) => {
     if (res.status == 401) {
         logout();

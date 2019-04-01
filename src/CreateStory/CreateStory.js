@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStory} from '../db/stories';
 import {Redirect} from 'react-router';
-
+import {authmiddleware} from '../Session/AuthSession';
 // react component to render the create story view
 /*
 This is used for creating a story. 
@@ -16,18 +16,43 @@ class CreateStory extends React.Component {
     }
 
     // create a new story
-    createStory(e) {
+    createStory=(e)=> {
         e.preventDefault();
-
-        // fake API call to create a new story
-        const response = createStory({
+        const data = {
             title: e.target.title.value,
             description: e.target.description.value
-        });
-
-        if (response) {
-            this.setState({storyCreated: true, story: response});
         }
+        const request = new Request("/story", {
+            method: 'post', 
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        fetch(request).then(
+            (res)=>{
+                return authmiddleware(res);
+            }
+        ).then(
+            (res)=>{
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    return res.json()
+                }
+            }
+        ).then(
+            (res)=>{
+                console.log("triggered")
+                console.log(res);
+                window.location.href="/story/"+res._id;
+            }
+        )
+
+
+
+
     }
 
     render() {

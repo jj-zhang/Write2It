@@ -4,18 +4,19 @@ const mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 const {ObjectID} = require('mongodb')
 const {Story} = require('../models/story');
+const {authenticateAdmin, authenticateUser} = require("./authentication");
 
 
 module.exports = function (app) {
 
 
-    app.post('/story',
+    app.post('/story', authenticateUser, 
         (req, res) => {
 
             const story = new Story({
                 title: req.body.title,
                 description: req.body.description,
-                author: req.body.author
+                author: req.session.user,
             });
 
             // save story
