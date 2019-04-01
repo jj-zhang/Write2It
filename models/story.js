@@ -3,6 +3,8 @@
 // i think we should use normalized model for reference users, but denormalized model for reference sentences, votes, as they only
 // appears within a story
 const mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate');
+
 
 const upvote = new mongoose.Schema({
     vote: Number,
@@ -50,9 +52,13 @@ const story = new mongoose.Schema({
         type: [sentence],
         default: []
     }
+}, {
+    timestamps: true
 });
 
 
 // Export the model
+story.plugin(mongoosePaginate);
+
 const Story = mongoose.model("story", story);
 module.exports = { Story };
