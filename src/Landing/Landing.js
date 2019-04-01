@@ -93,7 +93,7 @@ class Story extends React.Component {
 
                 <div className="content">
                     <div className="metadata">
-                        Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
+                        Created by <Link className="author" to={`/profile/${story.author.name}`}>{story.author.name}</Link> <span
                         className="date">{formatDistance(subDays(new Date(story.createdAt), 0), new Date())} ago</span>
                     </div>
                     <h3 className="storyTitle">{story.title}</h3>
