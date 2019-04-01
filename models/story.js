@@ -40,10 +40,6 @@ const story = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    dateCreated: {
-        type: Date,
-        default: Date.now
-    },
     // upvote only has 2 field lets keep them as subdocuments instead of another reference?
     upvotes: {
         type: [upvote],
@@ -58,5 +54,5 @@ const story = new mongoose.Schema({
 
 
 // Export the model
-const Story = mongoose.model("story", story)
+const Story = mongoose.model("story", story);
 module.exports = { Story };
