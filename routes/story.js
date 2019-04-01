@@ -15,7 +15,7 @@ module.exports = function (app) {
             const story = new Story({
                 title: req.body.title,
                 description: req.body.description,
-                user: req.body.userID
+                author: req.body.author
             });
 
             // save story
@@ -43,7 +43,7 @@ module.exports = function (app) {
     // get a page of stories
     app.get('/story/:page',
         (req, res) => {
-            Story.paginate({}, {page: req.params.page, limit: 5})
+            Story.paginate({}, {page: req.params.page, limit: 5, populate: 'author'})
                 .then((result) => {
                     if (result) {
                         res.send(result);

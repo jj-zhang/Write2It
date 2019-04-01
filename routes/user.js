@@ -9,24 +9,25 @@ module.exports = function (app) {
         const user = new User({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
-            role: "user",
-            status: "status"
+            password: req.body.password
         });
+
         // save user to the database
         user.save().then((user) => {
-            //
+
             req.session.user = user._id;
-            res.send({error:false, user:user});
+
+            res.send({error: false, user: user});
+
         }, (error) => {
             // handle duplicate username
             if(error.code == 11000){
                 res.status(200).send({error: true, message:"Duplicate user name, please try another one."})
             // handle invalid email address
-            }else if(error.errors && error.errors.email){
+            } else if (error.errors && error.errors.email){
                 res.status(200).send({error: true, message:"Please enter a valid email address."})
             // handle other error, the error invalid password is already handled by frontend
-            }else{
+            } else {
                 res.status(400).send({error: true, message: error});
             }
         })
