@@ -8,10 +8,6 @@ const app = express();
 const session = require('express-session');
 const port = process.env.PORT || 3000;
 
-
-//const { User } = require('./models/user');
-
-
 // body-parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -37,24 +33,24 @@ require('./routes/story')(app);
 app.use(express.static(path.join(__dirname, '/build')));
 
 
-// Add middleware to check for logged-in users
-const sessionChecker = (req, res, next) => {
-    if (req.session.user) {
-        res.redirect('/landing');
-    } else {
-        next();
-    }
-};
-
-
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/build/index.html'));
 });
 
 
+// Add middleware to check for logged-in users
+const sessionChecker = (req, res, next) => {
+    if (req.session.user) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+};
 
 
+// need the user schema 
+const { User } = require('./models/user');
 // Middleware for authentication for resources
 const authenticate = (req, res, next) => {
     if (req.session.user) {

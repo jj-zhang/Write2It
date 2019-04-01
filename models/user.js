@@ -5,12 +5,16 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
+    name: {
+        type: String, 
+        required: true,
+        unique: true},
     email: {
         type: String,
         required: true,
         minlength: 1,
         trim: true,
-        unique: true,
+        unique: false,
         validate: {
             validator: validator.isEmail,
             message: 'Not valid email'
@@ -32,10 +36,10 @@ const UserSchema = new mongoose.Schema({
 });
 
 
-UserSchema.statics.findByEmailPassword = function(email, password) {
+UserSchema.statics.findByNamePassword = function(name, password) {
     const User = this;
 
-    return User.findOne({email: email}).then((user) => {
+    return User.findOne({name: name}).then((user) => {
         if (!user) {
             return Promise.reject();
         }
