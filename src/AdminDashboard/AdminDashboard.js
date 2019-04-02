@@ -11,60 +11,34 @@ class AdminDashboard extends Component {
         // Hardcode data that records different reports.
         this.state = {
             displayView: 'userReports',
-            reports: [
-                {
-                    id: 1,
-                    name: "Mike",
-                    category: "Bug",
-                    time: "3 days ago",
-                    content: "Hello, I cannot seem to create new stories."
-                },
-                {
-                  id: 2,
-                  name: "John",
-                  category: "Suggestion",
-                  time: "1 week ago",
-                  content: "Hi, I suggest that we can change the background color."
-                },
-                {
-                  id: 3,
-                  name: "Sam",
-                  category: "Bug",
-                  time: "3 days ago",
-                  content: "Hey, I cannot vote to the new story."
-                } 
-            ],
-            // Hardcode data that records different archived reports.
-            archivedReports: [               
-              {
-                  id: 4,
-                  name: "Eason",
-                  category: "Bug",
-                  time: "3 days ago",
-                  content: "Hello, I cannot log into the page."
-              }
-            ],
-
-            // Hardcode data that records different users.
-            users: [
-                {
-                    id: 1,
-                    name: 'user',
-                    password: 'user',
-                    userType: 'user',
-                    email: 'hi@gmail.com'
-                },
-               {
-                    id:2,
-                    name: 'admin',
-                    password: 'admin',
-                    userType: 'admin',
-                    email: 'hi@gmail.com'
-                }
-            ]
+            reports: [],
+            archivedReports: [],
+            users: []
         }
         // Bind the function archiveList with the constructor.
         this.archiveList = this.archiveList.bind(this);
+    }
+
+    componentDidMount() {
+        fetch('/sentence/')
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            } else {
+                return Promise.reject("Could not find sentences"); 
+            }
+        })
+        .then((json) => {
+            this.setState({
+                reports: this.state.reports.concat(json.docs),
+                archivedReports: this.state.archivedReports.concat(json.docs),
+                users: this.state.users.concat(json.docs)
+            });
+        }).catch((error) => {
+            console.log(error);
+        })
+
+        
     }
 
     // The function to archive the report list and add it to the archive report list.

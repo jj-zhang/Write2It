@@ -17,4 +17,22 @@ app.post('/message', (req, res) => {
     })
 });
 
+app.get('/message/:id',(req, res) => {
+    const id = req.params.id;
+
+    if (!ObjectID.isValid(id)) {
+		res.status(404).send();
+    }
+    
+    Message.findById(id).then(message => {
+        if (!message) {
+            res.status(404).send();
+        } else {
+            res.send({message});
+        }
+    }).catch((error) => {
+        res.status(500).send()
+    });
+});
+
 }

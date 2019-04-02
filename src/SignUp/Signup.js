@@ -43,7 +43,6 @@ class SignUp extends React.Component {
             this.setState({error: true, errormessage: "password must be at least 4 characters long"})
             return;
         }
-        // 
         const data = {name:username, password:password, email:email};
         const request = new Request("/signup", {
             method: 'post', 
