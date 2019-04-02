@@ -104,36 +104,34 @@ module.exports = function (app) {
         })
     });
 
-    app.delete('/upvote/:storyId/:upvoteId', (req, res) => {
+    app.delete('/upvote/:storyId/:userId', (req, res) => {
         const storyId = req.params.storyId;
-        const upvoteId = req.params.upvoteId;
+        const userId = req.params.userId;
 
-        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(upvoteId)) {
+        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(userId)) {
             res.status(404).send()
         }
 
-        Story.updateOne({
-            '_id': storyId,
-            'upvotes._id': upvoteId
-        }, {
-            $pull: {
-                upvotes: {
-                    _id: upvoteId
+        Story.findById(storyId).then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                var value = 0;
+                for(let i=0;i<story.upvotes.length;i++){
+                    if(userId === story.upvotes[i].user){
+                        value = story.upvotes[i].vote;
+                        break
+                    }
                 }
+                story.update({$pull: {upvotes: {user: userId}}}, function (err, result) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        story.upvoteCount -= value;
+                        res.send(story);
+                    }
+                });
             }
-            ,
-            $inc: {
-                upvoteCount: -1
-            }
-        }, {new: true}).then((result) => {
-
-            if (!result) {
-                res.status(404).send(error);
-            }
-
-            res.send(result);
-        }, (error) => {
-            res.status(400).send(error);
         });
     });
 
@@ -146,19 +144,6 @@ module.exports = function (app) {
     //         res.status(404).send()
     //     };
     //
-    //     Story.findById(storyId).then((story) => {
-    //         if (!story) {
-    //             res.status(404).send()
-    //         } else {
-    //             story.update({$pull: {upvotes: {user: req.body.userID}}}, function (err, result) {
-    //                 if (err) {
-    //                     res.status(400).send(err);
-    //                 } else {
-    //                     res.send(result);
-    //                 }
-    //             });
-    //         }
-    //     });
     // });
 
 

@@ -15,78 +15,91 @@ class Story extends React.Component {
 
         this.state = {
             story: this.props.story,
-            upvoteCount: 0,
-            upvotedBy: [],
-            downvotedBy: []
+            upvoteCount: this.props.story.upvoteCount,
+            votedBy: this.props.story.upvotes
         };
     }
 
     // view a story
     goToStoryView(e) {
         e.preventDefault();
-        const url = "/story/" + this.state.story._id;
-        const request = new Request(url, {
-            method: 'post', 
-            body: null,
-            headers: {
-                'Accept': 'application/json'
-            },
-        });
-        fetch(request).then(
-            (res)=>{
-                return authmiddleware(res);
-            }
-        ).then(
-            (res)=>{
-                if (res.status != 200){
-                    alert("woops! error code:"+res.status);
-                }else{
-                    return res.json()
-                }
-            }
-        ).then(
-            (res)=>{
-                window.location.href="/story/"+res._id;
-            }
-        )
+        window.location.href="/story/"+this.story._id;
     }
 
     // upvote a story, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const story = this.state.story;
-        const user = localStorage.getItem('username');
-        console.log(localStorage);
+        const votedBy = this.state.votedBy;
+        const user = localStorage.getItem('userid');
+        //console.log(localStorage);
         if (!user) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
-
             return;
         }
-
-        if (val === 1) {
-            for(let i=0;i< this.state.upvotedBy.length;i++){
-                if(user === this.state.upvotedBy[i]){
-                    
-                }
-            }
-        } else {
-            if (story.upvotedBy.includes(user)) {
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                val = 1;
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
-            } else {
-                story.downvotedBy.push(user);
+        var url = "/upvote/" + story._id;
+        var method = 'post';
+        for(let i=0;i< votedBy.length;i++){
+            if(user === votedBy[i].user){
+                url += '/' + user;
+                method = 'delete';
             }
         }
-
-        story.upvotes += val;
-
-        // update the database with new story upvote count (this is a fake API call)
-        const response = updateStory(story);
-
-        if (response) {
-            this.setState({story: response});
+        if(method === 'post'){
+            const data = {vote:val, userId:user};
+            const request = new Request(url, {
+                method: method, 
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+            fetch(request).then(
+                (res)=>{
+                    return authmiddleware(res);
+                }
+            ).then(
+                (res)=>{
+                    if (res.status != 200){
+                        alert("woops! error code:"+res.status);
+                    }else{
+                        return res.json()
+                    }
+                }
+            ).then(
+                (res)=>{
+                    this.state={
+                        story: res,
+                        upvoteCount: res.upvoteCount,
+                        votedBy: res.upvotes
+                    }
+                }
+            )
+        }else{
+            const request = new Request(url, {
+                method: method,
+                headers: {
+                    'Accept': 'application/json'
+                },
+            });
+            fetch(request).then(
+                (res)=>{
+                    return authmiddleware(res);
+                }
+            ).then(
+                (res)=>{
+                    if (res.status != 200){
+                        alert("woops! error code:"+res.status);
+                    }else{
+                        return res.json()
+                    }
+                }
+            ).then(
+                (res)=>{
+                    console.log(res);
+                }
+            )
         }
 
     }
