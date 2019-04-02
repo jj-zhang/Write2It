@@ -4,18 +4,19 @@ const mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 const {ObjectID} = require('mongodb')
 const {Story} = require('../models/story');
+const {authenticateAdmin, authenticateUser} = require("./authentication");
 
 
 module.exports = function (app) {
 
 
-    app.post('/story',
+    app.post('/storys', authenticateUser, 
         (req, res) => {
 
             const story = new Story({
                 title: req.body.title,
                 description: req.body.description,
-                author: req.body.author
+                author: req.session.user,
             });
 
             // save story
@@ -29,8 +30,26 @@ module.exports = function (app) {
         }
     );
 
+    app.get('/storyss/:storyId', (req, res) => {
+        const storyId = req.params.storyId;
+        if (!ObjectID.isValid(storyId)) {
+            res.status(404).send()
+        }
+        Story.findById(storyId)
+        .populate({path: 'author', select:"name"})
+        .populate({path: "sentences.author", select:"name"})
+        .populate({path: "upvotes.user", select:"name"})
+        .then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                res.send(story);
+            }
+        })
+    });
 
-    app.get('/story',
+
+    app.get('/storys',
         (req, res) => {
             Story.find().then((result) => {
                 res.send(result);
@@ -41,7 +60,7 @@ module.exports = function (app) {
 
 
     // get a page of stories
-    app.get('/story/:page',
+    app.get('/storys/:page',
         (req, res) => {
             Story.paginate({}, {page: req.params.page, limit: 5, populate: 'author'})
                 .then((result) => {
@@ -86,36 +105,34 @@ module.exports = function (app) {
         })
     });
 
-    app.delete('/upvote/:storyId/:upvoteId', (req, res) => {
+    app.delete('/upvote/:storyId/:userId', (req, res) => {
         const storyId = req.params.storyId;
-        const upvoteId = req.params.upvoteId;
+        const userId = req.params.userId;
 
-        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(upvoteId)) {
+        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(userId)) {
             res.status(404).send()
         }
 
-        Story.updateOne({
-            '_id': storyId,
-            'upvotes._id': upvoteId
-        }, {
-            $pull: {
-                upvotes: {
-                    _id: upvoteId
+        Story.findById(storyId).then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                var value = 0;
+                for(let i=0;i<story.upvotes.length;i++){
+                    if(userId === story.upvotes[i].user){
+                        value = story.upvotes[i].vote;
+                        break
+                    }
                 }
+                story.update({$pull: {upvotes: {user: userId}}}, function (err, result) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        story.upvoteCount -= value;
+                        res.send(story);
+                    }
+                });
             }
-            ,
-            $inc: {
-                upvoteCount: -1
-            }
-        }, {new: true}).then((result) => {
-
-            if (!result) {
-                res.status(404).send(error);
-            }
-
-            res.send(result);
-        }, (error) => {
-            res.status(400).send(error);
         });
     });
 
@@ -128,19 +145,6 @@ module.exports = function (app) {
     //         res.status(404).send()
     //     };
     //
-    //     Story.findById(storyId).then((story) => {
-    //         if (!story) {
-    //             res.status(404).send()
-    //         } else {
-    //             story.update({$pull: {upvotes: {user: req.body.userID}}}, function (err, result) {
-    //                 if (err) {
-    //                     res.status(400).send(err);
-    //                 } else {
-    //                     res.send(result);
-    //                 }
-    //             });
-    //         }
-    //     });
     // });
 
 
@@ -161,7 +165,7 @@ module.exports = function (app) {
             } else {
                 var sentence = story.sentences.id(sentenceId);
 
-                sentence.upvoteCount += 1;
+                sentence.upvoteCount += req.body.vote;
 
                 sentence.upvotes.push({
                     vote: req.body.vote,

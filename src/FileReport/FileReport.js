@@ -16,10 +16,25 @@ class FileReport extends React.Component {
     submit = (e) => {
         e.preventDefault();
         // // get the logininfo from the form commented out for avoid warning
-        // const reportinfo=e.target.querySelector("#reason").value;
-        // const reportedID = this.props.id;
-        // const reportedUser = this.props.user;
-        // API CALL 
+        const reportinfo=e.target.querySelector("#reason").value;
+        e.preventDefault();
+        const request = new Request("/message", {
+            method: 'post', 
+            body: JSON.stringify({message:reportinfo}),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        fetch(request).then(
+            (res)=>{
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    alert("report has been sent");
+                }
+            }
+        )
         // close the popup
         this.props.hide();
     }

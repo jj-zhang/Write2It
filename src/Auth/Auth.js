@@ -44,6 +44,7 @@ class Auth extends React.Component {
                 if (res.status != 200){
                     this.setState({error: true})
                     localStorage.removeItem("loginStatus");
+                    localStorage.removeItem('userid');
                     localStorage.removeItem("username");
                     return Promise.reject(new Error("incorrect password"));
                 }else{
@@ -52,7 +53,8 @@ class Auth extends React.Component {
             }
         ).then(
             (res)=>{
-                onlogin(res.username,res.usertype);
+                console.log(res);
+                onlogin(res.username,res.usertype,res.id);
             }
 
         ).catch((error)=>{})

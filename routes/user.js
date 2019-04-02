@@ -43,7 +43,7 @@ module.exports = function (app) {
                 res.status(401).send();
             } else {
                 req.session.user = user._id;
-                res.send({usertype: user.role, username:user.name});
+                res.send({usertype: user.role, username:user.name, id:user._id});
             }
         }).catch((error) => {
             res.status(401).send();

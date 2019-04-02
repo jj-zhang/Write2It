@@ -28,7 +28,7 @@ app.use(session({
 require('./routes/user')(app);
 require('./routes/story')(app);
 require('./routes/message')(app);
-
+require('./routes/sentence')(app);
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
 

@@ -6,60 +6,100 @@ import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
 import Auth from '../Auth/Auth';
 import {Link} from 'react-router-dom';
+import {authmiddleware} from '../Session/AuthSession';
 
 // component to render a story
 class Story extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {goToStoryViewClicked: false, story: this.props.story};
+        this.state = {
+            story: this.props.story,
+            upvoteCount: this.props.story.upvoteCount,
+            votedBy: this.props.story.upvotes
+        };
     }
 
     // view a story
     goToStoryView(e) {
         e.preventDefault();
-        this.setState({goToStoryViewClicked: true});
+        window.location.href="/story/"+this.story._id;
     }
 
     // upvote a story, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const story = this.state.story;
-        const user = localStorage.getItem('username');
-
+        const votedBy = this.state.votedBy;
+        const user = localStorage.getItem('userid');
+        //console.log(localStorage);
         if (!user) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
-
             return;
         }
-
-        if (val === 1) {
-            if (story.upvotedBy.includes(user)) {
-                val = -1;
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
-            } else {
-                story.upvotedBy.push(user);
-            }
-        } else {
-            if (story.upvotedBy.includes(user)) {
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                val = 1;
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
-            } else {
-                story.downvotedBy.push(user);
+        var url = "/upvote/" + story._id;
+        var method = 'post';
+        for(let i=0;i< votedBy.length;i++){
+            if(user === votedBy[i].user){
+                url += '/' + user;
+                method = 'delete';
             }
         }
-
-        story.upvotes += val;
-
-        // update the database with new story upvote count (this is a fake API call)
-        const response = updateStory(story);
-
-        if (response) {
-            this.setState({story: response});
+        if(method === 'post'){
+            const data = {vote:val, userId:user};
+            const request = new Request(url, {
+                method: method, 
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+            fetch(request).then(
+                (res)=>{
+                    return authmiddleware(res);
+                }
+            ).then(
+                (res)=>{
+                    if (res.status != 200){
+                        alert("woops! error code:"+res.status);
+                    }else{
+                        return res.json()
+                    }
+                }
+            ).then(
+                (res)=>{
+                    this.state={
+                        story: res,
+                        upvoteCount: res.upvoteCount,
+                        votedBy: res.upvotes
+                    }
+                }
+            )
+        }else{
+            const request = new Request(url, {
+                method: method,
+                headers: {
+                    'Accept': 'application/json'
+                },
+            });
+            fetch(request).then(
+                (res)=>{
+                    return authmiddleware(res);
+                }
+            ).then(
+                (res)=>{
+                    if (res.status != 200){
+                        alert("woops! error code:"+res.status);
+                    }else{
+                        return res.json()
+                    }
+                }
+            ).then(
+                (res)=>{
+                    console.log(res);
+                }
+            )
         }
 
     }
@@ -79,7 +119,7 @@ class Story extends React.Component {
                             }}>
                         <i className="arrow up icon"/>
                     </button>
-                    <div className="value center">{story.upvoteCount}</div>
+                    <div className="value center">{this.state.upvoteCount}</div>
                     <button
                         className={`upvoteButton down ${ true ? ' downvoted' : ''}`}
                         onClick={
@@ -120,7 +160,7 @@ class Stories extends React.Component {
     // load another page of stories
     loadMore() {
 
-        fetch('/story/' + this.state.cursor)
+        fetch('/storys/' + this.state.cursor)
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();
