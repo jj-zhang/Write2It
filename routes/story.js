@@ -10,7 +10,7 @@ const {authenticateAdmin, authenticateUser} = require("./authentication");
 module.exports = function (app) {
 
 
-    app.post('/story', authenticateUser, 
+    app.post('/storys', authenticateUser, 
         (req, res) => {
 
             const story = new Story({
@@ -30,13 +30,15 @@ module.exports = function (app) {
         }
     );
 
-    app.post('/story/:storyId', (req, res) => {
+    app.get('/storyss/:storyId', (req, res) => {
         const storyId = req.params.storyId;
         if (!ObjectID.isValid(storyId)) {
             res.status(404).send()
         }
 
-        Story.findById(storyId).then((story) => {
+        Story.findById(storyId)
+        .populate({path: 'author'})
+        .then((story) => {
             if (!story) {
                 res.status(404).send()
             } else {
@@ -46,7 +48,7 @@ module.exports = function (app) {
     });
 
 
-    app.get('/story',
+    app.get('/storys',
         (req, res) => {
             Story.find().then((result) => {
                 res.send(result);
@@ -57,7 +59,7 @@ module.exports = function (app) {
 
 
     // get a page of stories
-    app.get('/story/:page',
+    app.get('/storys/:page',
         (req, res) => {
             Story.paginate({}, {page: req.params.page, limit: 5, populate: 'author'})
                 .then((result) => {

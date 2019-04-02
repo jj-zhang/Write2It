@@ -273,6 +273,18 @@ class StoryIPR extends React.Component {
         }
     }
 
+    // fetch data from database and render the corresponding story
+    componentDidMount(){
+        const request = new Request("/storyss/"+this.props.match.params.id, {
+            method: 'get', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+
+    }
+
     submit(e) {
         e.preventDefault();
 
