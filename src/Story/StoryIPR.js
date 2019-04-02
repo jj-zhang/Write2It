@@ -36,7 +36,7 @@ class Sentence extends React.Component {
     // upvote a sentence, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const sentence = this.state.sentence;
-        const user = localStorage.getItem('username');
+        const user = localStorage.getItem('userid');
 
 
         if (!user) {
@@ -142,7 +142,7 @@ class Sentence extends React.Component {
             <div className="sentence">
                 <div className="upvotes">
                     <button
-                        className={`upvoteButton up ${(sentence.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
+                        className={`upvoteButton up ${(sentence.upvotedBy.includes(localStorage.getItem('userid')) ? ' upvoted' : '')}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
@@ -152,7 +152,7 @@ class Sentence extends React.Component {
                     </button>
                     <div className="value center">{sentence.upvotes}</div>
                     <button
-                        className={`upvoteButton down ${(sentence.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
+                        className={`upvoteButton down ${(sentence.downvotedBy.includes(localStorage.getItem('userid')) ? ' downvoted' : '')}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
@@ -218,7 +218,7 @@ class Sentence extends React.Component {
                                 </div>
 
                                 {this.state.displayReportPage?
-                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
+                                <Filereport user={sentence.user} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
@@ -260,17 +260,15 @@ class StoryIPR extends React.Component {
         // fake API call to get a keyword
         const keyword = randomWords();
 
-        if (response) {
-            this.state = {
-                error: false,
-                displayEditBox: false,
-                goToLanding: false,
-                displaySavingChanges: false,
-                displayLoginBox: false,
-                story: response,
-                keyword: keyword
-            };
-        }
+        this.state = {
+            error: false,
+            displayEditBox: false,
+            goToLanding: false,
+            displaySavingChanges: false,
+            displayLoginBox: false,
+            story: response,
+            keyword: keyword
+        };
     }
 
     // fetch data from database and render the corresponding story
@@ -282,6 +280,65 @@ class StoryIPR extends React.Component {
                 'Content-Type': 'application/json'
             },
         });
+        fetch(request)
+        .then(
+            (res)=>{
+                console.log(res);
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    return res.json()
+                }
+
+            }
+        ).then(
+            (res)=>{
+                const response = {
+                    id: res._id,
+                    title: res.title,
+                    author: res.author.name,
+                    dateCreated: new Date(res.timeCreated),
+                    upvotes: res.upvoteCount,
+                    status: 'IPR',
+                    description: res.description,
+                    upvotedBy: res.upvotes.filter(
+                        voteobject=>voteobject.vote ==1
+                    ).map(
+                        voteobject=>voteobject.user
+                    ),
+                    downvotedBy: res.upvotes.filter(
+                        voteobject=>voteobject.vote ==-1
+                    ).map(
+                        voteobject=>voteobject.user
+                    ),
+                    sentences: res.sentences.map(
+                        (sentence)=>{
+                            return {
+                                id:sentence._id,
+                                author:sentence.author.name,
+                                dateCreated: new Date(sentence.dateModified),
+                                upvotes:sentence.upvoteCount,
+                                upvotedBy: sentence.upvotes.filter(
+                                        voteobject=>voteobject.vote ==1
+                                    ).map(
+                                        voteobject=>voteobject.user
+                                    ),
+                                downvotedBy: sentence.upvotes.filter(
+                                        voteobject=>voteobject.vote ==-1
+                                    ).map(
+                                        voteobject=>voteobject.user
+                                    ),
+                                keyword:sentence.keyword,
+                                text:sentence.content
+                            }
+                        }
+                    )
+                }
+                console.log(response);
+                console.log(response.dateCreated);
+                this.setState({story: response});
+            }
+        )
 
     }
 
@@ -474,13 +531,13 @@ class StoryIPR extends React.Component {
                             <div className="story shadow">
                                 <div className="upvotes">
                                     <button
-                                        className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('username')) ? ' upvoted' : '')}`}
+                                        className={`upvoteButton up ${(story.upvotedBy.includes(localStorage.getItem('userid')) ? ' upvoted' : '')}`}
                                         onClick={this.upvote.bind(this, 1)}>
                                         <i className="arrow up icon"></i>
                                     </button>
                                     <div className="value center">{story.upvotes}</div>
                                     <button
-                                        className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('username')) ? ' downvoted' : '')}`}
+                                        className={`upvoteButton down ${(story.downvotedBy.includes(localStorage.getItem('userid')) ? ' downvoted' : '')}`}
                                         onClick={this.upvote.bind(this, -1)}>
                                         <i className="arrow down icon"></i>
                                     </button>

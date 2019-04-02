@@ -24,7 +24,10 @@ const sentence = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    upvotes: [upvote],
+    upvotes: {
+        type: [upvote],
+        default: []
+    },
     upvoteCount: {
         type: Number,
         default: 0
@@ -59,6 +62,10 @@ const story = new mongoose.Schema({
     upvoteCount: {
         type: Number,
         default: 0
+    },
+    timeCreated: {
+        type: Date,
+        default: Date.now
     }
 }, {
     timestamps: true
@@ -69,4 +76,6 @@ const story = new mongoose.Schema({
 story.plugin(mongoosePaginate);
 
 const Story = mongoose.model("story", story);
-module.exports = { Story };
+module.exports = {
+    Story
+};

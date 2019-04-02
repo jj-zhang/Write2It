@@ -2,8 +2,8 @@
 const log = console.log;
 
 const mongoose = require('mongoose');
-const {Story} = require('..models/story');
-
+const {Story} = require('../models/story');
+const {ObjectID} = require('mongodb')
 
 module.exports = function (app) {
 
@@ -13,8 +13,6 @@ module.exports = function (app) {
         const new_sentence = {
             content: req.body.content,
             author: req.body.author,
-            dataModified: req.body.dataModified,
-            upvotes: req.body.upvotes,
             keyword: req.body.keyword
         }
         if (!ObjectID.isValid(storyId)) {

@@ -35,9 +35,10 @@ module.exports = function (app) {
         if (!ObjectID.isValid(storyId)) {
             res.status(404).send()
         }
-
         Story.findById(storyId)
-        .populate({path: 'author'})
+        .populate({path: 'author', select:"name"})
+        .populate({path: "sentences.author", select:"name"})
+        .populate({path: "upvotes.user", select:"name"})
         .then((story) => {
             if (!story) {
                 res.status(404).send()
@@ -179,7 +180,7 @@ module.exports = function (app) {
             } else {
                 var sentence = story.sentences.id(sentenceId);
 
-                sentence.upvoteCount += 1;
+                sentence.upvoteCount += req.body.vote;
 
                 sentence.upvotes.push({
                     vote: req.body.vote,
