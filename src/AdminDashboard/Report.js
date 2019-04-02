@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+'use strict';
+
+import React, { Component } from 'react';
 
 // React component to render the individual report.
 export class Report extends Component {

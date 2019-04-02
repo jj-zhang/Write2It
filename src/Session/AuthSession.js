@@ -1,3 +1,5 @@
+'use strict';
+
 // this session duration must be consistent with serverside session which is the auto logout time
 const sessionDuration = 60000;
 

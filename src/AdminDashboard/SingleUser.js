@@ -1,3 +1,6 @@
+'use strict';
+
+
 import React, { Component } from 'react';
 // import placeholderimage from '../../public/assets/images/placeholder.png';
 import {Link} from 'react-router-dom';

@@ -1,6 +1,7 @@
+'use strict';
+
 import React from 'react';
 import './Auth.css';
-import {authenticate} from '../db/users';
 import {Link} from 'react-router-dom';
 import {onlogin, onlogout} from '../Session/AuthSession'
 

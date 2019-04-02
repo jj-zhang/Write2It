@@ -1,4 +1,6 @@
-// need the user schema 
+'use strict';
+
+// need the user schema
 const { User } = require('../models/user');
 // Middleware for authentication for resources
 // use authenticate as middleware, any request require admin should check again for 

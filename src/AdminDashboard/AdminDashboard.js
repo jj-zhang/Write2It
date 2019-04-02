@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component } from 'react';
 import UserStatus from './UserStatus';
 import Reports from './Reports';

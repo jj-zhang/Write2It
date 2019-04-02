@@ -1,6 +1,7 @@
+'use strict';
+
 import React from 'react';
 import './Signup.css';
-// import placeholderimage from '../../public/assets/images/placeholder.png';
 import {onlogin} from '../Session/AuthSession';
 
 

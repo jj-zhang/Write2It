@@ -1,7 +1,9 @@
+'use strict';
+
 import React from 'react';
-import {createStory} from '../db/stories';
 import {Redirect} from 'react-router';
 import {authmiddleware} from '../Session/AuthSession';
+
 // react component to render the create story view
 /*
 This is used for creating a story. 

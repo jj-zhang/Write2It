@@ -1,4 +1,5 @@
-"use strict";
+'use strict';
+
 const log = console.log;
 
 const mongoose = require('mongoose');
