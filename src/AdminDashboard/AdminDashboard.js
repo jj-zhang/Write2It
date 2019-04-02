@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import UserStatus from './UserStatus';
 import Reports from './Reports';
 import ArchivedReports from './ArchivedReports';
@@ -12,72 +12,102 @@ class AdminDashboard extends Component {
         super(props);
         // Hardcode data that records different reports.
         this.state = {
-            displayView: 'userReports',
+            displayView: null,
             reports: [],
             archivedReports: [],
             users: []
-        }
+        };
+
         // Bind the function archiveList with the constructor.
         this.archiveList = this.archiveList.bind(this);
     }
 
     componentDidMount() {
-        fetch('/sentence/')
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            } else {
-                return Promise.reject("Could not find sentences"); 
-            }
-        })
-        .then((json) => {
-            this.setState({
-                reports: this.state.reports.concat(json.docs),
-                archivedReports: this.state.archivedReports.concat(json.docs),
-                users: this.state.users.concat(json.docs)
-            });
-        }).catch((error) => {
-            console.log(error);
-        })
-
-        
-    }
+        displayView('userReports');
+    };
 
     // The function to archive the report list and add it to the archive report list.
     archiveList = (id) => {
         var getReport = this.state.reports.find(obj => {
             return obj.id === id;
         });
-      this.setState(prevState => ({
-        reports: prevState.reports.filter(el => el.id !== id),
-        archivedReports: [...prevState.archivedReports, getReport]
-      }));
-    }
+        this.setState(prevState => ({
+            reports: prevState.reports.filter(el => el.id !== id),
+            archivedReports: [...prevState.archivedReports, getReport]
+        }));
+    };
 
     // React component to render the admin dashboard view
     removeUser = (id) => {
         this.setState(prevState => ({
             users: prevState.users.filter(el => el.id !== id),
         }));
-    }
+    };
 
     getById = (idToSearch) => {
         return this.state.reports.filter(report => report.id === idToSearch);
-    }
+    };
 
 
     // display view (user reports, user status, user roles)
     displayView(viewName) {
-
-
-        console.log('d');
-
         this.setState({displayView: viewName});
 
 
+        if (displayView == 'userReports') {
+            fetch('/message?solved=false')
+                .then((result) => {
+                    if (result.status === 200) {
+                        return result.json();
+                    } else {
+                        return Promise.reject("Could not find reports.");
+                    }
+                })
+                .then((json) => {
+                    this.setState({
+                        reports: this.state.reports.concat(json.docs)
+                    });
+                    return fetch('/message?solve=true');
+
+                }).then((result) => {
+                if (result.status === 200) {
+                    return result.json();
+                } else {
+                    return Promise.reject("Could not find reports.");
+                }
+            }).then((json) => {
+                this.setState({
+                    archivedReports: json.docs
+                });
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        } else {
+            fetch('/user')
+                .then((result) => {
+                    if (result.status === 200) {
+                        return result.json();
+                    } else {
+                        return Promise.reject("Could not find users.");
+                    }
+                })
+                .then((json) => {
+                    this.setState({
+                        users: json
+                    });
+                }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+
     }
-    render() {
-        return (
+
+
+render()
+{
+    return (
         <div id="adminDashboard" className="page">
             <div className="pageTitle">
                 <h1>Admin Panel</h1>
@@ -91,14 +121,17 @@ class AdminDashboard extends Component {
                     <div className="col-lg-9 col-xs-12">
 
                         <div className="ui pointing menu">
-                            <button className={`item ${this.state.displayView === 'userReports' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userReports')}>
+                            <button className={`item ${this.state.displayView === 'userReports' ? 'active' : '' }`}
+                                    onClick={this.displayView.bind(this, 'userReports')}>
                                 User Reports
                                 {/*<div class="ui teal left pointing label">3</div>*/}
                             </button>
-                            <button className={`item ${this.state.displayView === 'userStatus' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userStatus')}>
+                            <button className={`item ${this.state.displayView === 'userStatus' ? 'active' : '' }`}
+                                    onClick={this.displayView.bind(this, 'userStatus')}>
                                 User Status
                             </button>
-                            <button className={`item ${this.state.displayView === 'userRoles' ? 'active' : '' }`} onClick={this.displayView.bind(this, 'userRoles')}>
+                            <button className={`item ${this.state.displayView === 'userRoles' ? 'active' : '' }`}
+                                    onClick={this.displayView.bind(this, 'userRoles')}>
                                 User Roles
                             </button>
 
@@ -135,8 +168,8 @@ class AdminDashboard extends Component {
                 </div>
             </div>
         </div>
-        );
-    }
+    );
+}
 }
 
 export default AdminDashboard;

@@ -74,7 +74,7 @@ module.exports = function (app) {
             res.status(404).send();
         }
 
-        Message.findByIdAndUpdate(id, {
+        User.findByIdAndUpdate(id, {
         }, {$set: req.body}, {new: true}).then((result) => {
             if(!result) {
                 res.status(404).send();
@@ -87,6 +87,14 @@ module.exports = function (app) {
 
     });
 
+    // get all users
+    app.get('/user', (req, res) => {
+        User.find(req.query).then((result) => {
+            res.send(result);
+        }, (error) => {
+            res.status(500).send(error);
+        });
+    });
 };
 
 

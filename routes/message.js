@@ -43,7 +43,7 @@ module.exports = function (app) {
     // get all messages
     app.get('/message',
         (req, res) => {
-            Message.find().then((result) => {
+            Message.find(req.query).then((result) => {
                 res.send(result);
             }, (error) => {
                 res.status(500).send(error);
