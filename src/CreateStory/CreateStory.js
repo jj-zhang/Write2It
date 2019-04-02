@@ -22,7 +22,7 @@ class CreateStory extends React.Component {
             title: e.target.title.value,
             description: e.target.description.value
         }
-        const request = new Request("/story", {
+        const request = new Request("/storys", {
             method: 'post', 
             body: JSON.stringify(data),
             headers: {
