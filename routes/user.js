@@ -5,6 +5,8 @@ const { User } = require('../models/user');
 
 
 module.exports = function (app) {
+
+    // user signup
     app.post('/signup', (req, res) => {
         const user = new User({
             name: req.body.name,
@@ -33,7 +35,8 @@ module.exports = function (app) {
         })
     });
 
-   
+
+    // user login
     app.post('/login',  (req, res) => {
         const name = req.body.name;
         const password = req.body.password;
@@ -50,6 +53,7 @@ module.exports = function (app) {
         })
     });
 
+    // user logout
     app.get('/logout', (req, res) => {
         console.log("user: "+req.session.user+"has logged out");
         req.session.destroy((error) => {
@@ -61,8 +65,27 @@ module.exports = function (app) {
         })
     });
 
+    // update user information
+    app.patch('/user/:id', (req, res) => {
 
-    // app.post();
+        const id = req.params.id;
+
+        if (!ObjectID.isValid(id)) {
+            res.status(404).send();
+        }
+
+        Message.findByIdAndUpdate(id, {
+        }, {$set: req.body}, {new: true}).then((result) => {
+            if(!result) {
+                res.status(404).send();
+            } else {
+                res.send(result);
+            }
+        }).catch((error) => {
+            res.status(400).send(error);
+        });
+
+    });
 
 };
 
