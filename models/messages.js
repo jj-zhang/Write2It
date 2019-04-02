@@ -8,7 +8,8 @@ const MessageSchema = new mongoose.Schema({
     solved: {
         type: mongoose.Schema.Types.Boolean,
         default: false
-    },
+    }
+}, {
     timestamps: true
 });
 

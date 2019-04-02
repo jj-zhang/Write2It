@@ -23,7 +23,7 @@ class AdminDashboard extends Component {
     }
 
     componentDidMount() {
-        displayView('userReports');
+        this.setDisplayView('userReports');
     };
 
     // The function to archive the report list and add it to the archive report list.
@@ -50,11 +50,11 @@ class AdminDashboard extends Component {
 
 
     // display view (user reports, user status, user roles)
-    displayView(viewName) {
+    setDisplayView(viewName) {
         this.setState({displayView: viewName});
 
 
-        if (displayView == 'userReports') {
+        if (this.state.displayView == 'userReports') {
             fetch('/message?solved=false')
                 .then((result) => {
                     if (result.status === 200) {
