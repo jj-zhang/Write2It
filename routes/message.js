@@ -4,6 +4,7 @@ const {Message} = require("../models/messages");
 const {authenticateAdmin, authenticateUser} = require("./authentication");
 module.exports = function (app) {
 
+    // create message
     app.post('/message', (req, res) => {
         console.log(req.session.user);
         const message = new Message({
@@ -19,6 +20,7 @@ module.exports = function (app) {
         })
     });
 
+    // update message
     app.patch('/message/:id', (req, res) => {
         const id = req.params.id;
 
@@ -26,7 +28,7 @@ module.exports = function (app) {
             res.status(404).send();
         }
 
-        Restaurant.findByIdAndUpdate(id, {
+        Message.findByIdAndUpdate(id, {
         }, {$set: req.body}, {new: true}).then((result) => {
             if(!result) {
                 res.status(404).send();
@@ -38,6 +40,18 @@ module.exports = function (app) {
         });
     });
 
+    // get all messages
+    app.get('/message',
+        (req, res) => {
+            Message.find().then((result) => {
+                res.send(result);
+            }, (error) => {
+                res.status(500).send(error);
+            });
+    });
+
+
+    // get message by id
     app.get('/message/:id', (req, res) => {
         const id = req.params.id;
 
