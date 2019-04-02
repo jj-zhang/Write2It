@@ -4,7 +4,6 @@ import {getUserOngoingStories} from '../db/stories';
 import './Profile.css';
 import {formatRelative, subDays} from 'date-fns';
 import {Link} from 'react-router-dom';
-import placeholderimage from '../placeholder.png';
 
 // a component to render user profiles
 class Profile extends React.Component {
@@ -93,7 +92,7 @@ class Profile extends React.Component {
                                         <div className="editBox">
                                             <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
                                                 <div className="profileIconContainer field">
-                                                    <img id="iconImage" alt="User Icon Preview" src={user.profilePhoto || placeholderimage}></img>
+                                                    <img id="iconImage" alt="User Icon Preview" src={user.profilePhoto || "/assets/images/placeholder.png"}></img>
                                                 </div>
                                                 <div className="profileInputContainer">
                                                     {/*<div className="field">*/}
@@ -144,7 +143,7 @@ class Profile extends React.Component {
                                     ) : (
                                         <div className="ui card">
                                             <div className="image">
-                                                <img alt="User Icon Preview" src={user.profilePhoto || placeholderimage}/>
+                                                <img alt="User Icon Preview" src={user.profilePhoto || "/assets/images/placeholder.png"}/>
                                             </div>
                                             <div className="content">
                                                 <span className="header">{user.username}</span>

@@ -1,7 +1,7 @@
 /*shared css styles*/
 @font-face {
   font-family: lovelo;
-  src: url(Lovelo_Black.otf);
+  src: url(/assets/fonts/Lovelo_Black.otf);
 }
 
 .page {

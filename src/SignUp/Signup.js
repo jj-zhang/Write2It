@@ -1,14 +1,15 @@
 import React from 'react';
 import './Signup.css';
-import placeholderimage from '../placeholder.png';
-import {signup} from '../db/users';
-import {onlogin} from '../Session/AuthSession'
+// import placeholderimage from '../../public/assets/images/placeholder.png';
+import {onlogin} from '../Session/AuthSession';
+
+
 // the Sign up page
 class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            iconImageUrl: placeholderimage,
+            iconImageUrl: null,
             imagefile: null,
             error: false,
             errormessage: null,
@@ -80,7 +81,7 @@ class SignUp extends React.Component {
                 <div id="signup">
                     <form className="ui form shadow-lg" onSubmit={this.signup}>
                         <div className="profileIconContainer field">
-                            <img id="iconImage" alt="User Icon Preview" src={this.state.iconImageUrl}></img>
+                            <img id="iconImage" alt="User Icon Preview" src={this.state.iconImageUrl || "/assets/images/placeholder.png"}></img>
                         </div>
                         <div className="profileInputContainer">
                             <div className="field">

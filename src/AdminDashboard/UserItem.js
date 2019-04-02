@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import placeholderimage from '../placeholder.png';
+// import placeholderimage from '../../public/assets/images/placeholder.png';
 import {Link} from 'react-router-dom';
 
 // React component to render the individual user.
@@ -33,7 +33,7 @@ export class UserItem extends Component {
                     }
 
                 </div>
-                <img className="ui avatar image" src={placeholderimage} alt="logo"/>
+                <img className="ui avatar image" src={"/assets/images/placeholder.png"} alt="logo"/>
                 <div className="content">
 
                     <Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>
