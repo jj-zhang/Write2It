@@ -70,7 +70,7 @@ class SignUp extends React.Component {
                     this.setState({error: true, errormessage: res.message});
                 }
                 else{
-                    onlogin(res.user.role, res.user.name);
+                    onlogin(res.user.role, res.user.name, res.user._id);
                 }
             }
         )

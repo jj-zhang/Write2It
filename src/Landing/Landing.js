@@ -147,7 +147,7 @@ class Stories extends React.Component {
     // load another page of stories
     loadMore() {
 
-        fetch('/story/' + this.state.cursor)
+        fetch('/storys/' + this.state.cursor)
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();

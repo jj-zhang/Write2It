@@ -5,6 +5,7 @@ const sessionDuration = 60000;
 const logout = () => {
     localStorage.removeItem("loginStatus");
     localStorage.removeItem("username");
+    localStorage.removeItem("userid");
     window.location.href = '/';
 }
 
@@ -23,9 +24,10 @@ module.exports.authmiddleware = (res) => {
 
 
 // onlogin & onlogout should be called when authentication status changed.
-module.exports.onlogin = (name, status) => {
+module.exports.onlogin = (name, status, id) => {
     localStorage.setItem("loginStatus", status);
     localStorage.setItem("username", name);
+    localStorage.setItem('userid', id);
     setTimeout(() => {
         logout();
         alert("session expired, please log in again");
