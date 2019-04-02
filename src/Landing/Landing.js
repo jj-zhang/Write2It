@@ -6,26 +6,56 @@ import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
 import Auth from '../Auth/Auth';
 import {Link} from 'react-router-dom';
+import {authmiddleware} from '../Session/AuthSession';
 
 // component to render a story
 class Story extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {goToStoryViewClicked: false, story: this.props.story};
+        this.state = {
+            story: this.props.story,
+            upvoteCount: 0,
+            upvotedBy: [],
+            downvotedBy: []
+        };
     }
 
     // view a story
     goToStoryView(e) {
         e.preventDefault();
-        this.setState({goToStoryViewClicked: true});
+        const url = "/story/" + this.state.story._id;
+        const request = new Request(url, {
+            method: 'post', 
+            body: null,
+            headers: {
+                'Accept': 'application/json'
+            },
+        });
+        fetch(request).then(
+            (res)=>{
+                return authmiddleware(res);
+            }
+        ).then(
+            (res)=>{
+                if (res.status != 200){
+                    alert("woops! error code:"+res.status);
+                }else{
+                    return res.json()
+                }
+            }
+        ).then(
+            (res)=>{
+                window.location.href="/story/"+res._id;
+            }
+        )
     }
 
     // upvote a story, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const story = this.state.story;
         const user = localStorage.getItem('username');
-
+        console.log(localStorage);
         if (!user) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
@@ -34,13 +64,10 @@ class Story extends React.Component {
         }
 
         if (val === 1) {
-            if (story.upvotedBy.includes(user)) {
-                val = -1;
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
-            } else {
-                story.upvotedBy.push(user);
+            for(let i=0;i< this.state.upvotedBy.length;i++){
+                if(user === this.state.upvotedBy[i]){
+                    
+                }
             }
         } else {
             if (story.upvotedBy.includes(user)) {
@@ -79,7 +106,7 @@ class Story extends React.Component {
                             }}>
                         <i className="arrow up icon"/>
                     </button>
-                    <div className="value center">{story.upvoteCount}</div>
+                    <div className="value center">{this.state.upvoteCount}</div>
                     <button
                         className={`upvoteButton down ${ true ? ' downvoted' : ''}`}
                         onClick={
