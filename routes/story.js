@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
-const {ObjectID} = require('mongodb')
+const {ObjectID} = require('mongodb');
 const {Story} = require('../models/story');
 const {authenticateAdmin, authenticateUser} = require("./authentication");
 

@@ -1,7 +1,8 @@
 'use strict';
 
+import React, { Component } from 'react';
+import {formatDistance, subDays} from 'date-fns';
 
-import React, { Component } from 'react'
 
 // React component to render the individual archived report.
 export class ArchivedReport extends Component {
@@ -10,16 +11,15 @@ export class ArchivedReport extends Component {
         <div className="item">
         <div className="right floated content">
         </div>
-        <div className="content">
-            <div className="header">{this.props.archivedReport.category}</div>
             <div className="content">
-            Submitted by {this.props.archivedReport.name} {this.props.archivedReport.time}
+                <div className="content">
+                    <span>Submitted by <strong>{this.props.report.sender.name}</strong> {formatDistance(subDays(new Date(this.props.report.createdAt), 0), new Date())} ago</span>
+                </div>
+                <p>{this.props.report.message}</p>
             </div>
-            {this.props.archivedReport.content}
-        </div>
     </div>
     )
   }
 }
 
-export default ArchivedReport
+export default ArchivedReport;

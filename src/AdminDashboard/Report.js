@@ -1,26 +1,26 @@
 'use strict';
 
 import React, { Component } from 'react';
+import {formatDistance, subDays} from 'date-fns';
 
 // React component to render the individual report.
 export class Report extends Component {
   render() {
-    const id = this.props.report.id;
+    const id = this.props.report._id;
     return (
         <div className="item">
             <div className="right floated content">
-              <button className="ui small blue button" onClick={this.props.archiveList.bind(this,id)}>Archive</button>
+              <button className="ui small blue button" onClick={this.props.archiveList.bind(this, id)}>Archive</button>
             </div>
             <div className="content">
-                <div className="header">{this.props.report.category}</div>
                 <div className="content">
-                Submitted by {this.props.report.name} {this.props.report.time}
+                    <span>Submitted by <strong>{this.props.report.sender.name}</strong> {formatDistance(subDays(new Date(this.props.report.createdAt), 0), new Date())} ago</span>
                 </div>
-                {this.props.report.content}
+                <p>{this.props.report.message}</p>
             </div>
         </div>
     )
   }
 }
 
-export default Report
+export default Report;

@@ -7,8 +7,8 @@ import ArchivedReport from './ArchivedReport';
 export class ArchivedReports extends Component {
   render() {
     // Mapping each individual achived report.
-    return this.props.archivedReports.map((archivedReport) => (
-        <ArchivedReport key={archivedReport.id} archivedReport = {archivedReport}/>
+    return this.props.archivedReports.map((report) => (
+        <ArchivedReport key={report._id} report = {report}/>
     ));
   }
 }

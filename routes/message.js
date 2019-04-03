@@ -2,6 +2,7 @@
 
 const {Message} = require("../models/messages");
 const {authenticateAdmin, authenticateUser} = require("./authentication");
+const {ObjectID} = require('mongodb');
 module.exports = function (app) {
 
     // create message
@@ -20,22 +21,28 @@ module.exports = function (app) {
         })
     });
 
+
+
     // update message
-    app.patch('/message/:id', (req, res) => {
+    app.put('/message/:id', (req, res) => {
+
         const id = req.params.id;
 
         if (!ObjectID.isValid(id)) {
             res.status(404).send();
         }
 
-        Message.findByIdAndUpdate(id, {
-        }, {$set: req.body}, {new: true}).then((result) => {
+
+        Message.findByIdAndUpdate(id,
+        {$set: req.body}, {new: true}).then((result) => {
+
             if(!result) {
                 res.status(404).send();
             } else {
                 res.send(result);
             }
         }).catch((error) => {
+
             res.status(400).send(error);
         });
     });
@@ -43,7 +50,8 @@ module.exports = function (app) {
     // get all messages
     app.get('/message',
         (req, res) => {
-            Message.find(req.query).then((result) => {
+
+            Message.find(req.query).populate({path: 'sender', select: 'name'}).then((result) => {
                 res.send(result);
             }, (error) => {
                 res.status(500).send(error);
@@ -66,7 +74,7 @@ module.exports = function (app) {
                 res.send({message});
             }
         }).catch((error) => {
-            res.status(500).send()
+            res.status(500).send(error);
         });
     });
 

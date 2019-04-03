@@ -28,13 +28,39 @@ class AdminDashboard extends Component {
 
     // The function to archive the report list and add it to the archive report list.
     archiveList = (id) => {
-        var getReport = this.state.reports.find(obj => {
-            return obj.id === id;
+
+
+        const url = '/message/' + id;
+
+        let data = {
+            solved: true
+        };
+
+
+        // Create our request constructor with all the parameters we need
+        const request = new Request(url, {
+            method: 'put',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
         });
-        this.setState(prevState => ({
-            reports: prevState.reports.filter(el => el.id !== id),
-            archivedReports: [...prevState.archivedReports, getReport]
-        }));
+
+        fetch(request)
+            .then((result) => {
+                if (result.status === 200) {
+                    return result.json();
+                } else {
+                    return Promise.reject("Could not find reports.");
+                }
+            })
+            .then((json) => {
+                this.setDisplayView('userReports');
+        }).
+            catch((error) => {
+
+        });
     };
 
     // React component to render the admin dashboard view
@@ -54,7 +80,7 @@ class AdminDashboard extends Component {
         this.setState({displayView: viewName});
 
 
-        if (this.state.displayView == 'userReports') {
+        if (viewName === 'userReports') {
             fetch('/message?solved=false')
                 .then((result) => {
                     if (result.status === 200) {
@@ -65,9 +91,9 @@ class AdminDashboard extends Component {
                 })
                 .then((json) => {
                     this.setState({
-                        reports: this.state.reports.concat(json.docs)
+                        reports: json
                     });
-                    return fetch('/message?solve=true');
+                    return fetch('/message?solved=true');
 
                 }).then((result) => {
                 if (result.status === 200) {
@@ -77,10 +103,10 @@ class AdminDashboard extends Component {
                 }
             }).then((json) => {
                 this.setState({
-                    archivedReports: json.docs
+                    archivedReports: json
                 });
             }).catch((error) => {
-                console.log(error);
+
             });
 
         } else {
@@ -122,16 +148,16 @@ render()
 
                         <div className="ui pointing menu">
                             <button className={`item ${this.state.displayView === 'userReports' ? 'active' : '' }`}
-                                    onClick={this.displayView.bind(this, 'userReports')}>
+                                    onClick={this.setDisplayView.bind(this, 'userReports')}>
                                 User Reports
                                 {/*<div class="ui teal left pointing label">3</div>*/}
                             </button>
                             <button className={`item ${this.state.displayView === 'userStatus' ? 'active' : '' }`}
-                                    onClick={this.displayView.bind(this, 'userStatus')}>
+                                    onClick={this.setDisplayView.bind(this, 'userStatus')}>
                                 User Status
                             </button>
                             <button className={`item ${this.state.displayView === 'userRoles' ? 'active' : '' }`}
-                                    onClick={this.displayView.bind(this, 'userRoles')}>
+                                    onClick={this.setDisplayView.bind(this, 'userRoles')}>
                                 User Roles
                             </button>
 
