@@ -215,11 +215,22 @@ module.exports = function (app) {
                 var sentence = story.sentences.id(sentenceId);
 
                 sentence.upvoteCount += req.body.vote;
-
                 sentence.upvotes.push({
                     vote: req.body.vote,
                     user: req.body.userID
                 });
+                if(sentence.upvoteCount === 10 && sentence.chosen === false){
+                    sentence.chosen = true;
+                    let toRemove = [];
+                    for(let i=0;i<story.sentences.length;i++){
+                        if(story.sentences[i].chosen !== true){
+                            toRemove.push(story.sentences[i]._id);
+                        }
+                    }
+                    for(let i=0;i<toRemove.length;i++){
+                        story.sentences.id(toRemove[i]).remove();
+                    }
+                }
                 story.save().then((result) => {
                     res.send(result);
                 }, (error) => {
@@ -230,43 +241,49 @@ module.exports = function (app) {
     });
 
 
-    app.delete('/upvote/:storyId/:sentenceId/:upvoteId', (req, res) => {
+    app.delete('/upvote/:storyId/:sentenceId/:userId/:val', (req, res) => {
         const storyId = req.params.storyId;
         const sentenceId = req.params.sentenceId;
-        const upvoteId = req.params.upvoteId;
+        const userId = req.params.userId;
+        const value = req.params.val;
 
-        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(sentenceId) || !ObjectID.isValid(upvoteId)) {
+        if (!ObjectID.isValid(storyId) || !ObjectID.isValid(sentenceId) || !ObjectID.isValid(userId)) {
             res.status(404).send()
         }
-
-        Story.updateOne({
-            '_id': storyId,
-            'sentences._id': sentenceId,
-            'sentences.upvotes._id': upvoteId
-        }, {
-            $pull: {
-                'sentences.upvotes': {
-                    _id: upvoteId
+            Story.findById(storyId).then((story) => {
+                if (!story) {
+                    res.status(404).send()
+                } else {
+                    //console.log(story);
+                    var sentence = story.sentences.id(sentenceId);
+                    let toRemoveUpvote = null;
+                    for(let i=0;i<sentence.upvotes.length;i++){
+                        if(sentence.upvotes[i].user == userId){
+                            toRemoveUpvote = sentence.upvotes[i]._id;
+                        }
+                    }
+                    console.log(toRemoveUpvote);
+                    story.sentences.id(sentenceId).upvotes.id(toRemoveUpvote).remove();
+                    sentence.upvoteCount -= value;
+                    if(sentence.upvoteCount === 10 && sentence.chosen === false){
+                        sentence.chosen = true;
+                        let toRemove = [];
+                        for(let i=0;i<story.sentences.length;i++){
+                            if(story.sentences[i].chosen !== true){
+                                toRemove.push(story.sentences[i]._id);
+                            }
+                        }
+                        for(let i=0;i<toRemove.length;i++){
+                            story.sentences.id(toRemove[i]).remove();
+                        }
+                    }
+                    story.save().then((result) => {
+                        res.send(result);
+                    }, (error) => {
+                        res.status(400).send(error)
+                    })
                 }
-            },
-            $inc: {
-                'sentences.upvoteCount': -1
-            }
-        }, {
-            new: true
-        }).then((result) => {
-
-            if (!result) {
-                res.status(404).send(error);
-            }
-
-            res.send(result);
-        }, (error) => {
-            res.status(400).send(error);
-        });
-
-
-
+            })
     });
 
 

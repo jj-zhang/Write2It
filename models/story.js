@@ -32,7 +32,11 @@ const sentence = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    keyword: String
+    keyword: String,
+    chosen: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const story = new mongoose.Schema({
