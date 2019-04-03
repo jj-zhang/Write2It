@@ -17,7 +17,7 @@ export class UserItem extends Component {
                     }
 
                 </div>
-                <img className="ui avatar image" src={ this.props.user.profilePic ? 'data:image/png;base64,' + this.props.user.profilePic : "/assets/images/placeholder.png"} alt="logo"/>
+                <img className="ui avatar image" src={ this.props.user.profilePic ? this.props.user.profilePic : "/assets/images/placeholder.png"} alt="logo"/>
                 <div className="content">
 
                     <Link to={`/profile/${this.props.user.name}`} className="user header">{this.props.user.name}</Link>

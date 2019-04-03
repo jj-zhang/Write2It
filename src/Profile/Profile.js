@@ -1,8 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {updateUser, getUser} from '../db/users';
-import {getUserOngoingStories} from '../db/stories';
 import './Profile.css';
 import {formatRelative, subDays} from 'date-fns';
 import {Link} from 'react-router-dom';
@@ -12,17 +10,10 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
 
-        // fake API call to get this user's information
-        const response = getUser({username: this.props.match.params.id});
-
-        // fake API to get this user's ongoing stories
-        const response2 = getUserOngoingStories({username: this.props.match.params.id});
-
         this.state = {
             displayEditBox: false,
             displaySavingChanges: false,
-            user: response,
-            ongoingStories: response2
+            stories: []
         };
     }
 
@@ -32,6 +23,67 @@ class Profile extends React.Component {
         this.setState({displayEditBox: !this.state.displayEditBox});
     }
 
+
+    componentDidMount() {
+        // get user by name
+        fetch('/user/' + this.props.match.params.id)
+            .then((result) => {
+                if (result.status === 200) {
+                    return result.json();
+                } else {
+                    return Promise.reject("Could not find users.");
+                }
+            })
+            .then((json) => {
+
+                // console.log(json);
+
+                this.setState({user: json});
+
+                return json._id
+
+            }).then((id) => {
+
+            fetch('/storys?author=' + id)
+                .then((result) => {
+                    if (result.status === 200) {
+                        return result.json();
+                    } else {
+                        return Promise.reject("Could not find stories.");
+                    }
+                })
+                .then((json) => {
+                    this.setState({
+                        stories: this.state.stories.concat(json)
+                    });
+                }).catch((error) => {
+            });
+
+            fetch('/storys?sentences.author=' + id)
+                .then((result) => {
+                    if (result.status === 200) {
+                        return result.json();
+                    } else {
+                        return Promise.reject("Could not find stories.");
+                    }
+                })
+                .then((json) => {
+                    this.setState({
+                        stories: this.state.stories.concat(json)
+                    });
+                }).catch((error) => {
+            });
+
+
+
+        }).catch((error) => {
+            console.log(error);
+        });
+
+
+
+    }
+
     // upload a new image
     updateImage(e) {
         e.preventDefault();
@@ -39,12 +91,13 @@ class Profile extends React.Component {
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.readAsDataURL(file);
+
+
         reader.onloadend = () => {
             const user = this.state.user;
-            user.profilePhoto = reader.result;
+            user.profilePic= reader.result;
 
             this.setState({
-                imagefile: file,
                 user: user
             });
 
@@ -63,15 +116,40 @@ class Profile extends React.Component {
     // save edit changes
     saveEdit(e) {
         e.preventDefault();
-        const user = this.state.user;
-        // fake API call to update a story
-        const response = updateUser(user);
 
-        if (response) {
-            this.setState({displaySavingChanges: true, displayEditBox: false, user: response});
-            const _self = this;
-            setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
-        }
+        const url = '/user/' + this.state.user._id;
+
+
+        // Create our request constructor with all the parameters we need
+        const request = new Request(url, {
+            method: 'put',
+            body: JSON.stringify(this.state.user),
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        fetch(request)
+            .then((result) => {
+                if (result.status === 200) {
+                    return result.json();
+                } else {
+                    return Promise.reject("Could not update user.");
+                }
+            })
+            .then((json) => {
+                    this.setState({user: json});
+
+                    this.setState({displaySavingChanges: true, displayEditBox: false});
+                    const _self = this;
+                    setTimeout(() => _self.setState({displaySavingChanges: false}), 1000);
+            }).catch((error) => {
+
+        });
+
+
+
     }
 
 
@@ -81,9 +159,11 @@ class Profile extends React.Component {
         const userType = localStorage.getItem('loginStatus');
         const username = localStorage.getItem('username');
 
-        const canEdit = userType === 'admin' || user.username === username;
+        const canEdit = userType === 'admin' || (user ? user.username === username : false);
 
-        return (
+        return user ?
+
+        (
             <div>
                 <div id="profile" className="page">
                     <div className="container-fluid">
@@ -94,16 +174,9 @@ class Profile extends React.Component {
                                         <div className="editBox">
                                             <form className="ui form" onSubmit={this.saveEdit.bind(this)}>
                                                 <div className="profileIconContainer field">
-                                                    <img id="iconImage" alt="User Icon Preview" src={user.profilePhoto || "/assets/images/placeholder.png"}></img>
+                                                    <img id="iconImage" alt="User Icon Preview" src={user.profilePic || "/assets/images/placeholder.png"}></img>
                                                 </div>
                                                 <div className="profileInputContainer">
-                                                    {/*<div className="field">*/}
-                                                        {/*<label>Username</label>*/}
-                                                        {/*<div className="ui left icon input">*/}
-                                                            {/*<input type="text" name="username" value={user.username} onChange={this.change.bind(this)} placeholder="Username" required/>*/}
-                                                            {/*<i className="user icon"></i>*/}
-                                                        {/*</div>*/}
-                                                    {/*</div>*/}
                                                     <div className="field">
                                                         <label>Email</label>
                                                         <div className="ui left icon input">
@@ -130,28 +203,19 @@ class Profile extends React.Component {
 
                                                     <button className="ui teal button" type="submit">Save</button>
 
-
-                                                    {/*{this.state.error &&*/}
-                                                    {/*<div className="ui negative message">*/}
-                                                        {/*<div className="header">*/}
-                                                            {/*This username is taken.*/}
-                                                        {/*</div>*/}
-                                                        {/*<p>Please try again.</p>*/}
-                                                    {/*</div>*/}
-                                                    {/*}*/}
                                                 </div>
                                             </form>
                                         </div>
                                     ) : (
                                         <div className="ui card">
                                             <div className="image">
-                                                <img alt="User Icon Preview" src={user.profilePhoto || "/assets/images/placeholder.png"}/>
+                                                <img alt="User Icon Preview" src={user.profilePic || "/assets/images/placeholder.png"} />
                                             </div>
                                             <div className="content">
                                                 <span className="header">{user.username}</span>
                                                 <div className="meta">
                                             <span
-                                                className="date">Joined {formatRelative(subDays(user.dateCreated, 0), new Date())}</span>
+                                                className="date">Joined {formatRelative(subDays(new Date(user.createdAt), 0), new Date())}</span>
                                                 </div>
                                                 <div className="description">
                                                     {user.description || ''}
@@ -172,22 +236,33 @@ class Profile extends React.Component {
                             </div>
 
                             <div className="ongoingStories col-lg-3 col-xs-12">
-                                <h1>Ongoing Stories</h1>
-                                <OngoingStories ongoingStories={this.state.ongoingStories}/>
+                                <h1>Stories Contributed To</h1>
+                                <OngoingStories ongoingStories={this.state.stories}/>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+
+
                 {this.state.displaySavingChanges &&
-                    <div className="savingChangesMessage ui teal message">
-                        <div className="header">
-                            Success
-                        </div>
-                        <p>Your changes have been saved.</p>
+                <div className="savingChangesMessage ui teal message">
+                    <div className="header">
+                        Success
                     </div>
+                    <p>Your changes have been saved.</p>
+                </div>
                 }
-            </div>);
+
+
+            </div>)
+
+            :
+
+            <div></div>
+
+            ;
     }
 }
 
@@ -195,8 +270,8 @@ class Profile extends React.Component {
 class OngoingStories extends React.Component {
     render() {
         let ongoingStories = this.props.ongoingStories;
-        ongoingStories = ongoingStories.map((story) => <div key={story.id} className="story ui segment">
-            <Link to={`/story/${story.id}`}>{story.title}</Link>
+        ongoingStories = ongoingStories.map((story) => <div key={story._id} className="story ui segment">
+            <Link to={`/story/${story._id}`}>{story.title}</Link>
         </div>);
         return (<div className="ui segments">{ongoingStories}</div>);
     }

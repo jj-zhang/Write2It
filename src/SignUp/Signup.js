@@ -41,7 +41,7 @@ class SignUp extends React.Component {
         const email = e.target.email.value;
         const icon = this.state.imagefile;
         // validate if the password is valid(4chars or longer)
-        if(password.length < 4){
+        if(password.length < 8){
             this.setState({error: true, errormessage: "password must be at least 8 characters long"});
             return;
         }
