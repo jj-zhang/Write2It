@@ -2,7 +2,6 @@
 
 
 import React, { Component } from 'react';
-// import placeholderimage from '../../public/assets/images/placeholder.png';
 import {Link} from 'react-router-dom';
 
 // React component to render the single user.
