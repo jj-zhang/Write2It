@@ -100,25 +100,28 @@ module.exports = function (app) {
     });
 
 
-    // get user by id
-    app.get('/user/:id', (req, res) => {
+    // get user by name
+    app.get('/user/:name', (req, res) => {
 
-        const id = req.params.id;
-
-        if (!ObjectID.isValid(id)) {
-            res.status(404).send();
-        }
+        const name = req.params.name;
 
 
-        User.findById(id).then((result) => {
 
-            var buffToBase64 = result.toObject();
-            if (buffToBase64.profilePic) {
-                buffToBase64.profilePic = buffToBase64.profilePic.toString('base64');
+        User.findOne({name: name}).then((result) => {
+
+            if (!result) {
+                res.status(404).send();
+            } else {
+
+                let bufferToBase64 = result.toObject();
+
+                if (bufferToBase64.profilePic) {
+                    bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
+                }
+
+                res.send(bufferToBase64);
             }
 
-
-            res.send(bufferToBase64);
         }, (error) => {
             res.status(500).send(error);
         });

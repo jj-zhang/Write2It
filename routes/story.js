@@ -49,15 +49,21 @@ module.exports = function (app) {
     });
 
 
+    // get stories
     app.get('/storys',
         (req, res) => {
-            Story.find().then((result) => {
+
+        console.log(req.query);
+
+            Story.find(req.query).then((result) => {
+
+
+
                 res.send(result);
             }, (error) => {
                 res.status(500).send(error);
             });
-        });
-
+    });
 
     // get a page of stories
     app.get('/storys/:page',
