@@ -4,7 +4,7 @@ const log = console.log;
 
 const mongoose = require('mongoose');
 const {Story} = require('../models/story');
-const {ObjectID} = require('mongodb')
+const {ObjectID} = require('mongodb');
 
 module.exports = function (app) {
 

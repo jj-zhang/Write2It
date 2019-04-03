@@ -2,6 +2,7 @@
 'use strict';
 
 const { User } = require('../models/user');
+const {ObjectID} = require('mongodb');
 
 
 module.exports = function (app) {
@@ -66,7 +67,7 @@ module.exports = function (app) {
     });
 
     // update user information
-    app.patch('/user/:id', (req, res) => {
+    app.put('/user/:id', (req, res) => {
 
         const id = req.params.id;
 
@@ -74,8 +75,7 @@ module.exports = function (app) {
             res.status(404).send();
         }
 
-        User.findByIdAndUpdate(id, {
-        }, {$set: req.body}, {new: true}).then((result) => {
+        User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
             if(!result) {
                 res.status(404).send();
             } else {

@@ -7,7 +7,7 @@ import {SingleUser} from './SingleUser';
 export class UserRoles extends Component {
   render() {
     return this.props.users.map((user) => (
-      <SingleUser key={user.id} user={user} removeUser={this.props.removeUser}/>
+      <SingleUser key={user._id} user={user} updateRole={this.props.updateRole}/>
     ));
   }
 }

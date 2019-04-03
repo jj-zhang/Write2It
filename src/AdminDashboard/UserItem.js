@@ -14,34 +14,26 @@ export class UserItem extends Component {
         this.state = {user: user};
     }
 
-    // Fake API call toggle whether a user is suspended or not
-    toggleSuspend() {
-        const user = this.state.user;
-        user.suspended = !user.suspended;
-
-        this.setState({user: user});
-    }
-
 
     render() {
         return (
             <div className="item">
-                <div className="right floated content">
-                {/* Switch unsuspend and suspend status. */}
-                    {this.state.user.suspended ?
-                        <div className="ui small blue button userOption" onClick={this.toggleSuspend.bind(this)}>Unsuspend</div>
-                        :
-                        <div className="ui small red button userOption" onClick={this.toggleSuspend.bind(this)}>Suspend</div>
-                    }
+                {/*<div className="right floated content">*/}
+                {/*/!* Switch unsuspend and suspend status. *!/*/}
+                    {/*{this.state.user.suspended ?*/}
+                        {/*<div className="ui small blue button userOption" onClick={this.toggleSuspend.bind(this)}>Unsuspend</div>*/}
+                        {/*:*/}
+                        {/*<div className="ui small red button userOption" onClick={this.toggleSuspend.bind(this)}>Suspend</div>*/}
+                    {/*}*/}
 
-                </div>
-                <img className="ui avatar image" src={"/assets/images/placeholder.png"} alt="logo"/>
-                <div className="content">
+                {/*</div>*/}
+                {/*<img className="ui avatar image" src={"/assets/images/placeholder.png"} alt="logo"/>*/}
+                {/*<div className="content">*/}
 
-                    <Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>
+                    {/*<Link to={`/profile/${this.state.user.name}`} className="user header">{this.state.user.name}</Link>*/}
 
-                    <p>{this.state.user.suspended ? <span className="suspended">Suspended</span> : 'Active'}</p>
-                </div>
+                    {/*<p>{this.state.user.suspended ? <span className="suspended">Suspended</span> : 'Active'}</p>*/}
+                {/*</div>*/}
             </div>
         )
     }
