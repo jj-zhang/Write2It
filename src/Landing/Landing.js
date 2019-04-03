@@ -22,7 +22,9 @@ class Story extends React.Component {
     // view a story
     goToStoryView(e) {
         e.preventDefault();
-        window.location.href="/story/"+this.state.story._id;
+
+        this.setState({goToStoryViewClicked: true});
+
     }
 
 
@@ -140,7 +142,7 @@ class Story extends React.Component {
         const story = this.state.story;
 
 
-        return this.state.goToStoryViewClicked ? <Redirect to={`../story/${this.state.story.id}`}/> : (
+        return this.state.goToStoryViewClicked ? <Redirect to={`../story/${this.state.story._id}`}/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
                     <button
