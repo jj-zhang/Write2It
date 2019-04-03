@@ -91,9 +91,11 @@ class Profile extends React.Component {
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.readAsDataURL(file);
+
+
         reader.onloadend = () => {
             const user = this.state.user;
-            user.profilePhoto = reader.result;
+            user.profilePic= reader.result;
 
             this.setState({
                 user: user

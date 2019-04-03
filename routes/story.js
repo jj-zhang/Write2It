@@ -67,41 +67,35 @@ module.exports = function (app) {
 
     // get stories
     app.post('updatestory/:storyid',
-        (req,res)=>{
+        (req, res) => {
             const storyid = req.params.storyid;
             if (!ObjectID.isValid(storyId)) {
                 res.status(404).send();
             }
             const newcontext = ''
         }
-
     )
 
 
     app.get('/storys',
         (req, res) => {
 
-        console.log(req.query);
-
             Story.find(req.query).then((result) => {
-
-
-
                 res.send(result);
             }, (error) => {
                 res.status(500).send(error);
             });
-    });
+        });
 
 
     // get a page of stories
     app.get('/storys/:page',
         (req, res) => {
             Story.paginate({}, {
-                    page: req.params.page,
-                    limit: 5,
-                    populate: 'author'
-                })
+                page: req.params.page,
+                limit: 5,
+                populate: 'author'
+            })
                 .then((result) => {
                     if (result) {
                         res.send(result);
@@ -116,16 +110,15 @@ module.exports = function (app) {
         });
 
 
-
     app.delete('/storys/:id', authenticateAdmin, (req, res) => {
         const storyId = req.params.id;
         if (!ObjectID.isValid(storyId)) {
             res.status(404).send();
         }
         Story.findByIdAndDelete(storyId)
-        .then((result) => {
-            res.status(200).send();
-        }).catch((error)=>{
+            .then((result) => {
+                res.status(200).send();
+            }).catch((error) => {
             res.status(400).send();
         })
 
@@ -226,15 +219,15 @@ module.exports = function (app) {
                     vote: req.body.vote,
                     user: req.body.userID
                 });
-                if(sentence.upvoteCount === 10 && sentence.chosen === false){
+                if (sentence.upvoteCount === 10 && sentence.chosen === false) {
                     sentence.chosen = true;
                     let toRemove = [];
-                    for(let i=0;i<story.sentences.length;i++){
-                        if(story.sentences[i].chosen !== true){
+                    for (let i = 0; i < story.sentences.length; i++) {
+                        if (story.sentences[i].chosen !== true) {
                             toRemove.push(story.sentences[i]._id);
                         }
                     }
-                    for(let i=0;i<toRemove.length;i++){
+                    for (let i = 0; i < toRemove.length; i++) {
                         story.sentences.id(toRemove[i]).remove();
                     }
                 }
@@ -257,44 +250,41 @@ module.exports = function (app) {
         if (!ObjectID.isValid(storyId) || !ObjectID.isValid(sentenceId) || !ObjectID.isValid(userId)) {
             res.status(404).send()
         }
-            Story.findById(storyId).then((story) => {
-                if (!story) {
-                    res.status(404).send()
-                } else {
-                    //console.log(story);
-                    var sentence = story.sentences.id(sentenceId);
-                    let toRemoveUpvote = null;
-                    for(let i=0;i<sentence.upvotes.length;i++){
-                        if(sentence.upvotes[i].user == userId){
-                            toRemoveUpvote = sentence.upvotes[i]._id;
-                        }
+        Story.findById(storyId).then((story) => {
+            if (!story) {
+                res.status(404).send()
+            } else {
+                //console.log(story);
+                var sentence = story.sentences.id(sentenceId);
+                let toRemoveUpvote = null;
+                for (let i = 0; i < sentence.upvotes.length; i++) {
+                    if (sentence.upvotes[i].user == userId) {
+                        toRemoveUpvote = sentence.upvotes[i]._id;
                     }
-                    console.log(toRemoveUpvote);
-                    story.sentences.id(sentenceId).upvotes.id(toRemoveUpvote).remove();
-                    sentence.upvoteCount -= value;
-                    if(sentence.upvoteCount === 10 && sentence.chosen === false){
-                        sentence.chosen = true;
-                        let toRemove = [];
-                        for(let i=0;i<story.sentences.length;i++){
-                            if(story.sentences[i].chosen !== true){
-                                toRemove.push(story.sentences[i]._id);
-                            }
-                        }
-                        for(let i=0;i<toRemove.length;i++){
-                            story.sentences.id(toRemove[i]).remove();
-                        }
-                    }
-                    story.save().then((result) => {
-                        res.send(result);
-                    }, (error) => {
-                        res.status(400).send(error)
-                    })
                 }
-            })
+                console.log(toRemoveUpvote);
+                story.sentences.id(sentenceId).upvotes.id(toRemoveUpvote).remove();
+                sentence.upvoteCount -= value;
+                if (sentence.upvoteCount === 10 && sentence.chosen === false) {
+                    sentence.chosen = true;
+                    let toRemove = [];
+                    for (let i = 0; i < story.sentences.length; i++) {
+                        if (story.sentences[i].chosen !== true) {
+                            toRemove.push(story.sentences[i]._id);
+                        }
+                    }
+                    for (let i = 0; i < toRemove.length; i++) {
+                        story.sentences.id(toRemove[i]).remove();
+                    }
+                }
+                story.save().then((result) => {
+                    res.send(result);
+                }, (error) => {
+                    res.status(400).send(error)
+                })
+            }
+        })
     });
-
-
-
 
 
     // above api call properly implements it as a delete request

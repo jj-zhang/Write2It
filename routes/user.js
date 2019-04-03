@@ -87,11 +87,29 @@ module.exports = function (app) {
             res.status(404).send();
         }
 
+        if (req.body.profilePic) {
+
+
+            const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
+
+
+            req.body.profilePic = bindata;
+        }
+
+
         User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
             if(!result) {
                 res.status(404).send();
             } else {
-                res.send(result);
+                let bufferToBase64 = result.toObject();
+                if (bufferToBase64.profilePic) {
+
+                    console.log('here');
+
+
+                    bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
+                }
+                res.send(bufferToBase64);
             }
         }).catch((error) => {
             res.status(400).send(error);
