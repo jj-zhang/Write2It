@@ -12,6 +12,106 @@ import randomWords from 'random-words';
 import {authmiddleware} from '../Session/AuthSession';
 
 
+const sendStoryUpvote = (storyid,vote)=>{
+    const request = new Request("/upvote/"+storyid, {
+        method: 'post', 
+        body: JSON.stringify({vote:vote}),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    fetch(request).then(
+        res=>{
+            return authmiddleware(res);
+        }
+    ).then(
+        res=>{
+            if (res.status == 200){
+                window.location.reload();
+            }else{
+                console.log(res);
+            }
+        }
+    )
+}
+const sendSentenceUpvote = (storyid, sentenceid, vote)=>{
+    const request = new Request("/upvote/"+storyid+'/'+sentenceid, {
+        method: 'post', 
+        body: JSON.stringify({vote:vote}),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    fetch(request).then(
+        res=>{
+            return authmiddleware(res);
+        }
+    ).then(
+        res=>{
+            if (res.status == 200){
+                window.location.reload();
+            }else{
+                console.log(res);
+            }
+        }
+    )
+
+}
+const deleteStoryUpvote = (storyid, userid, upvote)=>{
+    const request = new Request("/upvote/"+storyid+'/'+userid+'/'+upvote, {
+        method: 'delete', 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    fetch(request).then(
+        res=>{
+            return authmiddleware(res);
+        }
+    ).then(
+        res=>{
+            if (res.status == 200){
+                window.location.reload();
+            }else{
+                console.log(res);
+            }
+        }
+    )
+}
+const deleteSentenceUpvote = (storyid, sentenceid, userid, upvote)=>{
+    const request = new Request("/upvote/"+storyid+"/"+sentenceid+"/"+userid+"/"+upvote, {
+        method: 'delete', 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    fetch(request).then(
+        res=>{
+            return authmiddleware(res);
+        }
+    ).then(
+        res=>{
+            if (res.status == 200){
+                window.location.reload();
+            }else{
+                console.log(res);
+            }
+        }
+    )
+}
+
+
+
+
+
+
+
+
+
 // a component to render a story's sentence
 /*
 This is used for story in progress. 
@@ -40,40 +140,33 @@ class Sentence extends React.Component {
     // upvote a sentence, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const sentence = this.state.sentence;
-        const user = localStorage.getItem('userid');
-
-
-        if (!user) {
+        const userid = localStorage.getItem('userid');
+        if (!userid) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
-
             return;
         }
-
         if (val === 1) {
-            if (sentence.upvotedBy.includes(user)) {
-                val = -1;
-                sentence.upvotedBy = sentence.upvotedBy.filter((e) => e !== user);
-            } else if (sentence.downvotedBy.includes(user)) {
-                sentence.downvotedBy = sentence.downvotedBy.filter((e) => e !== user);
+            // if the sentence has already been incremented, do nothing
+            if (sentence.upvotedBy.includes(userid)) {
+            // if the sentence has already been decremented by user, cancel the decrement
+            } else if (sentence.downvotedBy.includes(userid)) {
+                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, -1);
+            // otherwise add a postive upvote 
             } else {
-                sentence.upvotedBy.push(user);
+                sendSentenceUpvote(this.props.storyid, sentence.id, 1);
             }
         } else {
-            if (sentence.upvotedBy.includes(user)) {
-                sentence.upvotedBy = sentence.upvotedBy.filter((e) => e !== user);
-            } else if (sentence.downvotedBy.includes(user)) {
-                val = 1;
-                sentence.downvotedBy = sentence.downvotedBy.filter((e) => e !== user);
+            // if the sentence is already incremented, remove the incrementation
+            if (sentence.upvotedBy.includes(userid)) {
+                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, 1);
+            // if the sentence is already decremented, do nothing
+            } else if (sentence.downvotedBy.includes(userid)) {
+            // otherwise add a negative upvote
             } else {
-                sentence.downvotedBy.push(user);
+                sendSentenceUpvote(this.props.storyid, sentence.id, -1);
             }
         }
-
-        sentence.upvotes += val;
-
-        // fake API call to update the database with new sentence upvote count
-        this.props.updateSentence(sentence, false);
     }
 
 
@@ -102,12 +195,31 @@ class Sentence extends React.Component {
         const sentence = this.state.sentence;
 
         if (sentence.text.includes(sentence.keyword)) {
-            sentence[e.target.name] = e.target.value;
+            // sentence[e.target.name] = e.target.value;
+            // // fake API call to update the database with new sentence
+            // this.props.updateSentence(sentence, true);
+            const request = new Request("/updatesentence/"+this.props.storyid+'/'+sentence.id, {
+                method: 'post', 
+                body: JSON.stringify({content:sentence.text}),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            fetch(request).then(
+                res=>{
+                    return authmiddleware(res);
+                }
+            ).then(
+                res=>{
+                    if (res.status == 200){
+                        window.location.reload();
+                    }else{
+                        console.log(res);
+                    }
+                }
+            )
 
-            // fake API call to update the database with new sentence
-            this.props.updateSentence(sentence, true);
-
-            this.setState({displayEditBox: false});
         } else {
             this.setState({error: true, sentence: this.props.sentence});
         }
@@ -315,7 +427,6 @@ class StoryIPR extends React.Component {
         fetch(request)
         .then(
             (res)=>{
-                console.log(res);
                 if (res.status != 200){
                     alert("woops! error code:"+res.status);
                 }else{
@@ -337,12 +448,12 @@ class StoryIPR extends React.Component {
                     upvotedBy: res.upvotes.filter(
                         voteobject=>voteobject.vote ==1
                     ).map(
-                        voteobject=>voteobject.user
+                        voteobject=>voteobject.user._id
                     ),
                     downvotedBy: res.upvotes.filter(
                         voteobject=>voteobject.vote ==-1
                     ).map(
-                        voteobject=>voteobject.user
+                        voteobject=>voteobject.user._id
                     ),
                     sentences: res.sentences.map(
                         (sentence)=>{
@@ -367,8 +478,6 @@ class StoryIPR extends React.Component {
                         }
                     )
                 }
-                console.log(response);
-                console.log(response.dateCreated);
                 this.setState({story: response});
             }
         )
@@ -454,19 +563,44 @@ class StoryIPR extends React.Component {
     // edit a story
     saveEdit(e) {
         e.preventDefault();
+        console.log("request.send")
         const story = this.state.story;
+        const request = new Request("/updatestory/" + story.id, {
+            method: 'post', 
+            body: JSON.stringify({
+                title:story.title,
+                description:story.description
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        fetch(request).then(
+            res=>{
+                return authmiddleware(res);
+            }
+        ).then(
+            res=>{
+                if (res.status == 200){
+                    window.location.reload();
+                }else{
+                    console.log(res);
+                }
+            }
+        )
 
         // update the database with new story upvote count (this is a fake API call)
         // fake API call to update a story
-        const response = updateStory(story);
-        if (!response) {
-            return;
-        }
+        // const response = updateStory(story);
+        // if (!response) {
+        //     return;
+        // }
 
         
-        const _self = this;
-        setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
-        this.setState({displaySavingChanges: true, displayEditBox: false});
+        // const _self = this;
+        // setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
+        // this.setState({displaySavingChanges: true, displayEditBox: false});
     }
 
     // delete a story
@@ -494,31 +628,29 @@ class StoryIPR extends React.Component {
     // upvote this story
     upvote(val) {
         const story = this.state.story;
-        const user = localStorage.getItem('username');
-
-        if (!user) {
+        const userid = localStorage.getItem('userid');
+        if (!userid) {
             // user is unauthenticated so bring up the login page
             this.displayLoginBox();
             return;
         }
 
         if (val === 1) {
-            if (story.upvotedBy.includes(user)) {
-                val = -1;
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
+            if (story.upvotedBy.includes(userid)) {
+                // donothing if already upvoted
+            } else if (story.downvotedBy.includes(userid)) {
+                // remove downvote
+                deleteStoryUpvote(story.id,userid,-1);
             } else {
-                story.upvotedBy.push(user);
+                sendStoryUpvote(story.id, 1);
             }
         } else {
-            if (story.upvotedBy.includes(user)) {
-                story.upvotedBy = story.upvotedBy.filter((e) => e !== user);
-            } else if (story.downvotedBy.includes(user)) {
-                val = 1;
-                story.downvotedBy = story.downvotedBy.filter((e) => e !== user);
+            if (story.upvotedBy.includes(userid)) {
+                deleteStoryUpvote(story.id, userid, 1);
+            } else if (story.downvotedBy.includes(userid)) {
+               // do nothing if already downvoted
             } else {
-                story.downvotedBy.push(user);
+                sendStoryUpvote(story.id, -1);
             }
         }
 
@@ -635,7 +767,7 @@ class StoryIPR extends React.Component {
                                     <div className="content">
                                         <div className="metadata">
                                             Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
-                                            className="date">{formatDistance(subDays(story.dateCreated, 3), new Date())} ago</span>
+                                            className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
                                             {/*{story.status === 'IPR' ?*/}
                                                 {/*<span className="status inprogress"> (in progress)</span>*/}
                                                 {/*:*/}

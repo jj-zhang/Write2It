@@ -37,6 +37,33 @@ module.exports = function (app) {
         }
     );
 
+    app.post('/updatestory/:storyid', authenticateUser, 
+        (req,res)=>{
+            const storyid = req.params.storyid;
+            if (!ObjectID.isValid(storyid)) {
+                res.status(404).send();
+            }
+            const title = req.body.title;
+            const description = req.body.description;
+            Story.findById(storyid).then(
+                story => {
+                    story.description = description;
+                    story.title = title;
+                    return story.save();
+                }
+            ).catch(error=>{
+                res.status(400).send();
+            }).then(
+                result =>{
+                    res.send({success:true});
+                }
+            ).catch(error=>{
+                res.status(400).send();
+            })
+        }
+    
+    )
+
     app.get('/storyss/:storyId', (req, res) => {
         const storyId = req.params.storyId;
         if (!ObjectID.isValid(storyId)) {
@@ -63,18 +90,6 @@ module.exports = function (app) {
                 }
             })
     });
-
-
-    app.post('updatestory/:storyid',
-        (req,res)=>{
-            const storyid = req.params.storyid;
-            if (!ObjectID.isValid(storyId)) {
-                res.status(404).send();
-            }
-            const newcontext = ''
-        }
-    
-    )
 
 
     app.get('/storys',
@@ -197,7 +212,7 @@ module.exports = function (app) {
     // });
 
 
-    app.post('/upvote/:storyId/:sentenceId', (req, res) => {
+    app.post('/upvote/:storyId/:sentenceId', authenticateUser,(req, res) => {
         const storyId = req.params.storyId;
         const sentenceId = req.params.sentenceId;
         if (!ObjectID.isValid(storyId)) {
@@ -217,7 +232,7 @@ module.exports = function (app) {
                 sentence.upvoteCount += req.body.vote;
                 sentence.upvotes.push({
                     vote: req.body.vote,
-                    user: req.body.userID
+                    user: req.user._id,
                 });
                 if(sentence.upvoteCount === 10 && sentence.chosen === false){
                     sentence.chosen = true;
