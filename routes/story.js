@@ -105,35 +105,37 @@ module.exports = function (app) {
         })
     });
 
-    app.delete('/upvote/:storyId/:userId', (req, res) => {
+    app.delete('/upvote/:storyId/:userId/:value', (req, res) => {
         const storyId = req.params.storyId;
         const userId = req.params.userId;
+        const value = req.params.value;
 
         if (!ObjectID.isValid(storyId) || !ObjectID.isValid(userId)) {
             res.status(404).send()
         }
 
-        Story.findById(storyId).then((story) => {
-            if (!story) {
-                res.status(404).send()
-            } else {
-                var value = 0;
-                for(let i=0;i<story.upvotes.length;i++){
-                    if(userId === story.upvotes[i].user){
-                        value = story.upvotes[i].vote;
-                        break
+        
+                Story.findOneAndUpdate({
+                    '_id': storyId,
+                }, {
+                    $pull: {
+                        upvotes: {
+                            user: userId
+                        }
                     }
-                }
-                story.update({$pull: {upvotes: {user: userId}}}, function (err, result) {
-                    if (err) {
-                        res.status(400).send(err);
-                    } else {
-                        story.upvoteCount -= value;
-                        res.send(story);
+                    ,
+                    $inc: {
+                        upvoteCount: -value
                     }
+                }, {new: true}).then((result) => {
+                    if (!result) {
+                        res.status(404).send(error);
+                    }
+                    res.send(result);
+                }, (error) => {
+                    res.status(400).send(error);
                 });
-            }
-        });
+
     });
 
 
