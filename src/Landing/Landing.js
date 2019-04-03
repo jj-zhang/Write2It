@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {getPage, updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
 import Auth from '../Auth/Auth';
@@ -26,6 +25,8 @@ class Story extends React.Component {
         window.location.href="/story/"+this.state.story._id;
     }
 
+
+
     // upvote a story, where val is 1 or -1 (representing the increment)
     upvote(val) {
         const story = this.state.story;
@@ -37,6 +38,7 @@ class Story extends React.Component {
             this.props.displayLoginBox();
             return;
         }
+
         var url = "/upvote/" + story._id;
         var method = 'post';
         for(let i=0;i< votedBy.length;i++){
@@ -50,6 +52,7 @@ class Story extends React.Component {
                 method = 'delete';
             }
         }
+
         if(method === 'post'){
             const data = {vote:val, userId:user};
             const request = new Request(url, {
@@ -74,11 +77,11 @@ class Story extends React.Component {
                 }
             ).then(
                 (res)=>{
-                    this.state={
+                    this.setState({
                         story: res,
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
-                    }
+                    });
                     var value = document.querySelector("#valueCenter");
                     value.innerText = this.state.upvoteCount;
                 }
@@ -99,16 +102,16 @@ class Story extends React.Component {
                     if (res.status != 200){
                         alert("woops! error code:"+res.status);
                     }else{
-                        return res.json()
+                        return res.json();
                     }
                 }
             ).then(
                 (res)=>{
-                    this.state={
+                    this.setState({
                         story: res,
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
-                    }
+                    });
                     var value = document.querySelector("#valueCenter");
                     value.innerText = this.state.upvoteCount;
                 }
@@ -117,14 +120,31 @@ class Story extends React.Component {
 
     }
 
+    // return whether or not user (if authenticated) has voted with direction dir
+    hasVoted(dir) {
+        const user = localStorage.getItem('userid');
+
+        if (!user) {
+            return false;
+        }
+
+
+        return this.state.votedBy.filter((item) =>
+            item.user === user && item.vote === dir
+        ).length > 0;
+
+    }
+
+
     render() {
         const story = this.state.story;
+
 
         return this.state.goToStoryViewClicked ? <Redirect to={`../story/${this.state.story.id}`}/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
                     <button
-                        className={`upvoteButton up ${ true ? ' upvoted' : ''}`}
+                        className={`upvoteButton up ${this.hasVoted.bind(this)(1) ? ' upvoted' : ''}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
@@ -134,7 +154,7 @@ class Story extends React.Component {
                     </button>
                     <div className="value center" id="valueCenter">{this.state.upvoteCount}</div>
                     <button
-                        className={`upvoteButton down ${ true ? ' downvoted' : ''}`}
+                        className={`upvoteButton down ${this.hasVoted.bind(this)(-1) ? ' downvoted' : ''}`}
                         onClick={
                             (e) => {
                                 e.stopPropagation();
