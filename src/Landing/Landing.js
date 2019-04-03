@@ -81,7 +81,7 @@ class Story extends React.Component {
                         story: res,
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
-                    });
+                    })
                     var value = document.querySelector("#valueCenter");
                     value.innerText = this.state.upvoteCount;
                 }
@@ -102,7 +102,7 @@ class Story extends React.Component {
                     if (res.status != 200){
                         alert("woops! error code:"+res.status);
                     }else{
-                        return res.json();
+                        return res.json()
                     }
                 }
             ).then(
