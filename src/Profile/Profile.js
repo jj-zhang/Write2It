@@ -24,6 +24,7 @@ class Profile extends React.Component {
     }
 
 
+    // load user data
     componentDidMount() {
         // get user by name
         fetch('/user/' + this.props.match.params.id)
@@ -119,8 +120,6 @@ class Profile extends React.Component {
 
         const url = '/user/' + this.state.user._id;
 
-
-        // Create our request constructor with all the parameters we need
         const request = new Request(url, {
             method: 'put',
             body: JSON.stringify(this.state.user),
@@ -147,9 +146,6 @@ class Profile extends React.Component {
             }).catch((error) => {
 
         });
-
-
-
     }
 
 

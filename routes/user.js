@@ -9,9 +9,6 @@ module.exports = function (app) {
 
     // user signup
     app.post('/signup', (req, res) => {
-
-        console.log('here');
-
         const user = new User({
             name: req.body.name,
             email: req.body.email,
@@ -27,8 +24,6 @@ module.exports = function (app) {
 
         // save user to the database
         user.save().then((user) => {
-
-
 
             req.session.user = user._id;
 
@@ -88,14 +83,9 @@ module.exports = function (app) {
         }
 
         if (req.body.profilePic) {
-
-
             const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
-
-
             req.body.profilePic = bindata;
         }
-
 
         User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
             if(!result) {
@@ -123,8 +113,6 @@ module.exports = function (app) {
 
         const name = req.params.name;
 
-
-
         User.findOne({name: name}).then((result) => {
 
             if (!result) {
@@ -146,7 +134,7 @@ module.exports = function (app) {
     });
 
 
-    // get all users
+    // get users based on query parameters
     app.get('/user', (req, res) => {
         User.find(req.query).then((result) => {
             const bufferToBase64 = result.map((item) => {

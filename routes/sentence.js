@@ -1,7 +1,6 @@
 'use strict';
 
 const log = console.log;
-
 const mongoose = require('mongoose');
 const {Story} = require('../models/story');
 const {ObjectID} = require('mongodb');
@@ -17,7 +16,7 @@ module.exports = function (app) {
             content: req.body.content,
             author: req.user.id,
             keyword: req.body.keyword
-        }
+        };
         if (!ObjectID.isValid(storyId)) {
             res.status(404).send();
         }
