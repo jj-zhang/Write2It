@@ -9,6 +9,8 @@ import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
 import Filereport from '../FileReport/FileReport';
 import randomWords from 'random-words';
+import {authmiddleware} from '../Session/AuthSession';
+
 
 // a component to render a story's sentence
 /*
@@ -116,11 +118,28 @@ class Sentence extends React.Component {
     deleteSentence(e) {
         e.preventDefault();
 
-        const sentence = this.state.sentence;
-        sentence.delete = true;
+        // const sentence = this.state.sentence;
+        // sentence.delete = true;
 
-        // fake API call to update the database with new sentence
-        this.props.updateSentence(sentence, true);
+        // // fake API call to update the database with new sentence
+        // this.props.updateSentence(sentence, true);
+        const sentenceid = this.state.sentence.id;
+        const storyid = this.props.storyid;
+        console.log("sentence with"+sentenceid+"story"+storyid+"deleted");
+        const request = new Request("/sentences/"+storyid+'/'+sentenceid, {
+            method: 'delete', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        fetch(request)
+        .then(res=>authmiddleware(res))
+        .then(res=>{
+            if (res.status ==200){
+                window.location.reload();
+            }
+        })
     }
 
     render() {
@@ -240,7 +259,7 @@ class Sentences extends React.Component {
         const temp =  sentences.length > 0
             && sentences.map((sentence) =>
                 <Sentence key={sentence.id.toString()} displayLoginBox={this.props.displayLoginBox}
-                          updateSentence={this.props.updateSentence}
+                          updateSentence={this.props.updateSentence } storyid={this.props.storyid}
                           sentence={sentence}/>);
         return (
             <div>
@@ -256,8 +275,19 @@ class StoryIPR extends React.Component {
     constructor(props) {
         super(props);
 
-        // fake API to get this story's data
-        const response = getStory({id: parseInt(this.props.match.params.id)});
+        // placehoder to prevent error 
+        const placehoder = {
+            id: 0,
+            title: '',
+            author: '', // change to userid later
+            dateCreated: new Date(),
+            upvotes: 0,
+            status: 'IPR',
+            description: '',
+            upvotedBy: [],
+            downvotedBy: [],
+            sentences: []
+        }
 
         // fake API call to get a keyword
         const keyword = randomWords();
@@ -268,7 +298,7 @@ class StoryIPR extends React.Component {
             goToLanding: false,
             displaySavingChanges: false,
             displayLoginBox: false,
-            story: response,
+            story: placehoder,
             keyword: keyword
         };
     }
@@ -295,6 +325,7 @@ class StoryIPR extends React.Component {
             }
         ).then(
             (res)=>{
+                // parse the response into story state previously designed for the page
                 const response = {
                     id: res._id,
                     title: res.title,
@@ -341,7 +372,6 @@ class StoryIPR extends React.Component {
                 this.setState({story: response});
             }
         )
-
     }
 
     submit(e) {
@@ -364,24 +394,46 @@ class StoryIPR extends React.Component {
         }
 
         const story = this.state.story;
+        const request = new Request("/sentences/"+ story.id, {
+            method: 'post', 
+            body: JSON.stringify({
+                content: text,
+                keyword: this.state.keyword
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        fetch(request)
+        .then(res=> authmiddleware(res))
+        .then(res=>{
+            // on success refreshes the page
+            if(res.status==200){
+                window.location.reload();
+            }
+        })
 
-        story.sentences.push({
-            id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 10,
-            author: user,
-            dateCreated: new Date(),
-            upvotes: 0,
-            text: text,
-            upvotedBy: [],
-            downvotedBy: [],
-            keyword: this.state.keyword
-        });
 
-        // fake API call to update a story
-        const response = updateStory(story);
-        if (response) {
-            this.setState({story: story, error: false});
-            e.target.text.value = '';
-        }
+
+
+        // story.sentences.push({
+        //     id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 10,
+        //     author: user,
+        //     dateCreated: new Date(),
+        //     upvotes: 0,
+        //     text: text,
+        //     upvotedBy: [],
+        //     downvotedBy: [],
+        //     keyword: this.state.keyword
+        // });
+
+        // // fake API call to update a story
+        // const response = updateStory(story);
+        // if (response) {
+        //     this.setState({story: story, error: false});
+        //     e.target.text.value = '';
+        // }
 
     }
 
@@ -420,16 +472,23 @@ class StoryIPR extends React.Component {
     // delete a story
     deleteStory(e) {
         e.preventDefault();
-
-        // fake API call to delete a story
-        const response = deleteStory({id: this.state.story.id});
-        if (!response) {
-            return;
-        }
-        const _self = this;
-        setTimeout(() => _self.setState({goToLanding: true}), 1000);
-        console.log("story deleted");
-        this.setState({displayEditBox: false, displaySavingChanges: true});
+        console.log("delete story request:"+this.state.story.id);
+        const request = new Request("/storys/"+this.state.story.id, {
+            method: 'delete', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        fetch(request)
+        .then(res=> authmiddleware(res))
+        .then(res=>{
+            if (res.status!=200){
+                console.log(res.status);
+            }else{
+                window.location.href="/";
+            }
+        })
     }
 
     // upvote this story
@@ -598,7 +657,9 @@ class StoryIPR extends React.Component {
 
                             <Sentences sentences={this.state.story.sentences}
                                        updateSentence={this.updateSentence.bind(this)}
-                                       displayLoginBox={this.displayLoginBox.bind(this)}/>
+                                       displayLoginBox={this.displayLoginBox.bind(this)}
+                                       storyid={this.state.story.id}
+                                       />
 
                             {story.status === 'IPR' &&
                                 <div className="row textBox">

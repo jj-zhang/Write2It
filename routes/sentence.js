@@ -5,15 +5,17 @@ const log = console.log;
 const mongoose = require('mongoose');
 const {Story} = require('../models/story');
 const {ObjectID} = require('mongodb');
+const {authenticateAdmin, authenticateUser} = require("./authentication");
+
 
 module.exports = function (app) {
 
-    app.post('/sentences/:storyId', (req, res) => {
+    app.post('/sentences/:storyId', authenticateUser, (req, res) => {
         const storyId = req.params.storyId;
         // Get the new sentense object.
         const new_sentence = {
             content: req.body.content,
-            author: req.body.author,
+            author: req.user.id,
             keyword: req.body.keyword
         }
         if (!ObjectID.isValid(storyId)) {
@@ -57,4 +59,37 @@ module.exports = function (app) {
             res.status(400).send(error);
         });
     });
+
+    app.delete('/sentences/:storyid/:sentenceid', authenticateUser, (req,res) => {
+        const story_id = req.params.storyid;
+        const sentence_id = req.params.sentenceid;
+        if (!ObjectID.isValid(story_id) || !ObjectID.isValid(sentence_id)) {
+            return res.status(404).send();
+        }
+        Story.findById(story_id).then(
+            (story) => {
+            if (!story) {
+                res.status(404).send();
+            } else {
+                if (story.sentences.id(sentence_id) != null) {
+                    story.sentences.id(sentence_id).remove();
+                    story.save().then(
+                        result=>{
+                            res.status(200).send();
+                        }
+                    ).catch(
+                        error=>{
+                            res.status(400).send();
+                        }
+                    )
+                } else {
+                    res.status(404).send();
+                }
+            }
+        }).catch(error => {
+            res.status(400).send(error);
+        });
+
+
+    })
 }

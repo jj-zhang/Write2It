@@ -1,7 +1,7 @@
 'use strict';
 
 // this session duration must be consistent with serverside session which is the auto logout time
-const sessionDuration = 60000;
+const sessionDuration = 600000;
 
 // simply logout on local page and go back to the main page
 const logout = () => {
@@ -34,7 +34,7 @@ module.exports.onlogin = (name, status, id) => {
         logout();
         alert("session expired, please log in again");
     }, sessionDuration);
-    window.location.href="../";
+    window.location.href="/";
 }
 
 
