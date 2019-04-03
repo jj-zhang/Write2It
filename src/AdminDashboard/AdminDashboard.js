@@ -21,6 +21,7 @@ class AdminDashboard extends Component {
         // Bind the function archiveList with the constructor.
         this.archiveList = this.archiveList.bind(this);
         this.updateRole = this.updateRole.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
     }
 
     componentDidMount() {
@@ -93,6 +94,37 @@ class AdminDashboard extends Component {
         });
     };
 
+    updateStatus = (id, status) => {
+        const url = '/user/' + id;
+
+        const data = {
+            status: status
+        };
+
+        // Create our request constructor with all the parameters we need
+        const request = new Request(url, {
+            method: 'put',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        fetch(request)
+            .then((result) => {
+                if (result.status === 200) {
+                    return result.json();
+                } else {
+                    return Promise.reject("Could not update user.");
+                }
+            })
+            .then((json) => {
+                this.setDisplayView('userStatus');
+            }).catch((error) => {
+
+        });
+    };
 
     // display view (user reports, user status, user roles)
     setDisplayView(viewName) {
@@ -184,7 +216,7 @@ class AdminDashboard extends Component {
                             { this.state.displayView === 'userStatus' && <div className="ui segment">
                                 <h2>User Status</h2>
                                 <div className="ui middle aligned divided list">
-                                    <UserStatus users={this.state.users}/>
+                                    <UserStatus users={this.state.users} updateStatus={this.updateStatus}/>
                                 </div>
                             </div> }
 

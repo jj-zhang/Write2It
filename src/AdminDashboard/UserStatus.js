@@ -7,7 +7,7 @@ import UserItem from './UserItem';
 class UserStatus extends Component {
     render() {
         return this.props.users.map((user) => (
-            <UserItem key={user._id} user={user}/>
+            <UserItem key={user._id} user={user} updateStatus={this.props.updateStatus}/>
         ));
     };
 }
