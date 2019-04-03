@@ -2,15 +2,22 @@
 
 const mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
-const {ObjectID} = require('mongodb');
-const {Story} = require('../models/story');
-const {authenticateAdmin, authenticateUser} = require("./authentication");
+const {
+    ObjectID
+} = require('mongodb');
+const {
+    Story
+} = require('../models/story');
+const {
+    authenticateAdmin,
+    authenticateUser
+} = require("./authentication");
 
 
 module.exports = function (app) {
 
 
-    app.post('/storys', authenticateUser, 
+    app.post('/storys', authenticateUser,
         (req, res) => {
 
             const story = new Story({
@@ -36,17 +43,38 @@ module.exports = function (app) {
             res.status(404).send()
         }
         Story.findById(storyId)
-        .populate({path: 'author', select:"name"})
-        .populate({path: "sentences.author", select:"name"})
-        .populate({path: "upvotes.user", select:"name"})
-        .then((story) => {
-            if (!story) {
-                res.status(404).send()
-            } else {
-                res.send(story);
-            }
-        })
+            .populate({
+                path: 'author',
+                select: "name"
+            })
+            .populate({
+                path: "sentences.author",
+                select: "name"
+            })
+            .populate({
+                path: "upvotes.user",
+                select: "name"
+            })
+            .then((story) => {
+                if (!story) {
+                    res.status(404).send()
+                } else {
+                    res.send(story);
+                }
+            })
     });
+
+
+    app.post('updatestory/:storyid',
+        (req,res)=>{
+            const storyid = req.params.storyid;
+            if (!ObjectID.isValid(storyId)) {
+                res.status(404).send();
+            }
+            const newcontext = ''
+        }
+    
+    )
 
 
     app.get('/storys',
@@ -62,7 +90,11 @@ module.exports = function (app) {
     // get a page of stories
     app.get('/storys/:page',
         (req, res) => {
-            Story.paginate({}, {page: req.params.page, limit: 5, populate: 'author'})
+            Story.paginate({}, {
+                    page: req.params.page,
+                    limit: 5,
+                    populate: 'author'
+                })
                 .then((result) => {
                     if (result) {
                         res.send(result);
@@ -74,10 +106,25 @@ module.exports = function (app) {
                 .catch((error) => {
                     res.status(500).send(error);
                 });
-    });
+        });
 
 
-    app.post('/upvote/:storyId', (req, res) => {
+
+    app.delete('/storys/:id', authenticateAdmin, (req, res) => {
+        const storyId = req.params.id;
+        if (!ObjectID.isValid(storyId)) {
+            res.status(404).send();
+        }
+        Story.findByIdAndDelete(storyId)
+        .then((result) => {
+            res.status(200).send();
+        }).catch((error)=>{
+            res.status(400).send();
+        })
+
+    })
+
+    app.post('/upvote/:storyId', authenticateUser, (req, res) => {
         const storyId = req.params.storyId;
         if (!ObjectID.isValid(storyId)) {
             res.status(404).send()
@@ -92,7 +139,7 @@ module.exports = function (app) {
 
                 story.upvotes.push({
                     vote: req.body.vote,
-                    user: req.body.userId
+                    user: req.user._id
                 });
 
 
@@ -114,27 +161,27 @@ module.exports = function (app) {
             res.status(404).send()
         }
 
-        
-                Story.findOneAndUpdate({
-                    '_id': storyId,
-                }, {
-                    $pull: {
-                        upvotes: {
-                            user: userId
-                        }
-                    }
-                    ,
-                    $inc: {
-                        upvoteCount: -value
-                    }
-                }, {new: true}).then((result) => {
-                    if (!result) {
-                        res.status(404).send(error);
-                    }
-                    res.send(result);
-                }, (error) => {
-                    res.status(400).send(error);
-                });
+        Story.findOneAndUpdate({
+            '_id': storyId,
+        }, {
+            $pull: {
+                upvotes: {
+                    user: userId
+                }
+            },
+            $inc: {
+                upvoteCount: -value
+            }
+        }, {
+            new: true
+        }).then((result) => {
+            if (!result) {
+                res.status(404).send(error);
+            }
+            res.send(result);
+        }, (error) => {
+            res.status(400).send(error);
+        });
 
     });
 
@@ -201,12 +248,13 @@ module.exports = function (app) {
                 'sentences.upvotes': {
                     _id: upvoteId
                 }
-            }
-            ,
+            },
             $inc: {
                 'sentences.upvoteCount': -1
             }
-        }, {new: true}).then((result) => {
+        }, {
+            new: true
+        }).then((result) => {
 
             if (!result) {
                 res.status(404).send(error);
@@ -220,6 +268,10 @@ module.exports = function (app) {
 
 
     });
+
+
+
+    
 
     // above api call properly implements it as a delete request
 
