@@ -23,7 +23,7 @@ class Story extends React.Component {
     // view a story
     goToStoryView(e) {
         e.preventDefault();
-        window.location.href="/story/"+this.story._id;
+        window.location.href="/story/"+this.state.story._id;
     }
 
     // upvote a story, where val is 1 or -1 (representing the increment)
@@ -42,6 +42,11 @@ class Story extends React.Component {
         for(let i=0;i< votedBy.length;i++){
             if(user === votedBy[i].user){
                 url += '/' + user;
+                if(votedBy[i].vote === 1){
+                    url += '/1';
+                }else{
+                    url += '/-1';
+                }
                 method = 'delete';
             }
         }
@@ -74,6 +79,8 @@ class Story extends React.Component {
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
                     }
+                    var value = document.querySelector("#valueCenter");
+                    value.innerText = this.state.upvoteCount;
                 }
             )
         }else{
@@ -97,7 +104,13 @@ class Story extends React.Component {
                 }
             ).then(
                 (res)=>{
-                    console.log(res);
+                    this.state={
+                        story: res,
+                        upvoteCount: res.upvoteCount,
+                        votedBy: res.upvotes
+                    }
+                    var value = document.querySelector("#valueCenter");
+                    value.innerText = this.state.upvoteCount;
                 }
             )
         }
@@ -119,7 +132,7 @@ class Story extends React.Component {
                             }}>
                         <i className="arrow up icon"/>
                     </button>
-                    <div className="value center">{this.state.upvoteCount}</div>
+                    <div className="value center" id="valueCenter">{this.state.upvoteCount}</div>
                     <button
                         className={`upvoteButton down ${ true ? ' downvoted' : ''}`}
                         onClick={
