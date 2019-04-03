@@ -34,6 +34,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'active'
+    },
+    profilePic: {
+        type: Buffer
     }
 }, {
     timestamps: true

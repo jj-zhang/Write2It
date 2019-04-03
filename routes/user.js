@@ -9,14 +9,26 @@ module.exports = function (app) {
 
     // user signup
     app.post('/signup', (req, res) => {
+
+        console.log('here');
+
         const user = new User({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password
         });
 
+
+        if (req.body.profilePic) {
+
+            const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
+            user.profilePic = bindata;
+        }
+
         // save user to the database
         user.save().then((user) => {
+
+
 
             req.session.user = user._id;
 
@@ -87,10 +99,45 @@ module.exports = function (app) {
 
     });
 
+
+    // get user by id
+    app.get('/user/:id', (req, res) => {
+
+        const id = req.params.id;
+
+        if (!ObjectID.isValid(id)) {
+            res.status(404).send();
+        }
+
+
+        User.findById(id).then((result) => {
+
+            var buffToBase64 = result.toObject();
+            if (buffToBase64.profilePic) {
+                buffToBase64.profilePic = buffToBase64.profilePic.toString('base64');
+            }
+
+
+            res.send(bufferToBase64);
+        }, (error) => {
+            res.status(500).send(error);
+        });
+    });
+
+
     // get all users
     app.get('/user', (req, res) => {
         User.find(req.query).then((result) => {
-            res.send(result);
+            const bufferToBase64 = result.map((item) => {
+                item = item.toObject();
+                if (item.profilePic) {
+                    item.profilePic = item.profilePic.toString('base64');
+                }
+
+                return item;
+            });
+
+            res.send(bufferToBase64);
         }, (error) => {
             res.status(500).send(error);
         });

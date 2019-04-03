@@ -9,8 +9,19 @@ const session = require('express-session');
 const port = process.env.PORT || 3000;
 
 // body-parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended:true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended:true }));
+
+
+app.use(bodyParser.urlencoded({
+    limit: '5mb',
+    parameterLimit: 100000,
+    extended: false
+}));
+
+app.use(bodyParser.json({
+    limit: '5mb'
+}));
 
 // Add express sesssion middleware
 app.use(session({

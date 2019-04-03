@@ -29,7 +29,7 @@ class SignUp extends React.Component {
                 iconImageUrl: reader.result
             });
         }
-    }
+    };
 
     // this function handles the submit which is the signup request
     signup = (e) => {
@@ -42,10 +42,11 @@ class SignUp extends React.Component {
         const icon = this.state.imagefile;
         // validate if the password is valid(4chars or longer)
         if(password.length < 4){
-            this.setState({error: true, errormessage: "password must be at least 4 characters long"})
+            this.setState({error: true, errormessage: "password must be at least 8 characters long"});
             return;
         }
-        const data = {name:username, password:password, email:email};
+
+        const data = {name:username, password:password, email:email, profilePic: this.state.iconImageUrl || null};
         const request = new Request("/signup", {
             method: 'post', 
             body: JSON.stringify(data),
