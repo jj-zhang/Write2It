@@ -140,7 +140,7 @@ module.exports = function (app) {
             const bufferToBase64 = result.map((item) => {
                 item = item.toObject();
                 if (item.profilePic) {
-                    item.profilePic = item.profilePic.toString('base64');
+                    item.profilePic = 'data:image/png;base64,' + item.profilePic.toString('base64');
                 }
 
                 return item;
