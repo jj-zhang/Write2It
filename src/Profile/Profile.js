@@ -2,6 +2,8 @@ import React from 'react';
 import './Profile.css';
 import {formatRelative, subDays} from 'date-fns';
 import {Link} from 'react-router-dom';
+import {authmiddleware} from '../Session/AuthSession';
+
 
 // a component to render user profiles
 class Profile extends React.Component {
@@ -11,7 +13,8 @@ class Profile extends React.Component {
         this.state = {
             displayEditBox: false,
             displaySavingChanges: false,
-            stories: []
+            stories: [],
+            contributed: []
         };
     }
 
@@ -51,7 +54,7 @@ class Profile extends React.Component {
                 })
                 .then((json) => {
                     this.setState({
-                        stories: this.state.stories.concat(json)
+                        stories: json
                     });
                 }).catch((error) => {
             });
@@ -66,7 +69,7 @@ class Profile extends React.Component {
                 })
                 .then((json) => {
                     this.setState({
-                        stories: this.state.stories.concat(json)
+                        contributed: json
                     });
                 }).catch((error) => {
             });
@@ -127,13 +130,15 @@ class Profile extends React.Component {
 
         fetch(request)
             .then((result) => {
+                return authmiddleware(result);
+            })
+            .then((result) => {
                 if (result.status === 200) {
                     return result.json();
                 } else {
                     return Promise.reject("Could not update user.");
                 }
-            })
-            .then((json) => {
+            }).then((json) => {
                     this.setState({user: json});
 
                     this.setState({displaySavingChanges: true, displayEditBox: false});
@@ -228,11 +233,21 @@ class Profile extends React.Component {
                             </div>
 
                             <div className="ongoingStories col-lg-3 col-xs-12">
-                                <h1>Stories Contributed To</h1>
+                                <h1>Stories Created</h1>
 
                                 {this.state.stories.length > 0 ?
 
                                 <OngoingStories ongoingStories={this.state.stories}/>
+                                    :
+
+                                    <div>No created stories yet.</div>
+                                }
+
+                                <h1>Stories Contributed</h1>
+
+                                {this.state.contributed.length > 0 ?
+
+                                    <OngoingStories ongoingStories={this.state.contributed}/>
                                     :
 
                                     <div>No contributions yet.</div>

@@ -4,6 +4,8 @@ import Reports from './Reports';
 import ArchivedReports from './ArchivedReports';
 import UserRoles from './UserRoles';
 import './AdminDashboard.css';
+import {authmiddleware} from '../Session/AuthSession';
+
 
 class AdminDashboard extends Component {
     constructor(props) {
@@ -47,6 +49,10 @@ class AdminDashboard extends Component {
 
         fetch(request)
             .then((result) => {
+                return authmiddleware(result);
+            })
+
+            .then((result) => {
                 if (result.status === 200) {
                     return result.json();
                 } else {
@@ -79,6 +85,9 @@ class AdminDashboard extends Component {
 
         fetch(request)
             .then((result) => {
+                return authmiddleware(result);
+            })
+            .then((result) => {
                 if (result.status === 200) {
                     return result.json();
                 } else {
@@ -110,6 +119,9 @@ class AdminDashboard extends Component {
         });
 
         fetch(request)
+            .then((result) => {
+                return authmiddleware(result);
+            })
             .then((result) => {
                 if (result.status === 200) {
                     return result.json();
@@ -172,7 +184,7 @@ class AdminDashboard extends Component {
                         users: json
                     });
                 }).catch((error) => {
-                    console.log(error);
+                console.log(error);
             });
         }
 

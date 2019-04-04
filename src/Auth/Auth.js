@@ -93,9 +93,9 @@ class Auth extends React.Component {
                                 {this.state.error &&
                                     <div className="ui negative message">
                                         <div className="header">
-                                            Incorrect username or password.
+                                            Sorry something went wrong.
                                         </div>
-                                        <p>Please try again.</p>
+                                        <p>Incorrect username, password, and/or suspended account.</p>
                                     </div>
                                 }
                             </form>

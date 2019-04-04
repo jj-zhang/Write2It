@@ -73,12 +73,18 @@ module.exports = function (app) {
                 if (!user) {
                     res.status(401).send();
                 } else {
-                    req.session.user = user._id;
-                    res.send({
-                        usertype: user.role,
-                        username: user.name,
-                        id: user._id
-                    });
+
+                    if (user.status === 'suspended') {
+                        res.status(401).send();
+                    } else {
+                        req.session.user = user._id;
+                        res.send({
+                            usertype: user.role,
+                            username: user.name,
+                            id: user._id
+                        });
+                    }
+
                 }
             }).catch((error) => {
                 res.status(401).send();
@@ -111,17 +117,17 @@ module.exports = function (app) {
                 res.status(404).send();
             } else {
 
-                result.name = req.body.name;
-                result.password = req.body.password;
-                result.email = req.body.email;
-                result.status = req.body.status;
+                result.name = req.body.name ? req.body.name : result.name;
+                result.password = req.body.password ? req.body.password : result.password;
+                result.email = req.body.email ? req.body.email : result.email;
+                result.status = req.body.status ? req.body.status : result.status;
 
                 if (req.body.profilePic) {
                     const bindata = new Buffer(req.body.profilePic.split(",")[1], "base64");
                     result.profilePic = bindata;
                 }
 
-                result.role = req.body.role;
+                result.role = req.body.role ? req.body.role : result.role;
 
 
                 result.save().then((result) => {
