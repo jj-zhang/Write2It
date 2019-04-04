@@ -19,14 +19,10 @@
 
 }
 
-#about Link {
-    margin-top: 20px;
-}
-
-
 #about a {
     text-decoration: none;
     color: white;
+    margin-top: 20px;
 }
 
 #about img {
