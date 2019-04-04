@@ -9,11 +9,12 @@ import {authmiddleware} from '../Session/AuthSession';
 class Story extends React.Component {
     constructor(props) {
         super(props);
-
+        
         this.state = {
             story: this.props.story,
             upvoteCount: this.props.story.upvoteCount,
-            votedBy: this.props.story.upvotes
+            votedBy: this.props.story.upvotes,
+            author: this.props.story.author.name
         };
     }
 
@@ -80,7 +81,7 @@ class Story extends React.Component {
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
                     })
-                    var value = document.querySelector("#valueCenter");
+                    var value = document.querySelector("#"+this.state.story._id);
                     value.innerText = this.state.upvoteCount;
                 }
             )
@@ -110,7 +111,7 @@ class Story extends React.Component {
                         upvoteCount: res.upvoteCount,
                         votedBy: res.upvotes
                     });
-                    var value = document.querySelector("#valueCenter");
+                    var value = document.querySelector("#"+this.state.story._id);
                     value.innerText = this.state.upvoteCount;
                 }
             )
@@ -138,7 +139,7 @@ class Story extends React.Component {
         const story = this.state.story;
 
 
-        return this.state.goToStoryViewClicked ? <Redirect to={`../story/${this.state.story._id}`}/> : (
+        return this.state.goToStoryViewClicked ? <Redirect to={`../story/${story._id}`}/> : (
             <div className="story" onClick={this.goToStoryView.bind(this)}>
                 <div className="upvotes">
                     <button
@@ -150,7 +151,7 @@ class Story extends React.Component {
                             }}>
                         <i className="arrow up icon"/>
                     </button>
-                    <div className="value center" id="valueCenter">{this.state.upvoteCount}</div>
+                    <div className="value center" id={story._id} >{this.state.upvoteCount}</div>
                     <button
                         className={`upvoteButton down ${this.hasVoted.bind(this)(-1) ? ' downvoted' : ''}`}
                         onClick={
@@ -164,7 +165,7 @@ class Story extends React.Component {
 
                 <div className="content">
                     <div className="metadata">
-                        Created by <Link className="author" to={`/profile/${story.author.name}`}>{story.author.name}</Link> <span
+                        Created by <Link className="author" to={`/profile/${this.state.author}`}>{this.state.author}</Link> <span
                         className="date">{formatDistance(subDays(new Date(story.createdAt), 0), new Date())} ago</span>
                     </div>
                     <h3 className="storyTitle">{story.title}</h3>
