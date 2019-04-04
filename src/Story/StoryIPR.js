@@ -194,7 +194,7 @@ class Sentence extends React.Component {
 
         const sentence = this.state.sentence;
 
-        if (sentence.text.includes(sentence.keyword)) {
+        if (sentence.text.toLowerCase().includes(sentence.keyword)) {
             const request = new Request("/updateSentence/"+this.props.storyid+'/'+sentence.id, {
                 method: 'post', 
                 body: JSON.stringify({content:sentence.text}),
