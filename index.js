@@ -2,15 +2,12 @@
 
 const express = require('express');
 const path = require('path');
-const { mongoose } = require('./db/mongoose');
+require('./db/mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const session = require('express-session');
 const port = process.env.PORT || 3000;
-
-// body-parser middleware
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended:true }));
+const {authenticateAdmin} = require('./routes/authentication')
 
 
 app.use(bodyParser.urlencoded({
@@ -43,6 +40,13 @@ require('./routes/sentence')(app);
 require('./routes/upvote')(app);
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '/build')));
+
+
+// special case for admin, check for
+app.get('/adminDashboard', authenticateAdmin, (req,res) =>{
+    res.sendFile(path.join(__dirname+'/build/index.html')
+    );
+})
 
 
 // Handles any requests that don't match the ones above
