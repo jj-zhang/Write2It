@@ -716,8 +716,8 @@ class StoryIPR extends React.Component {
                                         <h2>Contribute to this story!</h2>
                                         <form className="ui form" onSubmit={this.submit.bind(this)}>
                                             <div className="field">
-                                                <label>Your sentence must include the word <strong
-                                                    className="highlight">{this.state.keyword}</strong>.</label>
+                                                <label>Your sentence must include "<strong
+                                                    className="highlight">{this.state.keyword}</strong>".</label>
                                                 <textarea name="text" placeholder="Write something..."
                                                           required>
                                                     </textarea>
