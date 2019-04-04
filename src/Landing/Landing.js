@@ -43,7 +43,6 @@ class Story extends React.Component {
         var method = 'post';
         for(let i=0;i< votedBy.length;i++){
             if(user === votedBy[i].user){
-                url += '/' + user;
                 if(votedBy[i].vote === 1){
                     url += '/1';
                 }else{
@@ -63,6 +62,7 @@ class Story extends React.Component {
                     'Content-Type': 'application/json'
                 },
             });
+            console.log(request)
             fetch(request).then(
                 (res)=>{
                     return authmiddleware(res);
@@ -93,6 +93,7 @@ class Story extends React.Component {
                     'Accept': 'application/json'
                 },
             });
+            console.log(request);
             fetch(request).then(
                 (res)=>{
                     return authmiddleware(res);

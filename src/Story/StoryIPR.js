@@ -56,8 +56,8 @@ const sendSentenceUpvote = (storyid, sentenceid, vote)=>{
     )
 
 }
-const deleteStoryUpvote = (storyid, userid, upvote)=>{
-    const request = new Request("/upvote/"+storyid+'/'+userid+'/'+upvote, {
+const deleteStoryUpvote = (storyid, upvote)=>{
+    const request = new Request("/upvote/"+storyid+'/'+upvote, {
         method: 'delete', 
         headers: {
             'Accept': 'application/json',
@@ -78,8 +78,9 @@ const deleteStoryUpvote = (storyid, userid, upvote)=>{
         }
     )
 }
-const deleteSentenceUpvote = (storyid, sentenceid, userid, upvote)=>{
-    const request = new Request("/upvote/"+storyid+"/"+sentenceid+"/"+userid+"/"+upvote, {
+const deleteSentenceUpvote = (storyid, sentenceid, upvote)=>{
+    console.log("/upvote/"+storyid+"/"+sentenceid+"/"+upvote);
+    const request = new Request("/upvote/"+storyid+"/"+sentenceid+"/"+upvote, {
         method: 'delete', 
         headers: {
             'Accept': 'application/json',
@@ -146,10 +147,10 @@ class Sentence extends React.Component {
         if (val === 1) {
             // if the sentence has already been incremented, delete the upvote
             if (sentence.upvotedBy.includes(userid)) {
-                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, 1);
+                deleteSentenceUpvote(this.props.storyid, sentence.id, 1);
             // if the sentence has already been decremented by user, cancel the decrement
             } else if (sentence.downvotedBy.includes(userid)) {
-                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, -1);
+                deleteSentenceUpvote(this.props.storyid, sentence.id, -1);
             // otherwise add a postive upvote 
             } else {
                 sendSentenceUpvote(this.props.storyid, sentence.id, 1);
@@ -157,10 +158,10 @@ class Sentence extends React.Component {
         } else {
             // if the sentence is already incremented, remove the incrementation
             if (sentence.upvotedBy.includes(userid)) {
-                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, 1);
+                deleteSentenceUpvote(this.props.storyid, sentence.id, 1);
             // if the sentence is already decremented, remove the decrementation
             } else if (sentence.downvotedBy.includes(userid)) {
-                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, -1);
+                deleteSentenceUpvote(this.props.storyid, sentence.id, -1);
             // otherwise add a negative upvote
             } else {
                 sendSentenceUpvote(this.props.storyid, sentence.id, -1);
@@ -409,7 +410,7 @@ class StoryIPR extends React.Component {
 
     // fetch data from database and render the corresponding story
     componentDidMount(){
-        const request = new Request("/storyss/"+this.props.match.params.id, {
+        const request = new Request("/oneStory/"+this.props.match.params.id, {
             method: 'get', 
             headers: {
                 'Accept': 'application/json',
@@ -536,7 +537,7 @@ class StoryIPR extends React.Component {
         e.preventDefault();
         console.log("request.send")
         const story = this.state.story;
-        const request = new Request("/updatestory/" + story.id, {
+        const request = new Request("/updateStory/" + story.id, {
             method: 'post', 
             body: JSON.stringify({
                 title:story.title,
@@ -596,18 +597,18 @@ class StoryIPR extends React.Component {
 
         if (val === 1) {
             if (story.upvotedBy.includes(userid)) {
-                deleteStoryUpvote(story.id,userid,1);
+                deleteStoryUpvote(story.id, 1);
             } else if (story.downvotedBy.includes(userid)) {
                 // remove downvote
-                deleteStoryUpvote(story.id,userid,-1);
+                deleteStoryUpvote(story.id, -1);
             } else {
                 sendStoryUpvote(story.id, 1);
             }
         } else {
             if (story.upvotedBy.includes(userid)) {
-                deleteStoryUpvote(story.id, userid, 1);
+                deleteStoryUpvote(story.id, 1);
             } else if (story.downvotedBy.includes(userid)) {
-               deleteStoryUpvote(story.id,userid,-1);
+               deleteStoryUpvote(story.id, -1);
             } else {
                 sendStoryUpvote(story.id, -1);
             }
