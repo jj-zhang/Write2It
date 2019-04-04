@@ -130,20 +130,14 @@ module.exports = function (app) {
 
     app.put('/user/:id', (req, res) => {
 
-            const id = req.params.id;
+        const id = req.params.id;
 
-            if (!ObjectID.isValid(id)) {
-                res.status(404).send();
-            }
-
-            if (req.body.profilePic) {
-                const bindata = new Buffer(req.body.profilePic.split(",")[1], "base64");
-                req.body.profilePic = bindata;
-            }
-
+        if (!ObjectID.isValid(id)) {
+            res.status(404).send();
+        }
 
         User.findById(id).then((result) => {
-            if(!result) {
+            if (!result) {
                 res.status(404).send();
             } else {
 
@@ -153,7 +147,7 @@ module.exports = function (app) {
                 result.status = req.body.status;
 
                 if (req.body.profilePic) {
-                    const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
+                    const bindata = new Buffer(req.body.profilePic.split(",")[1], "base64");
                     result.profilePic = bindata;
                 }
 
@@ -161,7 +155,7 @@ module.exports = function (app) {
 
 
                 result.save().then((result) => {
-                    if(!result) {
+                    if (!result) {
                         res.status(404).send();
                     } else {
                         let bufferToBase64 = result.toObject();
@@ -182,7 +176,7 @@ module.exports = function (app) {
             res.status(400).send(error);
         });
 
-        });
+    });
 
 
     // get user by name
