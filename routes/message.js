@@ -1,7 +1,7 @@
 'use strict';
 
 const {Message} = require("../models/messages");
-const {authenticateUser} = require("./authentication");
+const {authenticateAdmin, authenticateUser} = require("./authentication");
 const {ObjectID} = require('mongodb');
 module.exports = function (app) {
 
@@ -23,7 +23,7 @@ module.exports = function (app) {
 
 
     // update message
-    app.put('/message/:id', (req, res) => {
+    app.put('/message/:id', authenticateAdmin, (req, res) => {
 
         const id = req.params.id;
 
@@ -47,7 +47,7 @@ module.exports = function (app) {
     });
 
     // get all messages
-    app.get('/message',
+    app.get('/message', authenticateAdmin,
         (req, res) => {
 
             Message.find(req.query).populate({path: 'sender', select: 'name'}).then((result) => {
@@ -59,7 +59,7 @@ module.exports = function (app) {
 
 
     // get message by id
-    app.get('/message/:id', (req, res) => {
+    app.get('/message/:id',authenticateAdmin, (req, res) => {
         const id = req.params.id;
 
         if (!ObjectID.isValid(id)) {
