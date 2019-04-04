@@ -79,7 +79,6 @@ const deleteStoryUpvote = (storyid, upvote)=>{
     )
 }
 const deleteSentenceUpvote = (storyid, sentenceid, upvote)=>{
-    console.log("/upvote/"+storyid+"/"+sentenceid+"/"+upvote);
     const request = new Request("/upvote/"+storyid+"/"+sentenceid+"/"+upvote, {
         method: 'delete', 
         headers: {
@@ -197,7 +196,7 @@ class Sentence extends React.Component {
 
         if (sentence.text.toLowerCase().includes(sentence.keyword)) {
             const request = new Request("/updateSentence/"+this.props.storyid+'/'+sentence.id, {
-                method: 'post', 
+                method: 'put', 
                 body: JSON.stringify({content:sentence.text}),
                 headers: {
                     'Accept': 'application/json',
@@ -230,7 +229,6 @@ class Sentence extends React.Component {
 
         const sentenceid = this.state.sentence.id;
         const storyid = this.props.storyid;
-        console.log("sentence with"+sentenceid+"story"+storyid+"deleted");
         const request = new Request("/sentences/"+storyid+'/'+sentenceid, {
             method: 'delete', 
             headers: {
@@ -256,8 +254,15 @@ class Sentence extends React.Component {
         const canEdit = sentence.author === user || userType === 'admin';
 
         // format sentence to display
-        const _temp = sentence.text.split(sentence.keyword);
-        let formattedText = _temp.map((s, index) => <span key={index}>{s}<strong className="highlight">{sentence.keyword}</strong></span>);
+        
+        const keywordReg =  new RegExp(sentence.keyword, "gi");
+        let keywordarray = sentence.text.match(keywordReg);
+        if (keywordarray == null){
+            keywordarray = [];
+        }
+        keywordarray.push("placeholder");
+        const _temp = sentence.text.split(keywordReg);
+        let formattedText = _temp.map((s, index) => <span key={index}>{s}<strong className="highlight">{keywordarray[index]}</strong></span>);
         formattedText.splice(-1);
         formattedText.push(<span key={_temp.length - 1}>{_temp[_temp.length - 1]}</span>);
 
@@ -522,10 +527,9 @@ class StoryIPR extends React.Component {
     // send the edited storytitle/description to server
     saveEdit(e) {
         e.preventDefault();
-        console.log("request.send")
         const story = this.state.story;
-        const request = new Request("/updateStory/" + story.id, {
-            method: 'post', 
+        const request = new Request("/storys/" + story.id, {
+            method: 'put', 
             body: JSON.stringify({
                 title:story.title,
                 description:story.description
@@ -553,7 +557,6 @@ class StoryIPR extends React.Component {
     // tell the server to delete the story
     deleteStory(e) {
         e.preventDefault();
-        console.log("delete story request:"+this.state.story.id);
         const request = new Request("/storys/"+this.state.story.id, {
             method: 'delete', 
             headers: {

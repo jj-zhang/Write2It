@@ -24,7 +24,7 @@ module.exports = function (app) {
         }
     );
 
-    app.post('/updateStory/:storyid', authenticateUser, 
+    app.put('/storys/:storyid', authenticateUser, 
         (req,res)=>{
             const storyid = req.params.storyid;
             if (!ObjectID.isValid(storyid)) {

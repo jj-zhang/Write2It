@@ -75,7 +75,7 @@ module.exports = function (app) {
         });
 
 
-    app.post('/updateSentence/:storyid/:sentenceid', authenticateUser,
+    app.put('/updateSentence/:storyid/:sentenceid', authenticateUser,
         (req, res) => {
             const story_id = req.params.storyid;
             const sentence_id = req.params.sentenceid;
