@@ -234,11 +234,11 @@ module.exports = function (app) {
                     vote: req.body.vote,
                     user: req.user._id,
                 });
-                if (sentence.upvoteCount === 10 && sentence.chosen === false) {
+                if (sentence.upvoteCount == 10 && sentence.chosen == false) {
                     sentence.chosen = true;
                     let toRemove = [];
                     for (let i = 0; i < story.sentences.length; i++) {
-                        if (story.sentences[i].chosen !== true) {
+                        if (story.sentences[i].chosen != true) {
                             toRemove.push(story.sentences[i]._id);
                         }
                     }
@@ -273,18 +273,18 @@ module.exports = function (app) {
                 var sentence = story.sentences.id(sentenceId);
                 let toRemoveUpvote = null;
                 for (let i = 0; i < sentence.upvotes.length; i++) {
-                    if (sentence.upvotes[i].user === userId) {
+                    if (sentence.upvotes[i].user == userId) {
                         toRemoveUpvote = sentence.upvotes[i]._id;
                     }
                 }
                 console.log(toRemoveUpvote);
                 story.sentences.id(sentenceId).upvotes.id(toRemoveUpvote).remove();
                 sentence.upvoteCount -= value;
-                if (sentence.upvoteCount === 10 && sentence.chosen === false) {
+                if (sentence.upvoteCount == 10 && sentence.chosen == false) {
                     sentence.chosen = true;
                     let toRemove = [];
                     for (let i = 0; i < story.sentences.length; i++) {
-                        if (story.sentences[i].chosen !== true) {
+                        if (story.sentences[i].chosen != true) {
                             toRemove.push(story.sentences[i]._id);
                         }
                     }

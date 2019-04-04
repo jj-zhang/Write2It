@@ -31,7 +31,7 @@ module.exports = function (app) {
 
         }, (error) => {
             // handle duplicate username
-            if(error.code === 11000){
+            if(error.code == 11000){
                 res.status(200).send({error: true, message:"Duplicate user name, please try another one."})
             // handle invalid email address
             } else if (error.errors && error.errors.email){

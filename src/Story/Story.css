@@ -71,3 +71,11 @@
     display: inline-block;
     margin-left: 4px;
 }
+
+#story .chosen{
+    color: #7bd4ad;
+}
+
+#story .candidate{
+    color: #ff9393;
+}

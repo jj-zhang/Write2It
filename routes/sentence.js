@@ -47,7 +47,7 @@ module.exports = function (app) {
             if (!story) {
                 res.status(404).send();
             } else {
-                if (story.sentences.id(sentence_id) !== null) {
+                if (story.sentences.id(sentence_id) != null) {
                     const sentence = story.sentences.id(sentence_id);
                     res.send({sentence});
                 } else {
@@ -71,7 +71,7 @@ module.exports = function (app) {
             if (!story) {
                 res.status(404).send();
             } else {
-                if (story.sentences.id(sentence_id) !== null) {
+                if (story.sentences.id(sentence_id) != null) {
                     story.sentences.id(sentence_id).content = req.body.content;
                     story.save().then(
                         result=>{
@@ -104,7 +104,7 @@ module.exports = function (app) {
             if (!story) {
                 res.status(404).send();
             } else {
-                if (story.sentences.id(sentence_id) !== null) {
+                if (story.sentences.id(sentence_id) != null) {
                     story.sentences.id(sentence_id).remove();
                     story.save().then(
                         result=>{

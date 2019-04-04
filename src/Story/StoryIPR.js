@@ -1,5 +1,4 @@
 import React from 'react';
-import {updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import Auth from '../Auth/Auth';
 import './Story.css';
@@ -145,8 +144,9 @@ class Sentence extends React.Component {
             return;
         }
         if (val === 1) {
-            // if the sentence has already been incremented, do nothing
+            // if the sentence has already been incremented, delete the upvote
             if (sentence.upvotedBy.includes(userid)) {
+                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, 1);
             // if the sentence has already been decremented by user, cancel the decrement
             } else if (sentence.downvotedBy.includes(userid)) {
                 deleteSentenceUpvote(this.props.storyid, sentence.id, userid, -1);
@@ -158,8 +158,9 @@ class Sentence extends React.Component {
             // if the sentence is already incremented, remove the incrementation
             if (sentence.upvotedBy.includes(userid)) {
                 deleteSentenceUpvote(this.props.storyid, sentence.id, userid, 1);
-            // if the sentence is already decremented, do nothing
+            // if the sentence is already decremented, remove the decrementation
             } else if (sentence.downvotedBy.includes(userid)) {
+                deleteSentenceUpvote(this.props.storyid, sentence.id, userid, -1);
             // otherwise add a negative upvote
             } else {
                 sendSentenceUpvote(this.props.storyid, sentence.id, -1);
@@ -193,9 +194,6 @@ class Sentence extends React.Component {
         const sentence = this.state.sentence;
 
         if (sentence.text.includes(sentence.keyword)) {
-            // sentence[e.target.name] = e.target.value;
-            // // fake API call to update the database with new sentence
-            // this.props.updateSentence(sentence, true);
             const request = new Request("/updatesentence/"+this.props.storyid+'/'+sentence.id, {
                 method: 'post', 
                 body: JSON.stringify({content:sentence.text}),
@@ -228,11 +226,6 @@ class Sentence extends React.Component {
     deleteSentence(e) {
         e.preventDefault();
 
-        // const sentence = this.state.sentence;
-        // sentence.delete = true;
-
-        // // fake API call to update the database with new sentence
-        // this.props.updateSentence(sentence, true);
         const sentenceid = this.state.sentence.id;
         const storyid = this.props.storyid;
         console.log("sentence with"+sentenceid+"story"+storyid+"deleted");
@@ -329,7 +322,8 @@ class Sentence extends React.Component {
                         <div className="content">
                             <div className="metadata">
                                 Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link><span
-                                className="date"> {formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago</span>
+                                className="date"> {formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago </span>
+                                {sentence.chosen? <strong className="chosen"> &nbsp; Chosen &nbsp; </strong>:<strong className="candidate"> &nbsp; Candidate &nbsp; </strong>}
 
                                 <div className="buttonGroup">
 
@@ -347,9 +341,10 @@ class Sentence extends React.Component {
                                     }
 
                                 </div>
+                                
 
                                 {this.state.displayReportPage?
-                                <Filereport user={sentence.user} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
+                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
@@ -369,8 +364,7 @@ class Sentences extends React.Component {
         const temp =  sentences.length > 0
             && sentences.map((sentence) =>
                 <Sentence key={sentence.id.toString()} displayLoginBox={this.props.displayLoginBox}
-                          updateSentence={this.props.updateSentence } storyid={this.props.storyid}
-                          sentence={sentence}/>);
+                          storyid={this.props.storyid} sentence={sentence}/>);
         return (
             <div>
                 {temp}
@@ -399,7 +393,7 @@ class StoryIPR extends React.Component {
             sentences: []
         }
 
-        // fake API call to get a keyword
+        // generate a keyword for next sentence
         const keyword = randomWords();
 
         this.state = {
@@ -471,7 +465,8 @@ class StoryIPR extends React.Component {
                                         voteobject=>voteobject.user
                                     ),
                                 keyword:sentence.keyword,
-                                text:sentence.content
+                                text:sentence.content,
+                                chosen:sentence.chosen
                             }
                         }
                     )
@@ -520,28 +515,6 @@ class StoryIPR extends React.Component {
                 window.location.reload();
             }
         })
-
-
-
-
-        // story.sentences.push({
-        //     id: story.sentences.length > 0 ? story.sentences[story.sentences.length - 1].id + 1 : 10,
-        //     author: user,
-        //     dateCreated: new Date(),
-        //     upvotes: 0,
-        //     text: text,
-        //     upvotedBy: [],
-        //     downvotedBy: [],
-        //     keyword: this.state.keyword
-        // });
-
-        // // fake API call to update a story
-        // const response = updateStory(story);
-        // if (response) {
-        //     this.setState({story: story, error: false});
-        //     e.target.text.value = '';
-        // }
-
     }
 
     // toggle the edit box to edit stories
@@ -587,18 +560,6 @@ class StoryIPR extends React.Component {
                 }
             }
         )
-
-        // update the database with new story upvote count (this is a fake API call)
-        // fake API call to update a story
-        // const response = updateStory(story);
-        // if (!response) {
-        //     return;
-        // }
-
-        
-        // const _self = this;
-        // setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
-        // this.setState({displaySavingChanges: true, displayEditBox: false});
     }
 
     // delete a story
@@ -635,7 +596,7 @@ class StoryIPR extends React.Component {
 
         if (val === 1) {
             if (story.upvotedBy.includes(userid)) {
-                // donothing if already upvoted
+                deleteStoryUpvote(story.id,userid,1);
             } else if (story.downvotedBy.includes(userid)) {
                 // remove downvote
                 deleteStoryUpvote(story.id,userid,-1);
@@ -646,53 +607,11 @@ class StoryIPR extends React.Component {
             if (story.upvotedBy.includes(userid)) {
                 deleteStoryUpvote(story.id, userid, 1);
             } else if (story.downvotedBy.includes(userid)) {
-               // do nothing if already downvoted
+               deleteStoryUpvote(story.id,userid,-1);
             } else {
                 sendStoryUpvote(story.id, -1);
             }
         }
-
-        story.upvotes += val;
-
-        // update the database with new story upvote count (this is a fake API call)
-        // fake API call to update a story
-        const response = updateStory(story);
-
-        if (response) {
-            this.setState({story: response});
-        }
-    }
-
-
-    // update a story's sentence
-    updateSentence(sentence, showConfirm) {
-        const story = this.state.story;
-
-        if (sentence.delete) { // delete sentence
-            story.sentences =
-                story.sentences.filter((_sentence) => _sentence.id !== sentence.id);
-        } else { // change sentence
-            for (let i = 0; i > story.sentences.length; i++) {
-                if (story.sentences[i].id === sentence.id) {
-                    story.sentence[i] = sentence;
-                    break;
-                }
-            }
-        }
-
-        // fake API call to update a story
-        const response = updateStory(story);
-
-        if (response) {
-            this.setState({story: response});
-        }
-
-        if (showConfirm) {
-            this.setState({displaySavingChanges: true});
-            const _self = this;
-            setTimeout(() => _self.setState({displaySavingChanges: false, story: response}), 1000);
-        }
-
     }
 
     // display the login box
@@ -786,7 +705,6 @@ class StoryIPR extends React.Component {
                             </div>
 
                             <Sentences sentences={this.state.story.sentences}
-                                       updateSentence={this.updateSentence.bind(this)}
                                        displayLoginBox={this.displayLoginBox.bind(this)}
                                        storyid={this.state.story.id}
                                        />
