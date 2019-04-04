@@ -153,7 +153,7 @@ class Profile extends React.Component {
         const userType = localStorage.getItem('loginStatus');
         const username = localStorage.getItem('username');
 
-        const canEdit = userType === 'admin' || (user ? user.username === username : false);
+        const canEdit = userType === 'admin' || (user ? user.name === username : false);
 
         return user ?
 
