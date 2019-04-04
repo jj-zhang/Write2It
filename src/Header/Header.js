@@ -65,7 +65,15 @@ class Header extends React.Component {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav">
+
+
                             <ul className="navbar-nav  mr-auto">
+
+
+                                <li className="nav-item">
+                                    <Link className="nav-link" to='/landing'>Stories</Link>
+                                </li>
+
                                 {
                                     this.state.userType === "guest" &&
                                     <li className="nav-item">
@@ -104,12 +112,21 @@ class Header extends React.Component {
                                         <div className="nav-link act-as-a" onClick={this.displayContactForm}>Contact Us</div>
                                     </li>
                                 }
+
+                                <li className="nav-item">
+                                    <Link className="nav-link" to='/about'>About</Link>
+                                </li>
+
+
                                 {
+
                                     this.state.userType !== "guest" &&
                                     <li className="nav-item">
                                         <div className="nav-link act-as-a" onClick={this.logout}>Logout</div>
                                     </li>
                                 }
+
+
 
                             </ul>
 

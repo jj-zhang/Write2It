@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import {Switch, Route} from 'react-router-dom';
+import {Redirect, Switch, Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Landing from './Landing/Landing';
 import CreateStory from './CreateStory/CreateStory';
@@ -18,7 +18,11 @@ function Main() {
     return (
         <main>
             <Switch>
-                <Route exact path='/' component={Landing}/>
+
+                <Redirect exact from="/" to="/about"/>
+
+
+                <Route path='/landing' component={Landing}/>
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/adminDashboard' component={adminDashboard}/>
                 <Route path='/profile/:id' component={Profile}/>
