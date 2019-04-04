@@ -4,7 +4,6 @@ import { authmiddleware } from '../Session/AuthSession';
 
 class FileReport extends React.Component {
     // takes 2 props user & sentence, both as string and a hide() function
-
     // this function close the login box using the function passed in from parent Header
     onclick = (e)=> {
         const form=document.querySelector('#reportform');
@@ -12,7 +11,6 @@ class FileReport extends React.Component {
             this.props.hide();
         }
     }
-
     // this function handles the submit which is the report request
     submit = (e) => {
         e.preventDefault();

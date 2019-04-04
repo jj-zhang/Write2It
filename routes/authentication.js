@@ -43,12 +43,7 @@ const authenticateAdmin = (req, res, next) => {
 
 // allow proceeding only if user is the user in the request parameters or an admin
 const authenticateCurUserOrAdmin = (req, res, next) => {
-
-    console.log(req.session.user);
-
     if (req.session.user) {
-
-
         User.findOne({_id: req.session.user}).then((user) => {
 
             if (user && (user.name === req.body.name || user.role === 'admin')) {
@@ -60,8 +55,6 @@ const authenticateCurUserOrAdmin = (req, res, next) => {
         }).catch((error) => {
             res.status(401).send();
         });
-
-
     } else {
         res.status(401).send();
     }

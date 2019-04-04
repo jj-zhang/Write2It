@@ -15,7 +15,7 @@ class CreateStory extends React.Component {
         this.state = {storyCreated: false};
     }
 
-    // create a new story
+    // create a new story and send to database
     createStory=(e)=> {
         e.preventDefault();
         const data = {

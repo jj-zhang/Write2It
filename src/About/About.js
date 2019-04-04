@@ -35,7 +35,7 @@ class About extends React.Component {
                     hone their mastery of English.
                 </p>
 
-                <img src="/assets/images/about1.png"/>
+                <img src="/assets/images/about1.png" alt="explanation image"/>
 
                 <p>
                     Players of <span className="gameTitle">WriteIt!</span> must also compete for their sentences to be
@@ -44,7 +44,7 @@ class About extends React.Component {
                     to a story.
                 </p>
 
-                <img src="/assets/images/about2.png"/>
+                <img src="/assets/images/about2.png" alt="explanation image"/>
 
 
                 <button className="ui massive teal button"><Link to='/landing'>Play</Link></button>

@@ -6,6 +6,7 @@ import {onlogin} from '../Session/AuthSession'
 class Auth extends React.Component {
     constructor(props) {
         super(props);
+
         // when error is true, error message will appear
         this.state = {
             error: false
@@ -26,7 +27,6 @@ class Auth extends React.Component {
         // get the logininfo from the form
         const username = e.target.uname.value;
         const password = e.target.psw.value;
-        // Fake API call, sending the password and user name to server
         const data = {name: username, password: password}
         const request = new Request("/login", {
             method: 'post', 
@@ -39,6 +39,7 @@ class Auth extends React.Component {
         fetch(request)
         .then(
             (res)=>{
+                // if result is not 200 ok, display the error message
                 if (res.status !== 200){
                     this.setState({error: true})
                     localStorage.removeItem("loginStatus");
@@ -53,7 +54,6 @@ class Auth extends React.Component {
             (res)=>{
                 onlogin(res.username,res.usertype,res.id);
             }
-
         ).catch((error)=>{})
     }
 

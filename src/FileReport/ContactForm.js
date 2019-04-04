@@ -40,7 +40,7 @@ class ContactForm extends React.Component {
         this.props.hide();
     }
 
-    //
+    // event listeners
     componentDidMount() {
         document.querySelector("#adminreport").addEventListener('click', this.onclick);
     }

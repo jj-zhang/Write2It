@@ -8,7 +8,7 @@ import Filereport from '../FileReport/FileReport';
 import randomWords from 'random-words';
 import {authmiddleware} from '../Session/AuthSession';
 
-
+// functions that making api calls for update upvotes of sentences & stories
 const sendStoryUpvote = (storyid,vote)=>{
     const request = new Request("/upvote/"+storyid, {
         method: 'post', 
@@ -127,6 +127,7 @@ class Sentence extends React.Component {
         };
     }
 
+    // functions controlling displaying/not the report box
     closeReportBox = () =>{
         this.setState({displayReportPage:false});
     }
@@ -135,7 +136,8 @@ class Sentence extends React.Component {
         this.setState({displayReportPage:true});
     }
 
-    // upvote a sentence, where val is 1 or -1 (representing the increment)
+    // upvote this sentence, where val is 1 or -1 (representing the increment or decrement)
+    // if the user already increment/decrement, remove the old update
     upvote(val) {
         const sentence = this.state.sentence;
         const userid = localStorage.getItem('userid');
@@ -182,19 +184,18 @@ class Sentence extends React.Component {
         e.preventDefault();
 
         const sentence = this.state.sentence;
-        // if (sentence.text.includes(sentence.keyword)) {
             sentence[e.target.name] = e.target.value;
             this.setState({sentence: sentence});
-        // }
+
     }
 
-    // edit a sentence
+    // send the edited sentence to server
     saveEdit(e) {
         e.preventDefault();
 
         const sentence = this.state.sentence;
 
-        if (sentence.text.includes(sentence.keyword)) {
+        if (sentence.text.toLowerCase().includes(sentence.keyword)) {
             const request = new Request("/updateSentence/"+this.props.storyid+'/'+sentence.id, {
                 method: 'post', 
                 body: JSON.stringify({content:sentence.text}),
@@ -223,7 +224,7 @@ class Sentence extends React.Component {
 
     }
 
-    // delete a sentence
+    // delete notify the server to delete this sentence
     deleteSentence(e) {
         e.preventDefault();
 
@@ -247,15 +248,14 @@ class Sentence extends React.Component {
     }
 
     render() {
-        const sentence = this.state.sentence;
 
+        // data for render
+        const sentence = this.state.sentence;
         const user = localStorage.getItem('username');
         const userType = localStorage.getItem('loginStatus');
-
         const canEdit = sentence.author === user || userType === 'admin';
-        // const canDelete = userType === 'admin';
 
-        // format sentence
+        // format sentence to display
         const _temp = sentence.text.split(sentence.keyword);
         let formattedText = _temp.map((s, index) => <span key={index}>{s}<strong className="highlight">{sentence.keyword}</strong></span>);
         formattedText.splice(-1);
@@ -285,9 +285,7 @@ class Sentence extends React.Component {
                             }}>
                         <i className="arrow down icon"></i>
                     </button>
-
                 </div>
-
                 {this.state.displayEditBox ?
                     (
                         <div className="editBox">
@@ -299,13 +297,11 @@ class Sentence extends React.Component {
                                               required>
                                                 </textarea>
                                 </div>
-
                                 <button className="ui red icon button"
                                         onClick={this.deleteSentence.bind(this)}>Delete
                                 </button>
                                 <button className="ui teal submit icon button" type="submit">Save
                                 </button>
-
                                 {this.state.error &&
                                 <div className="ui negative message">
                                     <div className="header">
@@ -315,19 +311,14 @@ class Sentence extends React.Component {
                                     <p>Please try again.</p>
                                 </div>}
                             </form>
-
-
                         </div>
-
                     ) : (
                         <div className="content">
                             <div className="metadata">
                                 Written by <Link className="author" to={`/profile/${sentence.author}`}>{sentence.author}</Link><span
                                 className="date"> {formatDistance(subDays(sentence.dateCreated, 0), new Date())} ago </span>
                                 {sentence.chosen? <strong className="chosen"> &nbsp; Chosen &nbsp; </strong>:<strong className="candidate"> &nbsp; Candidate &nbsp; </strong>}
-
                                 <div className="buttonGroup">
-
                                     {canEdit &&
                                     <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                         <i className="edit icon"></i>
@@ -340,16 +331,12 @@ class Sentence extends React.Component {
                                             Report
                                         </button>
                                     }
-
                                 </div>
-                                
-
                                 {this.state.displayReportPage?
                                 <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} storyid={this.props.storyid} sentenceid={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>
-
                     )
                 }
             </div>
@@ -360,8 +347,8 @@ class Sentence extends React.Component {
 // component to wrap a story's sentences
 class Sentences extends React.Component {
     render() {
+        // maps the sentences in story to sentence displays, note that story id is also passed in
         const sentences = this.props.sentences;
-
         const temp =  sentences.length > 0
             && sentences.map((sentence) =>
                 <Sentence key={sentence.id.toString()} displayLoginBox={this.props.displayLoginBox}
@@ -380,11 +367,11 @@ class StoryIPR extends React.Component {
     constructor(props) {
         super(props);
 
-        // placehoder to prevent error 
+        // placehoder to prevent error on page load but not fetching data yet
         const placehoder = {
             id: 0,
             title: '',
-            author: '', // change to userid later
+            author: '', 
             dateCreated: new Date(),
             upvotes: 0,
             status: 'IPR',
@@ -397,6 +384,7 @@ class StoryIPR extends React.Component {
         // generate a keyword for next sentence
         const keyword = randomWords();
 
+        // set the states
         this.state = {
             error: false,
             displayEditBox: false,
@@ -408,9 +396,9 @@ class StoryIPR extends React.Component {
         };
     }
 
-    // fetch data from database and render the corresponding story
+    // fetch data from database for rendering the corresponding story
     componentDidMount(){
-        const request = new Request("/oneStory/"+this.props.match.params.id, {
+        const request = new Request("/oneStory/" + this.props.match.params.id, {
             method: 'get', 
             headers: {
                 'Accept': 'application/json',
@@ -429,7 +417,9 @@ class StoryIPR extends React.Component {
             }
         ).then(
             (res)=>{
-                // parse the response into story state previously designed for the page
+                // parse the response into story state previously designed for the page in phase1
+                // after parsing everythin works the same as phase1 except that upvote arrays now holds
+                // userids instead of user names
                 const response = {
                     id: res._id,
                     title: res.title,
@@ -448,6 +438,7 @@ class StoryIPR extends React.Component {
                     ).map(
                         voteobject=>voteobject.user._id
                     ),
+                    // parsing each sentence object
                     sentences: res.sentences.map(
                         (sentence)=>{
                             return {
@@ -477,25 +468,21 @@ class StoryIPR extends React.Component {
         )
     }
 
+    // submit the new sentence to server
     submit(e) {
         e.preventDefault();
-
         const user = localStorage.getItem('username');
-
         // check if user authenticated
         if (!user) {
             this.displayLoginBox();
             return;
         }
-
         const text = e.target.text.value;
-
         // check if text contains require keyword
-        if (!text.includes(this.state.keyword)) {
+        if (!text.toLowerCase().includes(this.state.keyword)) {
             this.setState({error: true});
             return;
         }
-
         const story = this.state.story;
         const request = new Request("/sentences/"+ story.id, {
             method: 'post', 
@@ -532,7 +519,7 @@ class StoryIPR extends React.Component {
         this.setState({story: story});
     }
 
-    // edit a story
+    // send the edited storytitle/description to server
     saveEdit(e) {
         e.preventDefault();
         console.log("request.send")
@@ -563,7 +550,7 @@ class StoryIPR extends React.Component {
         )
     }
 
-    // delete a story
+    // tell the server to delete the story
     deleteStory(e) {
         e.preventDefault();
         console.log("delete story request:"+this.state.story.id);
@@ -585,7 +572,7 @@ class StoryIPR extends React.Component {
         })
     }
 
-    // upvote this story
+    // handles when upvote button is clicked
     upvote(val) {
         const story = this.state.story;
         const userid = localStorage.getItem('userid');
@@ -626,19 +613,16 @@ class StoryIPR extends React.Component {
     }
 
     render() {
+        // data for rendering the page
         const story = this.state.story;
         const user = localStorage.getItem('username');
         const userType = localStorage.getItem('loginStatus');
-
         const canEdit = story.author === user || userType === 'admin';
-        // const canDelete = userType === 'admin';
-
         return this.state.goToLanding ? <Redirect to="/"/> : (
             <div id="story" className="page">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-9 col-xs">
-
                             <div className="story shadow">
                                 <div className="upvotes">
                                     <button
@@ -653,7 +637,6 @@ class StoryIPR extends React.Component {
                                         <i className="arrow down icon"></i>
                                     </button>
                                 </div>
-
                                 { this.state.displayEditBox ?
                                     <div className="col-12">
                                         <div className="editBox">
@@ -686,30 +669,23 @@ class StoryIPR extends React.Component {
                                         <div className="metadata">
                                             Created by <Link className="author" to={`/profile/${story.author}`} >{story.author}</Link> <span
                                             className="date">{formatDistance(subDays(story.dateCreated, 0), new Date())} ago</span>
-                                            {/*{story.status === 'IPR' ?*/}
-                                                {/*<span className="status inprogress"> (in progress)</span>*/}
-                                                {/*:*/}
-                                                {/*<span className="status"> (completed)</span>*/}
-                                            {/*}*/}
                                             {canEdit &&
                                             <button className="editButton" onClick={this.toggleEditBox.bind(this)}>
                                                 <i className="edit icon"></i>
                                                 Edit
                                             </button>
                                             }
-
                                         </div>
                                         <h1 className="storyTitle">{story.title}</h1>
                                         <p className="text">{story.description}</p>
                                     </div>
                                 }
                             </div>
-
+                            {/* passed in the story ids */}
                             <Sentences sentences={this.state.story.sentences}
                                        displayLoginBox={this.displayLoginBox.bind(this)}
                                        storyid={this.state.story.id}
                                        />
-
                             {story.status === 'IPR' &&
                                 <div className="row textBox">
                                     <div className="col-12">
@@ -724,7 +700,6 @@ class StoryIPR extends React.Component {
                                             </div>
                                             <button className="ui teal submit icon button" type="submit">Submit
                                             </button>
-
                                             {this.state.error &&
                                                 <div className="ui negative message">
                                                     <div className="header">
