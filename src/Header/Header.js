@@ -23,7 +23,7 @@ class Header extends React.Component {
     logout = (e) => {
         e.preventDefault();
         const request = new Request("/logout", {
-            method: 'get', 
+            method: 'delete',
         });
         fetch(request)
         onlogout();

@@ -47,7 +47,7 @@ class About extends React.Component {
                 <img src="/assets/images/about2.png" alt="explanation image"/>
 
 
-                <button className="ui massive teal button"><Link to='/landing'>Play</Link></button>
+                <Link className="ui massive teal button" to='/landing'>Play</Link>
 
 
             </div>

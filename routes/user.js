@@ -93,7 +93,7 @@ module.exports = function (app) {
         });
 
     // user logout
-    app.get('/logout', (req, res) => {
+    app.delete('/logout', (req, res) => {
             console.log("user: " + req.session.user + " has logged out");
             req.session.destroy((error) => {
                 if (error) {
