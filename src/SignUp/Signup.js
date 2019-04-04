@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './Signup.css';
 import {onlogin} from '../Session/AuthSession';
@@ -41,8 +39,8 @@ class SignUp extends React.Component {
         const email = e.target.email.value;
         const icon = this.state.imagefile;
         // validate if the password is valid(4chars or longer)
-        if(password.length < 8){
-            this.setState({error: true, errormessage: "password must be at least 8 characters long"});
+        if(password.length < 4){
+            this.setState({error: true, errormessage: "password must be at least 4 characters long"});
             return;
         }
 
@@ -58,7 +56,7 @@ class SignUp extends React.Component {
         fetch(request)
         .then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     alert("woops! error code:"+res.status);
                 }else{
                     return res.json()

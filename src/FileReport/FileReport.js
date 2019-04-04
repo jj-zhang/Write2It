@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import './FileReport.css';
 
@@ -30,7 +28,7 @@ class FileReport extends React.Component {
         })
         fetch(request).then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     alert("woops! error code:"+res.status);
                 }else{
                     alert("report has been sent");

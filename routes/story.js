@@ -273,7 +273,7 @@ module.exports = function (app) {
                 var sentence = story.sentences.id(sentenceId);
                 let toRemoveUpvote = null;
                 for (let i = 0; i < sentence.upvotes.length; i++) {
-                    if (sentence.upvotes[i].user == userId) {
+                    if (sentence.upvotes[i].user === userId) {
                         toRemoveUpvote = sentence.upvotes[i]._id;
                     }
                 }

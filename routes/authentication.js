@@ -2,8 +2,9 @@
 
 // need the user schema
 const { User } = require('../models/user');
+
 // Middleware for authentication for resources
-// use authenticate as middleware, any request require admin should check again for 
+// use authenticate as middleware, any request require admin should user authenticateAdmin instead 
 const authenticateUser = (req, res, next) => {
     if (req.session.user) {
         User.findById(req.session.user).then((user) => {

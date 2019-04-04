@@ -1,9 +1,6 @@
-'use strict';
-
 import React from 'react';
 import './Auth.css';
-import {Link} from 'react-router-dom';
-import {onlogin, onlogout} from '../Session/AuthSession'
+import {onlogin} from '../Session/AuthSession'
 
 // component to render authentication box
 class Auth extends React.Component {
@@ -42,7 +39,7 @@ class Auth extends React.Component {
         fetch(request)
         .then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     this.setState({error: true})
                     localStorage.removeItem("loginStatus");
                     localStorage.removeItem("userid");

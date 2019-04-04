@@ -1,7 +1,5 @@
-'use strict';
-
 import React from 'react';
-import {deleteStory, getStory, updateStory} from '../db/stories';
+import {updateStory} from '../db/stories';
 import {formatDistance, subDays} from 'date-fns';
 import Auth from '../Auth/Auth';
 import './Story.css';
@@ -27,7 +25,7 @@ const sendStoryUpvote = (storyid,vote)=>{
         }
     ).then(
         res=>{
-            if (res.status == 200){
+            if (res.status === 200){
                 window.location.reload();
             }else{
                 console.log(res);
@@ -50,7 +48,7 @@ const sendSentenceUpvote = (storyid, sentenceid, vote)=>{
         }
     ).then(
         res=>{
-            if (res.status == 200){
+            if (res.status === 200){
                 window.location.reload();
             }else{
                 console.log(res);
@@ -73,7 +71,7 @@ const deleteStoryUpvote = (storyid, userid, upvote)=>{
         }
     ).then(
         res=>{
-            if (res.status == 200){
+            if (res.status === 200){
                 window.location.reload();
             }else{
                 console.log(res);
@@ -95,7 +93,7 @@ const deleteSentenceUpvote = (storyid, sentenceid, userid, upvote)=>{
         }
     ).then(
         res=>{
-            if (res.status == 200){
+            if (res.status === 200){
                 window.location.reload();
             }else{
                 console.log(res);
@@ -212,7 +210,7 @@ class Sentence extends React.Component {
                 }
             ).then(
                 res=>{
-                    if (res.status == 200){
+                    if (res.status === 200){
                         window.location.reload();
                     }else{
                         console.log(res);
@@ -248,7 +246,7 @@ class Sentence extends React.Component {
         fetch(request)
         .then(res=>authmiddleware(res))
         .then(res=>{
-            if (res.status ==200){
+            if (res.status ===200){
                 window.location.reload();
             }
         })
@@ -427,7 +425,7 @@ class StoryIPR extends React.Component {
         fetch(request)
         .then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     alert("woops! error code:"+res.status);
                 }else{
                     return res.json()
@@ -446,12 +444,12 @@ class StoryIPR extends React.Component {
                     status: 'IPR',
                     description: res.description,
                     upvotedBy: res.upvotes.filter(
-                        voteobject=>voteobject.vote ==1
+                        voteobject=>voteobject.vote ===1
                     ).map(
                         voteobject=>voteobject.user._id
                     ),
                     downvotedBy: res.upvotes.filter(
-                        voteobject=>voteobject.vote ==-1
+                        voteobject=>voteobject.vote ===-1
                     ).map(
                         voteobject=>voteobject.user._id
                     ),
@@ -463,12 +461,12 @@ class StoryIPR extends React.Component {
                                 dateCreated: new Date(sentence.dateModified),
                                 upvotes:sentence.upvoteCount,
                                 upvotedBy: sentence.upvotes.filter(
-                                        voteobject=>voteobject.vote ==1
+                                        voteobject=>voteobject.vote ===1
                                     ).map(
                                         voteobject=>voteobject.user
                                     ),
                                 downvotedBy: sentence.upvotes.filter(
-                                        voteobject=>voteobject.vote ==-1
+                                        voteobject=>voteobject.vote ===-1
                                     ).map(
                                         voteobject=>voteobject.user
                                     ),
@@ -518,7 +516,7 @@ class StoryIPR extends React.Component {
         .then(res=> authmiddleware(res))
         .then(res=>{
             // on success refreshes the page
-            if(res.status==200){
+            if(res.status===200){
                 window.location.reload();
             }
         })
@@ -582,7 +580,7 @@ class StoryIPR extends React.Component {
             }
         ).then(
             res=>{
-                if (res.status == 200){
+                if (res.status === 200){
                     window.location.reload();
                 }else{
                     console.log(res);
@@ -617,7 +615,7 @@ class StoryIPR extends React.Component {
         fetch(request)
         .then(res=> authmiddleware(res))
         .then(res=>{
-            if (res.status!=200){
+            if (res.status!==200){
                 console.log(res.status);
             }else{
                 window.location.href="/";

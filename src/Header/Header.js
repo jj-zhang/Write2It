@@ -1,10 +1,7 @@
-'use strict';
-
 import React from 'react';
 import {Link} from 'react-router-dom';
 import './Header.css';
 import Auth from '../Auth/Auth';
-import {logout} from '../db/users';
 import ContactForm from '../FileReport/ContactForm'
 import {onlogout} from "../Session/AuthSession"
 

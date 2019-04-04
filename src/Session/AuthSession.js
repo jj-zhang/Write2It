@@ -1,5 +1,3 @@
-'use strict';
-
 // this session duration must be consistent with serverside session which is the auto logout time
 const sessionDuration = 600000;
 
@@ -15,7 +13,7 @@ const logout = () => {
 // authmiddleware knows authentication has failed, remove localstorage, logout and alert to login again
 // usage: fetch(request).then(res=>return authmiddleware(res)).then(//whatever you do with regular response)
 module.exports.authmiddleware = (res) => {
-    if (res.status == 401) {
+    if (res.status === 401) {
         logout();
         alert("session expired, please log in again");
         return Promise.reject(new Error("session expired"));

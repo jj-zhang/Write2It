@@ -26,7 +26,7 @@ class ContactForm extends React.Component {
         })
         fetch(request).then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     alert("woops! error code:"+res.status);
                 }else{
                     alert("message has been sent");

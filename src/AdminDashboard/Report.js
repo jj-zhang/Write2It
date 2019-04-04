@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 import {formatDistance, subDays} from 'date-fns';
 import {Link} from 'react-router-dom';

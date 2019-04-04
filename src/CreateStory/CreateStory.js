@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Redirect} from 'react-router';
 import {authmiddleware} from '../Session/AuthSession';
@@ -38,7 +36,7 @@ class CreateStory extends React.Component {
             }
         ).then(
             (res)=>{
-                if (res.status != 200){
+                if (res.status !== 200){
                     alert("woops! error code:"+res.status);
                 }else{
                     return res.json()

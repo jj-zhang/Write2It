@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {formatDistance, subDays} from 'date-fns';
 import {Redirect} from 'react-router';
@@ -71,7 +69,7 @@ class Story extends React.Component {
                 }
             ).then(
                 (res)=>{
-                    if (res.status != 200){
+                    if (res.status !== 200){
                         alert("woops! error code:"+res.status);
                     }else{
                         return res.json()
@@ -101,7 +99,7 @@ class Story extends React.Component {
                 }
             ).then(
                 (res)=>{
-                    if (res.status != 200){
+                    if (res.status !== 200){
                         alert("woops! error code:"+res.status);
                     }else{
                         return res.json()
