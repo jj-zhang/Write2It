@@ -32,7 +32,6 @@ class Story extends React.Component {
         const story = this.state.story;
         const votedBy = this.state.votedBy;
         const user = localStorage.getItem('userid');
-        //console.log(localStorage);
         if (!user) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
@@ -62,7 +61,6 @@ class Story extends React.Component {
                     'Content-Type': 'application/json'
                 },
             });
-            console.log(request)
             fetch(request).then(
                 (res)=>{
                     return authmiddleware(res);
@@ -93,7 +91,6 @@ class Story extends React.Component {
                     'Accept': 'application/json'
                 },
             });
-            console.log(request);
             fetch(request).then(
                 (res)=>{
                     return authmiddleware(res);

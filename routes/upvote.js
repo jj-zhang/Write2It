@@ -124,13 +124,11 @@ module.exports = function (app) {
                 } else {
                     var sentence = story.sentences.id(sentenceId);
                     let toRemoveUpvote = null;
-                    console.log(sentence);
                     for (let i = 0; i < sentence.upvotes.length; i++) {
                         if (JSON.stringify(sentence.upvotes[i].user) == JSON.stringify(userId)){
                             toRemoveUpvote = sentence.upvotes[i]._id;
                         }
                     }
-                    console.log(toRemoveUpvote);
                     story.sentences.id(sentenceId).upvotes.id(toRemoveUpvote).remove();
                     sentence.upvoteCount -= value;
                     if (sentence.upvoteCount == 10 && sentence.chosen == false) {

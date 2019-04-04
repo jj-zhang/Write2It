@@ -1,5 +1,6 @@
 import React from 'react';
 import './FileReport.css';
+import { authmiddleware } from '../Session/AuthSession';
 
 class ContactForm extends React.Component {
     // props accept a hide function from parent
@@ -24,7 +25,9 @@ class ContactForm extends React.Component {
                 'Content-Type': 'application/json'
             },
         })
-        fetch(request).then(
+        fetch(request)
+        .then(res=>authmiddleware(res))
+        .then(
             (res)=>{
                 if (res.status !== 200){
                     alert("woops! error code:"+res.status);
@@ -55,7 +58,7 @@ class ContactForm extends React.Component {
                         <div className="col-lg-6 col-xs-12">
                             <form id="contactform" className="shadow-lg ui form" onSubmit={this.submit}>
                                 <div className="field">
-                                    <label>Message to admins(login if you want us know who you are)</label>
+                                    <label>Message to admins</label>
                                     <div className="ui left icon input">
                                         <textarea id="contactmessage" rows="10" cols="60"></textarea>
                                     </div>

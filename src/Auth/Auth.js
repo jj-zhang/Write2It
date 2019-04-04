@@ -51,7 +51,6 @@ class Auth extends React.Component {
             }
         ).then(
             (res)=>{
-                console.log(res);
                 onlogin(res.username,res.usertype,res.id);
             }
 

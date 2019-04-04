@@ -32,12 +32,10 @@ class SignUp extends React.Component {
     // this function handles the submit which is the signup request
     signup = (e) => {
         e.preventDefault();
-        //console.log("signup triggered")
         // get the logininfo from the form
         const username = e.target.uname.value;
         const password = e.target.psw.value;
         const email = e.target.email.value;
-        const icon = this.state.imagefile;
         // validate if the password is valid(4chars or longer)
         if(password.length < 4){
             this.setState({error: true, errormessage: "password must be at least 4 characters long"});
@@ -65,7 +63,6 @@ class SignUp extends React.Component {
         )
         .then(
             (res)=>{
-                //console.log(res);
                 if (res.error){
                     this.setState({error: true, errormessage: res.message});
                 }

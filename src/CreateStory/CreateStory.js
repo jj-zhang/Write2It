@@ -44,8 +44,6 @@ class CreateStory extends React.Component {
             }
         ).then(
             (res)=>{
-                console.log("triggered")
-                console.log(res);
                 window.location.href="/story/"+res._id;
             }
         )

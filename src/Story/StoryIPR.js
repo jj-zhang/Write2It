@@ -195,7 +195,7 @@ class Sentence extends React.Component {
         const sentence = this.state.sentence;
 
         if (sentence.text.includes(sentence.keyword)) {
-            const request = new Request("/updatesentence/"+this.props.storyid+'/'+sentence.id, {
+            const request = new Request("/updateSentence/"+this.props.storyid+'/'+sentence.id, {
                 method: 'post', 
                 body: JSON.stringify({content:sentence.text}),
                 headers: {
@@ -345,7 +345,7 @@ class Sentence extends React.Component {
                                 
 
                                 {this.state.displayReportPage?
-                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} id={sentence.id}/>:null}
+                                <Filereport user={sentence.author} sentence={formattedText} hide={this.closeReportBox} storyid={this.props.storyid} sentenceid={sentence.id}/>:null}
                             </div>
                             {formattedText}
                         </div>

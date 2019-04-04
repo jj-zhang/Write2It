@@ -35,8 +35,6 @@ class Profile extends React.Component {
             })
             .then((json) => {
 
-                // console.log(json);
-
                 this.setState({user: json});
 
                 return json._id
