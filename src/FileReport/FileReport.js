@@ -1,5 +1,6 @@
 import React from 'react';
 import './FileReport.css';
+import { authmiddleware } from '../Session/AuthSession';
 
 class FileReport extends React.Component {
     // takes 2 props user & sentence, both as string and a hide() function
@@ -20,13 +21,15 @@ class FileReport extends React.Component {
         e.preventDefault();
         const request = new Request("/message", {
             method: 'post', 
-            body: JSON.stringify({message:reportinfo}),
+            body: JSON.stringify({message:"reported storyid:"+this.props.storyid+"sentenceid"+this.props.sentenceid+"reason:"+reportinfo}),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
         })
-        fetch(request).then(
+        fetch(request)
+        .then(res=>authmiddleware(res))
+        .then(
             (res)=>{
                 if (res.status !== 200){
                     alert("woops! error code:"+res.status);

@@ -1,13 +1,12 @@
 'use strict';
 
 const {Message} = require("../models/messages");
-const {authenticateAdmin, authenticateUser} = require("./authentication");
+const {authenticateUser} = require("./authentication");
 const {ObjectID} = require('mongodb');
 module.exports = function (app) {
 
     // create message
-    app.post('/message', (req, res) => {
-        console.log(req.session.user);
+    app.post('/message', authenticateUser, (req, res) => {
         const message = new Message({
             message: req.body.message,
             sender: req.session.user ? req.session.user : null

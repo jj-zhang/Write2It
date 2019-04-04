@@ -32,7 +32,6 @@ class Story extends React.Component {
         const story = this.state.story;
         const votedBy = this.state.votedBy;
         const user = localStorage.getItem('userid');
-        //console.log(localStorage);
         if (!user) {
             // user is unauthenticated so bring up the login page
             this.props.displayLoginBox();
@@ -43,7 +42,6 @@ class Story extends React.Component {
         var method = 'post';
         for(let i=0;i< votedBy.length;i++){
             if(user === votedBy[i].user){
-                url += '/' + user;
                 if(votedBy[i].vote === 1){
                     url += '/1';
                 }else{

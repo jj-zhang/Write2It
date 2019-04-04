@@ -98,10 +98,12 @@ class Header extends React.Component {
                                     </li>
                                 }
 
-                                <li className="nav-item">
-                                    <div className="nav-link act-as-a" onClick={this.displayContactForm}>Contact Us</div>
-                                </li>
-
+                                {
+                                    this.state.userType !== "guest" && 
+                                    <li className="nav-item">
+                                        <div className="nav-link act-as-a" onClick={this.displayContactForm}>Contact Us</div>
+                                    </li>
+                                }
                                 {
                                     this.state.userType !== "guest" &&
                                     <li className="nav-item">
