@@ -22,7 +22,7 @@ class About extends React.Component {
 
                 <p>
                     Learning English can be a daunting task.
-                    <span>WriteIt!</span> is a game that supports players in learning English.
+                    <span className="gameTitle">WriteIt!</span> is a game that supports players in learning English.
                     In the game, users piece together stories both collectively and incrementally;
                     that is, each user contributes one sentence at a time, building from where a story had been
                     previously left off by other users!
@@ -40,7 +40,7 @@ class About extends React.Component {
                 <p>
                     Players of <span className="gameTitle">WriteIt!</span> must also compete for their sentences to be
                     included in a story.
-                    The first candidate sentence that receives 10 upvotes get selected as the next sentence to be added
+                    The sentence that is first to reach 10 upvotes gets selected as the next addition
                     to a story.
                 </p>
 

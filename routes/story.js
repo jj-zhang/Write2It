@@ -97,7 +97,8 @@ module.exports = function (app) {
             Story.paginate({}, {
                 page: req.params.page,
                 limit: 5,
-                populate: 'author'
+                populate: 'author',
+                sort: {upvoteCount: -1}
             })
             .then((result) => {
                 if (result) {
