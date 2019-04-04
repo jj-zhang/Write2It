@@ -92,8 +92,8 @@ class Auth extends React.Component {
                                     </div>
                                 </div>
                                 <button className="ui teal button" type="submit">Login</button>
-                                <p className="signup">New to <span className="lovelo">WriteIt</span>? <Link to="/signup">Sign
-                                    up!</Link></p>
+                                <p className="signup">New to <span className="lovelo">WriteIt</span>? <a href="/signup">Sign
+                                    up!</a></p>
                                 {this.state.error &&
                                     <div className="ui negative message">
                                         <div className="header">
