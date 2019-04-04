@@ -68,7 +68,6 @@ UserSchema.pre('save', function(next) {
     const user = this;
 
     if (user.isModified('password')) {
-
         bcrypt.genSalt(10, (error, salt) => {
             bcrypt.hash(user.password, salt, (error, hash) => {
                 user.password = hash;
@@ -78,10 +77,9 @@ UserSchema.pre('save', function(next) {
     } else {
         next();
     }
-
-
-
 });
+
+
 
 const User = mongoose.model('user', UserSchema);
 

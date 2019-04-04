@@ -206,7 +206,7 @@ class Profile extends React.Component {
                                                 <img alt="User Icon Preview" src={user.profilePic || "/assets/images/placeholder.png"} />
                                             </div>
                                             <div className="content">
-                                                <span className="header">{user.username}</span>
+                                                <span className="header">{user.name}</span>
                                                 <div className="meta">
                                             <span
                                                 className="date">Joined {formatRelative(subDays(new Date(user.createdAt), 0), new Date())}</span>
@@ -231,7 +231,14 @@ class Profile extends React.Component {
 
                             <div className="ongoingStories col-lg-3 col-xs-12">
                                 <h1>Stories Contributed To</h1>
+
+                                {this.state.stories.length > 0 ?
+
                                 <OngoingStories ongoingStories={this.state.stories}/>
+                                    :
+
+                                    <div>No contributions yet.</div>
+                                }
                             </div>
                         </div>
                     </div>

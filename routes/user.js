@@ -74,6 +74,37 @@ module.exports = function (app) {
     });
 
     // update user information
+    // app.put('/user/:id', (req, res) => {
+    //
+    //     const id = req.params.id;
+    //
+    //     if (!ObjectID.isValid(id)) {
+    //         res.status(404).send();
+    //     }
+    //
+    //     if (req.body.profilePic) {
+    //         const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
+    //         req.body.profilePic = bindata;
+    //     }
+    //
+    //     User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
+    //         if(!result) {
+    //             res.status(404).send();
+    //         } else {
+    //             let bufferToBase64 = result.toObject();
+    //             if (bufferToBase64.profilePic) {
+    //
+    //
+    //                 bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
+    //             }
+    //             res.send(bufferToBase64);
+    //         }
+    //     }).catch((error) => {
+    //         res.status(400).send(error);
+    //     });
+    //
+    // });
+
     app.put('/user/:id', (req, res) => {
 
         const id = req.params.id;
@@ -82,30 +113,50 @@ module.exports = function (app) {
             res.status(404).send();
         }
 
-        if (req.body.profilePic) {
-            const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
-            req.body.profilePic = bindata;
-        }
 
-        User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
+
+        User.findById(id).then((result) => {
             if(!result) {
                 res.status(404).send();
             } else {
-                let bufferToBase64 = result.toObject();
-                if (bufferToBase64.profilePic) {
 
-                    console.log('here');
+                result.name = req.body.name;
+                result.password = req.body.password;
+                result.email = req.body.email;
+                result.status = req.body.status;
 
-
-                    bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
+                if (req.body.profilePic) {
+                    const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
+                    result.profilePic = bindata;
                 }
-                res.send(bufferToBase64);
+
+                result.role = req.body.role;
+
+
+                result.save().then((result) => {
+                    if(!result) {
+                        res.status(404).send();
+                    } else {
+                        let bufferToBase64 = result.toObject();
+                        if (bufferToBase64.profilePic) {
+
+
+                            bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
+                        }
+                        res.send(bufferToBase64);
+                    }
+                }, (error) => {
+                    return Promise.reject(error);
+                });
+
+
             }
         }).catch((error) => {
             res.status(400).send(error);
         });
 
     });
+
 
 
     // get user by name
