@@ -8,6 +8,8 @@ const {
     ObjectID
 } = require('mongodb');
 
+const {authenticateCurUserOrAdmin} = require("./authentication");
+
 
 module.exports = function (app) {
 
@@ -84,8 +86,7 @@ module.exports = function (app) {
         });
 
     // user logout
-    app.get('/logout',
-        (req, res) => {
+    app.get('/logout', (req, res) => {
             console.log("user: " + req.session.user + " has logged out");
             req.session.destroy((error) => {
                 if (error) {
@@ -96,39 +97,8 @@ module.exports = function (app) {
             })
         });
 
-    // update user information
-    // app.put('/user/:id', (req, res) => {
-    //
-    //     const id = req.params.id;
-    //
-    //     if (!ObjectID.isValid(id)) {
-    //         res.status(404).send();
-    //     }
-    //
-    //     if (req.body.profilePic) {
-    //         const bindata = new Buffer(req.body.profilePic.split(",")[1],"base64");
-    //         req.body.profilePic = bindata;
-    //     }
-    //
-    //     User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((result) => {
-    //         if(!result) {
-    //             res.status(404).send();
-    //         } else {
-    //             let bufferToBase64 = result.toObject();
-    //             if (bufferToBase64.profilePic) {
-    //
-    //
-    //                 bufferToBase64.profilePic = 'data:image/png;base64,' + bufferToBase64.profilePic.toString('base64');
-    //             }
-    //             res.send(bufferToBase64);
-    //         }
-    //     }).catch((error) => {
-    //         res.status(400).send(error);
-    //     });
-    //
-    // });
-
-    app.put('/user/:id', (req, res) => {
+    // update user
+    app.put('/user/:id', authenticateCurUserOrAdmin, (req, res) => {
 
         const id = req.params.id;
 
