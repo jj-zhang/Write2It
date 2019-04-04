@@ -23,9 +23,6 @@
     margin-top: 20px;
 }
 
-#about p {
-    max-width: 500px;
-}
 
 #about a {
     text-decoration: none;
@@ -33,7 +30,7 @@
 }
 
 #about img {
-    max-width: 400px;
+    width: 50%;
     margin-top: 10px;
 }
 

@@ -6,7 +6,7 @@ const logout = () => {
     localStorage.removeItem("loginStatus");
     localStorage.removeItem("username");
     localStorage.removeItem("userid");
-    window.location.href = '/';
+    window.location.href = '/landing';
 }
 
 // this function is used with authenticationuser or authenticationadmin functions, when error 401 is detected
@@ -32,7 +32,7 @@ module.exports.onlogin = (name, status, id) => {
         logout();
         alert("session expired, please log in again");
     }, sessionDuration);
-    window.location.href="/";
+    window.location.href="/landing";
 }
 
 

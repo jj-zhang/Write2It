@@ -12,13 +12,13 @@ import './About.css';
 class About extends React.Component {
     render() {
         return <div id="about" className="page">
+            <div class="header">
+                <h1 class="title">WriteIt</h1>
 
+                <h2>Collaborative story-writing</h2>
+            </div>
             <div class="container shadow-sm">
-                <div class="header">
-                    <h1 class="title">WriteIt</h1>
 
-                    <h2>Collaborative story-writing</h2>
-                </div>
 
                 <p>
                     Learning English can be a daunting task.
@@ -33,16 +33,18 @@ class About extends React.Component {
                     must incorporate in each sentence that they contribute. In this way, as a by-product of playing the
                     game, users are able to foster better writing skills, build their vocabulary, and ultimately
                     hone their mastery of English.
-                    <img src="/assets/images/about1.png"/>
                 </p>
 
+                <img src="/assets/images/about1.png"/>
 
                 <p>
-                    Players of <span className="gameTitle">WriteIt!</span> must also compete for their sentences to be included in a story.
-                    The first candidate sentence that receives 10 upvotes get selected as the next sentence to be added to a story.
-                    <img src="/assets/images/about2.png"/>
+                    Players of <span className="gameTitle">WriteIt!</span> must also compete for their sentences to be
+                    included in a story.
+                    The first candidate sentence that receives 10 upvotes get selected as the next sentence to be added
+                    to a story.
                 </p>
 
+                <img src="/assets/images/about2.png"/>
 
 
                 <button className="ui massive teal button"><Link to='/landing'>Play</Link></button>
